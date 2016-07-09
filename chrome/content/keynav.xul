@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<overlay id="KeyNavOverlay" 
+xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/javascript" src="chrome://keynav/content/keynav.js"/>
+
+<menupopup id="menu_GoPopup">
+  <menuitem id="appmenu_goMailFolderKeyNavMenuItem"
+	  label="Mail-folder key navigation"
+	  type="checkbox"
+	  checked="false"
+	  oncommand="mailfolderkeynav.updateKeyNavOption()"/>
+</menupopup>
+
+</overlay>

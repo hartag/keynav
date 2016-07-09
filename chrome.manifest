@@ -1,0 +1,2 @@
+content    keynav    chrome/content/
+overlay chrome://messenger/content/messenger.xul chrome://keynav/content/keynav.xul
