@@ -1,61 +1,71 @@
-var mailfolderkeynav = {
+var keynav = {
   prefs : null,
-  keynav : "",
-  gomenutoggle : "",
 
   startup : function(e) {
+  	// Get preference machinery for keynav
     this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
     .getService(Components.interfaces.nsIPrefService)
-    .getBranch("extensions.mailfolderkeynav.");
+    .getBranch("extensions.keynav.");
+    // Add keynav prefs observer to keynav
     this.prefs.addObserver("", this, false);
-    this.keynav = this.prefs.getBoolPref("MailFolderKeyNav");
-    this.gomenutoggle = this.prefs.getBoolPref("GoMenuToggle");
-    document.getElementById("appmenu_goMailFolderKeyNavMenuItem").setAttribute("checked", this.keynav.toString());
-    this.toggleKeyNav();
+    // Get stored values of preferences
+    var MailFolderKeyNav = this.prefs.getBoolPref("MailFolderKeyNav");
+//    var GoMenuMailFolderKeyNavToggle = this.prefs.getBoolPref("GoMenuMailFolderKeyNavToggle");
+    // Set the checked/unchecked state of the MailFolderKeynav Go menu item
+    document.getElementById("appmenu_goMailFolderKeyNavMenuItem").setAttribute("checked", MailFolderKeyNav.toString());
+    // Set the key navigation state on the mail folder tree
+    this.setMailFolderKeyNav(MailFolderKeyNav);
   },
 
   shutdown : function() {
-  	this.prefs.removeObserver("", this);
+    this.prefs.removeObserver("", this); // remove the observer
   },
 
   observe : function(subject, topic, data) {
+  	// If the preference has not been changed, bail
     if (topic != "nsPref:changed") {return;}
+    // Respond to change in preference
     switch (data) {
     	case "MailFolderKeyNav":
-        this.keynav = this.prefs.getBoolPref("MailFolderKeyNav");
-        document.getElementById("appmenu_goMailFolderKeyNavMenuItem").setAttribute("checked", this.keynav.toString());
-        this.toggleKeyNav();
+        var val = this.prefs.getBoolPref("MailFolderKeyNav"); // get current preference value
+        document.getElementById("appmenu_goMailFolderKeyNavMenuItem").setAttribute("checked", val.toString());
+        this.setMailFolderKeyNav(val);
     	  break;
-    	case "GoMenuToggle":
-        this.gomenutoggle = this.prefs.getBoolPref("GoMenuToggle");
-        document.getElementById("appmenu_goMailFolderKeyNavMenuItem").setAttribute("disabled", this.gomenutoggle.toString());
+    	case "GoMenuMalFolderKeyNavToggle":
+        var val= this.prefs.getBoolPref("GoMenuMailFolderKeyNavToggle"); // get current preference value
+        document.getElementById("appmenu_goMailFolderKeyNavMenuItem").setAttribute("hidden", (!val).toString()); // hide/show menu item
     	  break;
     }
   },
 
-  toggleKeyNav : function() {
-//  	document.getElementById("folderTree").setAttribute("disableKeyNavigation", this.keynav); /* activate first-letter navigation */
-    if (this.keynav) {
-  	  document.getElementById("folderTree").removeAttribute("disableKeyNavigation"); /* activate first-letter navigation */
+  setMailFolderKeyNav : function(val) {
+    if (val) {
+  	  document.getElementById("folderTree").removeAttribute("disableKeyNavigation"); // activate first-letter navigation
 	  } else {
-  	  document.getElementById("folderTree").setAttribute("disableKeyNavigation", "true");  /* deactivate first-letter navigation */
+  	  document.getElementById("folderTree").setAttribute("disableKeyNavigation", "true");  // deactivate first-letter navigation
     }
   },
 
-  updateKeyNavOption : function() {
-  	var state = document.getElementById("appmenu_goMailFolderKeyNavMenuItem").getAttribute("checked") === "true";
-  	this.prefs.setBoolPref("MailFolderKeyNav", state);
+  toggleMailFolderKeyNavOption : function() {
+    /* This function is called by the oncommand event when the user activates 
+  	the MailFolderKeyNav menuitem on the Go menu.  It is not necessary to 
+  	update the checked/unchecked state of the menuitem as this will be done 
+  	by the observer. */
+    var val = this.prefs.getBoolPref("MailFolderKeyNav"); // get current value of MailFolderKeyNav
+    this.prefs.setBoolPref("MailFolderKeyNav", !val); // flip it and write it back to preferences
   }
 }; // mailfolderkeynav
 
 
+// Set up event listeners for starting and stopping the extension
+
 window.addEventListener("load",
   function(e) {
-mailfolderkeynav.startup();
+keynav.startup();
   })
   
   window.addEventListener("unload",
   function(e) {
-mailfolderkeynav.shutdown();
+keynav.shutdown();
   })
 

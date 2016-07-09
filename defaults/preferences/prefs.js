@@ -1,2 +1,2 @@
-pref("extensions.mailfolderkeynav.MailFolderKeyNav", true);
-pref("extensions.mailfolderkeynav.GoMenuToggle", true);
+pref("extensions.keynav.MailFolderKeyNav", true);
+pref("extensions.keynav.GoMenuMailFolderKeyNavToggle", true);
