@@ -8,6 +8,7 @@
     <em:name> Key Navigation</em:name>
     <em:version>0.2</em:version>
     <em:creator>Andrew Hart</em:creator>
+    <em:optionsURL>chrome://keynav/content/options.xul</em:optionsURL>
    
     <em:targetApplication>
       <Description>

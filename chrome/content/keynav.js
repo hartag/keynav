@@ -1,5 +1,6 @@
 var keynav = {
   prefs : null,
+  MailFolderKeyNavMenuItem : null,
 
   startup : function(e) {
   	// Get preference machinery for keynav
@@ -8,17 +9,35 @@ var keynav = {
     .getBranch("extensions.keynav.");
     // Add keynav prefs observer to keynav
     this.prefs.addObserver("", this, false);
+    // Create the MailFolderKeynav menuitem
+    const XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+    this.MailfolderKeyNavMenuItem = document.createElementNS(XULNS, "menuitem");
+    this.MailfolderKeyNavMenuItem.setAttribute("id", "appmenu_goMailFolderKeyNavMenuItem");
+    this.MailfolderKeyNavMenuItem.setAttribute("label", "Mail-folder key navigation");
+    this.MailfolderKeyNavMenuItem.setAttribute("type", "checkbox");
+    this.MailfolderKeyNavMenuItem.setAttribute("autocheck", "false");
+    this.MailfolderKeyNavMenuItem.setAttribute("checked", "false");
+    this.MailfolderKeyNavMenuItem.setAttribute("oncommand", "keynav.toggleMailFolderKeyNavOption()");
     // Get stored values of preferences
     var MailFolderKeyNav = this.prefs.getBoolPref("MailFolderKeyNav");
-//    var GoMenuMailFolderKeyNavToggle = this.prefs.getBoolPref("GoMenuMailFolderKeyNavToggle");
+    var GoMenuMailFolderKeyNavToggle = this.prefs.getBoolPref("GoMenuMailFolderKeyNavToggle");
+    // Add the MailFolderKeynav menuitem to the Go menu according to the GoMenuMailFolderKeyNavToggle option
+    if (GoMenuMailFolderKeyNavToggle)
+      document.getElementById("menu_GoPopup").appendChild(this.MailfolderKeyNavMenuItem);
     // Set the checked/unchecked state of the MailFolderKeynav Go menu item
-    document.getElementById("appmenu_goMailFolderKeyNavMenuItem").setAttribute("checked", MailFolderKeyNav.toString());
+    this.MailfolderKeyNavMenuItem.setAttribute("checked", MailFolderKeyNav.toString());
     // Set the key navigation state on the mail folder tree
     this.setMailFolderKeyNav(MailFolderKeyNav);
   },
 
   shutdown : function() {
-    this.prefs.removeObserver("", this); // remove the observer
+  	// Remove the MailFolderKeyNav menu item from the Go menu if it is currently attached
+    var val= this.prefs.getBoolPref("GoMenuMailFolderKeyNavToggle"); // get current preference value
+    if (!val) {
+      document.getElementById("menu_GoPopup").removeChild(this.MailfolderKeyNavMenuItem); // delete menu item from Go menu
+    }
+    // Remove the observer
+    this.prefs.removeObserver("", this);
   },
 
   observe : function(subject, topic, data) {
@@ -28,21 +47,24 @@ var keynav = {
     switch (data) {
     	case "MailFolderKeyNav":
         var val = this.prefs.getBoolPref("MailFolderKeyNav"); // get current preference value
-        document.getElementById("appmenu_goMailFolderKeyNavMenuItem").setAttribute("checked", val.toString());
+        this.MailfolderKeyNavMenuItem.setAttribute("checked", val.toString());
         this.setMailFolderKeyNav(val);
     	  break;
-    	case "GoMenuMalFolderKeyNavToggle":
+    	case "GoMenuMailFolderKeyNavToggle":
         var val= this.prefs.getBoolPref("GoMenuMailFolderKeyNavToggle"); // get current preference value
-        document.getElementById("appmenu_goMailFolderKeyNavMenuItem").setAttribute("hidden", (!val).toString()); // hide/show menu item
+        if (val)
+          document.getElementById("menu_GoPopup").appendChild(this.MailfolderKeyNavMenuItem); // add menu item to Go menu
+        else
+          document.getElementById("menu_GoPopup").removeChild(this.MailfolderKeyNavMenuItem); // delete menu item from Go menu
     	  break;
     }
   },
 
   setMailFolderKeyNav : function(val) {
     if (val) {
-  	  document.getElementById("folderTree").removeAttribute("disableKeyNavigation"); // activate first-letter navigation
+  	  document.getElementById("folderTree").removeAttribute("disableKeyNavigation"); // activate key navigation
 	  } else {
-  	  document.getElementById("folderTree").setAttribute("disableKeyNavigation", "true");  // deactivate first-letter navigation
+  	  document.getElementById("folderTree").setAttribute("disableKeyNavigation", "true");  // deactivate key navigation
     }
   },
 
