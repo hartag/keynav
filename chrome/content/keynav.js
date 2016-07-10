@@ -10,10 +10,12 @@ var keynav = {
     // Add keynav prefs observer to keynav
     this.prefs.addObserver("", this, false);
     // Create the MailFolderKeynav menuitem
-    const XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
+    const XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"; // xml namespace
     this.MailfolderKeyNavMenuItem = document.createElementNS(XULNS, "menuitem");
     this.MailfolderKeyNavMenuItem.setAttribute("id", "appmenu_goMailFolderKeyNavMenuItem");
-    this.MailfolderKeyNavMenuItem.setAttribute("label", "Mail-folder key navigation");
+    var keynavBundle = document.getElementById("keynav.keynav.strings"); // get the keynav stringbundle
+    this.MailfolderKeyNavMenuItem.setAttribute("label", 
+      keynavBundle.getString("menu_EnableMailFolderKeyNav.label"));
     this.MailfolderKeyNavMenuItem.setAttribute("type", "checkbox");
     this.MailfolderKeyNavMenuItem.setAttribute("autocheck", "false");
     this.MailfolderKeyNavMenuItem.setAttribute("checked", "false");
@@ -36,6 +38,7 @@ var keynav = {
     if (!val) {
       document.getElementById("menu_GoPopup").removeChild(this.MailfolderKeyNavMenuItem); // delete menu item from Go menu
     }
+    //this.MailFolderKeyNavMenuItem = null;
     // Remove the observer
     this.prefs.removeObserver("", this);
   },
@@ -76,7 +79,7 @@ var keynav = {
     var val = this.prefs.getBoolPref("MailFolderKeyNav"); // get current value of MailFolderKeyNav
     this.prefs.setBoolPref("MailFolderKeyNav", !val); // flip it and write it back to preferences
   }
-}; // mailfolderkeynav
+}; // keynav
 
 
 // Set up event listeners for starting and stopping the extension

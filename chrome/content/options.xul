@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
- 
-<prefwindow id="closetabonesc-prefs"
-     title="Key Navigation Options"
+ <!DOCTYPE window SYSTEM "chrome://keynav/locale/options.dtd"> 
+
+<prefwindow id="keynav-prefs"
+     title="&options_window_title;"
      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
  
 <prefpane id="KeyNavPane" label="Settings">
@@ -12,10 +13,10 @@
   </preferences>
  
   <hbox align="center">
-    <label control="mailfolderkeynav" value="Enable key navigation in mail folders: "/>
+    <label control="mailfolderkeynav" value="&options_enableMailFolderKeyNav.label;"/>
     <checkbox preference="prefMailFolderKeyNav" id="mailfolderkeynav"/>
 	
-	<label control="gomenumailfolderkeynavtoggle" value="Place quick toggle item on Go menu: "/>
+	<label control="gomenumailfolderkeynavtoggle" value="&options_addGoMenuQuickToggle.label;"/>
     <checkbox preference="prefGoMenuMailFolderKeyNavToggle" id="gomenumailfolderkeynavtoggle"/>
   </hbox>
 </prefpane>

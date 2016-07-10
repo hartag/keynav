@@ -1,7 +1,12 @@
 <?xml version="1.0"?>
+
 <overlay id="KeyNavOverlay" 
 xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 <script type="application/javascript" src="chrome://keynav/content/keynav.js"/>
+
+<stringbundleset id="stringbundleset">
+  <stringbundle id="keynav.keynav.strings" src="chrome://keynav/locale/keynav.properties"/>
+</stringbundleset>
 
 </overlay>

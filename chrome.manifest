@@ -1,2 +1,4 @@
 content    keynav    chrome/content/
+locale keynav en chrome/locale/en/
+locale keynav en-US chrome/locale/en/
 overlay chrome://messenger/content/messenger.xul chrome://keynav/content/keynav.xul
