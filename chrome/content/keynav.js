@@ -38,7 +38,7 @@ var keynav = {
     if (!val) {
       document.getElementById("menu_GoPopup").removeChild(this.MailfolderKeyNavMenuItem); // delete menu item from Go menu
     }
-    //this.MailFolderKeyNavMenuItem = null;
+    this.MailFolderKeyNavMenuItem = null;
     // Remove the observer
     this.prefs.removeObserver("", this);
   },
