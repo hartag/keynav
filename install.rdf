@@ -5,27 +5,44 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>keynav@andrew.hart</em:id>
-    <em:version>0.4</em:version>
+    <em:version>1.0</em:version>
     <em:type>2</em:type>
     <em:optionsURL>chrome://keynav/content/options.xul</em:optionsURL>
 
-    <em:name> Key Navigation</em:name>
+    <em:name>Key Navigation</em:name>
     <em:creator>Andrew Hart</em:creator>
 
     <em:localized>
       <description>
         <em:locale>en</em:locale>
         <em:name> Key Navigation</em:name>
-        <em:creator>Andrew Hart</em:creator>
         <em:description>This extension makes it possible to quickly navigate to a particular folder in the mail folder tree simply by typing the first few letters of the folder name when the mail folder tree has focus. Note that key navigation in mail folders prevents other short-cuts bound to typable characters (such as the short-cuts for moving to the next and previous unread message) from working while the mail folder tree has focus. There is an option to turn key navigation on and off, as well as an option to add an item to the Go menu for toggling key navigation on and off.</em:description>
+      </description>
+    </em:localized>
+
+    <em:localized>
+      <description>
+        <em:locale>es</em:locale>
+        <em:name> Navigación por Teclas</em:name>
+        <em:creator>Andrew Hart</em:creator>
+        <em:description>Esta extensión permite navegar rápidamente a una 
+        carpeta determinada en el árbol de carpetas de correo con sólo 
+        escribir las primeras letras del nombre de la carpeta cuando el árbol de carpetas de correo tiene el foco. Tenga en cuenta que 
+        la navegación clave en las carpetas de correo impide la 
+        operación de otros atajos unidos a teclas (tales como los atajos 
+        para pasar a la siguiente y anterior mensaje no leído) mientras 
+        que el árbol de carpetas de correo tiene el foco. Hay una opción 
+        para activar y desactivar la navegación por teclas, así como una 
+        opción para añadir un elemento al menú Ir para activar y 
+        desactivar navegación por teclas.</em:description>
       </description>
     </em:localized>
 
     <em:targetApplication>
       <Description>
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
-        <em:minVersion>45.1.0</em:minVersion>
-        <em:maxVersion>51.0</em:maxVersion>
+        <em:minVersion>45.0</em:minVersion>
+        <em:maxVersion>45.*</em:maxVersion>
       </Description>
     </em:targetApplication>
    
