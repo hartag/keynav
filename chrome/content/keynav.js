@@ -20,7 +20,8 @@ var keynav = {
     this.MailFolderKeyNavMenuItem.setAttribute("label", 
       keynavBundle.getString("menu_EnableMailFolderKeyNav.label"));
     this.MailFolderKeyNavMenuItem.setAttribute("type", "checkbox");
-    this.MailFolderKeyNavMenuItem.setAttribute("accesskey", "k");
+    this.MailFolderKeyNavMenuItem.setAttribute("accesskey", 
+      keynavBundle.getString("menu_EnableMailFolderKeyNav.accesskey"));
     this.MailFolderKeyNavMenuItem.setAttribute("autocheck", "false");
     this.MailFolderKeyNavMenuItem.setAttribute("checked", "false");
     this.MailFolderKeyNavMenuItem.setAttribute("oncommand", "keynav.toggleMailFolderKeyNavOption()");
