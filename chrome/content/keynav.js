@@ -40,13 +40,11 @@ var keynav = {
   shutdown : function() {
   	// Remove the MailFolderKeyNav menu item from the Go menu if it is currently attached
   	  this.displayGoMenuQuickToggle(false);
-/*    var val= this.prefs.getBoolPref("GoMenuMailFolderKeyNavToggle"); // get current preference value
-    if (!val) {
-      document.getElementById("menu_GoPopup").removeChild(this.MailFolderKeyNavMenuItem); // delete menu item from Go menu
-    }*/
-    this.MailFolderKeyNavMenuItem = null;
     // Remove the observer
     this.prefs.removeObserver("", this);
+    // Release memory held by keynav properties
+    this.MailFolderKeyNavMenuItem = null;
+    this.prefs = null;
   },
 
   observe : function(subject, topic, data) {
@@ -57,16 +55,12 @@ var keynav = {
     switch (data) {
     	case "MailFolderKeyNav":
         val = this.prefs.getBoolPref("MailFolderKeyNav"); // get current preference value
-        this.MailFolderKeyNavMenuItem.setAttribute("checked", val.toString());
-        this.setMailFolderKeyNav(val);
+        this.MailFolderKeyNavMenuItem.setAttribute("checked", val.toString()); // update state of quick toggle menu item
+        this.setMailFolderKeyNav(val); // enable/disable key navigation in the folder pane
     	  break;
     	case "GoMenuMailFolderKeyNavToggle":
         val= this.prefs.getBoolPref("GoMenuMailFolderKeyNavToggle"); // get current preference value
-        this.displayGoMenuQuickToggle(val);
-/*        if (val)
-          document.getElementById("menu_GoPopup").appendChild(this.MailFolderKeyNavMenuItem); // add menu item to Go menu
-        else
-          document.getElementById("menu_GoPopup").removeChild(this.MailFolderKeyNavMenuItem); // delete menu item from Go menu */
+        this.displayGoMenuQuickToggle(val); // add/remove quick toggle from Go menu
     	  break;
     }
   },
