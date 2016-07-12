@@ -15,32 +15,35 @@ var keynav = {
     this.prefs.addObserver("", this, false);
     // Create the MailFolderKeynav menuitem
     const XULNS = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"; // xml namespace
-    this.MailfolderKeyNavMenuItem = document.createElementNS(XULNS, "menuitem");
-    this.MailfolderKeyNavMenuItem.setAttribute("id", "appmenu_goMailFolderKeyNavMenuItem");
-    this.MailfolderKeyNavMenuItem.setAttribute("label", 
+    this.MailFolderKeyNavMenuItem = document.createElementNS(XULNS, "menuitem");
+    this.MailFolderKeyNavMenuItem.setAttribute("id", "appmenu_goMailFolderKeyNavMenuItem");
+    this.MailFolderKeyNavMenuItem.setAttribute("label", 
       keynavBundle.getString("menu_EnableMailFolderKeyNav.label"));
-    this.MailfolderKeyNavMenuItem.setAttribute("type", "checkbox");
-    this.MailfolderKeyNavMenuItem.setAttribute("autocheck", "false");
-    this.MailfolderKeyNavMenuItem.setAttribute("checked", "false");
-    this.MailfolderKeyNavMenuItem.setAttribute("oncommand", "keynav.toggleMailFolderKeyNavOption()");
+    this.MailFolderKeyNavMenuItem.setAttribute("type", "checkbox");
+    this.MailFolderKeyNavMenuItem.setAttribute("accesskey", "k");
+    this.MailFolderKeyNavMenuItem.setAttribute("autocheck", "false");
+    this.MailFolderKeyNavMenuItem.setAttribute("checked", "false");
+    this.MailFolderKeyNavMenuItem.setAttribute("oncommand", "keynav.toggleMailFolderKeyNavOption()");
     // Get stored values of preferences
     MailFolderKeyNav = this.prefs.getBoolPref("MailFolderKeyNav");
     GoMenuMailFolderKeyNavToggle = this.prefs.getBoolPref("GoMenuMailFolderKeyNavToggle");
     // Add the MailFolderKeynav menuitem to the Go menu according to the GoMenuMailFolderKeyNavToggle option
-    if (GoMenuMailFolderKeyNavToggle)
-      document.getElementById("menu_GoPopup").appendChild(this.MailfolderKeyNavMenuItem);
+      this.displayGoMenuQuickToggle(GoMenuMailFolderKeyNavToggle);
+/*    if (GoMenuMailFolderKeyNavToggle)
+      document.getElementById("menu_GoPopup").appendChild(this.MailFolderKeyNavMenuItem);*/
     // Set the checked/unchecked state of the MailFolderKeynav Go menu item
-    this.MailfolderKeyNavMenuItem.setAttribute("checked", MailFolderKeyNav.toString());
+    this.MailFolderKeyNavMenuItem.setAttribute("checked", MailFolderKeyNav.toString());
     // Set the key navigation state on the mail folder tree
     this.setMailFolderKeyNav(MailFolderKeyNav);
   },
 
   shutdown : function() {
   	// Remove the MailFolderKeyNav menu item from the Go menu if it is currently attached
-    var val= this.prefs.getBoolPref("GoMenuMailFolderKeyNavToggle"); // get current preference value
+  	  this.displayGoMenuQuickToggle(false);
+/*    var val= this.prefs.getBoolPref("GoMenuMailFolderKeyNavToggle"); // get current preference value
     if (!val) {
-      document.getElementById("menu_GoPopup").removeChild(this.MailfolderKeyNavMenuItem); // delete menu item from Go menu
-    }
+      document.getElementById("menu_GoPopup").removeChild(this.MailFolderKeyNavMenuItem); // delete menu item from Go menu
+    }*/
     this.MailFolderKeyNavMenuItem = null;
     // Remove the observer
     this.prefs.removeObserver("", this);
@@ -54,17 +57,26 @@ var keynav = {
     switch (data) {
     	case "MailFolderKeyNav":
         val = this.prefs.getBoolPref("MailFolderKeyNav"); // get current preference value
-        this.MailfolderKeyNavMenuItem.setAttribute("checked", val.toString());
+        this.MailFolderKeyNavMenuItem.setAttribute("checked", val.toString());
         this.setMailFolderKeyNav(val);
     	  break;
     	case "GoMenuMailFolderKeyNavToggle":
         val= this.prefs.getBoolPref("GoMenuMailFolderKeyNavToggle"); // get current preference value
-        if (val)
-          document.getElementById("menu_GoPopup").appendChild(this.MailfolderKeyNavMenuItem); // add menu item to Go menu
+        this.displayGoMenuQuickToggle(val);
+/*        if (val)
+          document.getElementById("menu_GoPopup").appendChild(this.MailFolderKeyNavMenuItem); // add menu item to Go menu
         else
-          document.getElementById("menu_GoPopup").removeChild(this.MailfolderKeyNavMenuItem); // delete menu item from Go menu
+          document.getElementById("menu_GoPopup").removeChild(this.MailFolderKeyNavMenuItem); // delete menu item from Go menu */
     	  break;
     }
+  },
+
+  displayGoMenuQuickToggle : function(val) {
+  	var goPopup = document.getElementById("menu_GoPopup");
+    if (val && this.MailFolderKeyNavMenuItem.parentNode==null)
+      goPopup.appendChild(this.MailFolderKeyNavMenuItem); // add menu item to Go menu
+    else if (!val && this.MailFolderKeyNavMenuItem.parentNode==goPopup)
+      goPopup.removeChild(this.MailFolderKeyNavMenuItem); // delete menu item from Go menu
   },
 
   setMailFolderKeyNav : function(val) {
