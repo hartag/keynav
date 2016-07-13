@@ -26,16 +26,7 @@
         <em:locale>es</em:locale>
         <em:name> Navigación por Teclas</em:name>
         <em:creator>Andrew Hart</em:creator>
-        <em:description>Esta extensión permite navegar rápidamente a una 
-        carpeta determinada en el árbol de carpetas de correo con sólo 
-        escribir las primeras letras del nombre de la carpeta cuando el árbol de carpetas de correo tiene el foco. Tenga en cuenta que 
-        la navegación clave en las carpetas de correo impide la 
-        operación de otros atajos unidos a teclas (tales como los atajos 
-        para pasar a la siguiente y anterior mensaje no leído) mientras 
-        que el árbol de carpetas de correo tiene el foco. Hay una opción 
-        para activar y desactivar la navegación por teclas, así como una 
-        opción para añadir un elemento al menú Ir para activar y 
-        desactivar navegación por teclas.</em:description>
+        <em:description>Esta extensión permite navegar rápidamente a una carpeta determinada en el panel de carpetas con sólo escribir las primeras letras del nombre de la carpeta cuando el panel de carpetas tiene el foco. Tenga en cuenta que la navegación por teclas en las carpetas de correo impide la operación de atajos de una sola letra (como los atajos para pasar a la siguiente y anterior mensaje no leído) mientras que el panel de carpetas tiene el foco. Por lo tanto, existe una opción para activar y desactivar la navegación por teclas, así como una opción para añadir un elemento al menú Ir para facilitar su activación/desactivación.</em:description>
       </description>
     </em:localized>
 
