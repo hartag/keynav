@@ -9,7 +9,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>keynav@andrew.hart</em:id>
-    <em:version>0.6beta1</em:version>
+    <em:version>0.6</em:version>
     <em:type>2</em:type>
     <em:optionsURL>chrome://keynav/content/options.xul</em:optionsURL>
 

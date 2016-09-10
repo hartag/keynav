@@ -31,3 +31,7 @@ clean:
 #	@rm -rf *.bak
 	@find . -name "*.bak" -delete
 	@rm -f log.txt
+
+showversion:
+	@cat $(INSTALLRDF) |grep '<em:version>' |sed 's/^.*<em:version>\s*\(.*\)\s*<\/em:version>.*$$/\1/'
+	
