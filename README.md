@@ -15,12 +15,16 @@ or downloading an archive of the repository and extracting it to a
 directory, simply type "make" at the command prompt to build the .xpi 
 file.
 
+In addition, "make showversion" will display the source code version and "make 
+clean" will clean up the repository folder structure, deleting the zip file, as 
+well as files with names like *.bak, etc.
+
 #Installing the add-on
 
 Once you have the xpi file, it can be installed using the following procedure.
 
   1. Open Thunderbird.
-  2. Click on the Tools menu and then click on Add-ons to open the Add-ons Manager.
+  2. Click on the Tools menu and then click on Add-ons to open the Add-ons Manager. Alternatively, type Alt+t followed by a.
   3. Click on the "Tools for all add-ons" button, which appears as a cog wheel. It is just before the "Search all add-ons" edit field in the tab order.
       * Note to screen-reader users. The button needs to be clicked using the mouse by simulating a mouse click at the physical position of the button on screen.
   4. Click on the "Install Add-on from file" item in the pop-up menu that appears.
