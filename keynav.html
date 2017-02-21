@@ -56,6 +56,7 @@ option to turn key navigation on/off, as well as for adding this item to the
 <div><button onclick="toggleSuggestions()" id="suggestionsButton">Show some suggestions for how to accomplish this.</button></div>
 <div id="suggestions" style="display:none;">
 	<p>First use Tab and Shift+Tab to move the focus to the "Tools for all add-ons" button.</p>
+	<p>If you are using Orca on Linux, you must press Orca Modifier+a to switch Orca into focus Mode before proceeding.</p>
 	<p>Next, you must move the mouse pointer to the button and then click the left mouse button to open the menu. The following table shows the commands for doing this in various screen readers.</p>
 	<table>
 		<tr><th>Operation</th><th>Desktop Command</th><th>Laptop Command</th></tr>
@@ -73,8 +74,16 @@ option to turn key navigation on/off, as well as for adding this item to the
 		<tr>
 			<td>Click left mouse button</td><td>NumpadSlash</td><td>JAWSKey+8</td>
 		</tr>
-</table>
+<tr><td colspan="3">Orca</td></tr>
+		<tr>
+			<td>Move mouse to focused object</td><td>Orca Modifier+KP Divide</td><td>Orca Modifier+9</td>
+		</tr>
+		<tr>
+			<td>Click left mouse button</td><td>KP Divide</td><td>Orca Modifier+7</td>
+		</tr>
+		</table>
 </div>
+
 </li></ul>
   </li>
   <li>Click on the "Install Add-on from file" item in the pop-up menu that appears. </li>
@@ -100,7 +109,7 @@ file, as well as files with names like *.bak, etc.</p>
 <p>Once the xpi file has been built, it can be installed using the instructions given above in <a href="#install">How to Install keynav</a>.</p>
 
 <hr/>
-<p>Last updated: 19 February, 2017</p>
+<p>Last updated: 20 February, 2017</p>
 
 </body>
 </html>
