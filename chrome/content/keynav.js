@@ -28,7 +28,10 @@ var keynav = {
       keynavBundle.getString("menu_EnableMailFolderKeyNav.accesskey"));
     this.MailFolderKeyNavMenuItem.setAttribute("autocheck", "false");
     this.MailFolderKeyNavMenuItem.setAttribute("checked", "false");
-    this.MailFolderKeyNavMenuItem.setAttribute("oncommand", "keynav.toggleMailFolderKeyNavOption()");
+    this.MailFolderKeyNavMenuItem.addEventListener("command",
+      function(e) {keynav.toggleMailFolderKeyNavOption();}
+    );
+//    this.MailFolderKeyNavMenuItem.setAttribute("oncommand", "keynav.toggleMailFolderKeyNavOption()");
     // Get stored values of preferences
     MailFolderKeyNav = this.prefs.getBoolPref("MailFolderKeyNav");
     GoMenuMailFolderKeyNavToggle = this.prefs.getBoolPref("GoMenuMailFolderKeyNavToggle");
@@ -101,11 +104,11 @@ var keynav = {
 
 window.addEventListener("load", 
   function(e) {
-keynav.startup();
+    keynav.startup();
   })
-  
-  window.addEventListener("unload",
-  function(e) {
-keynav.shutdown();
+
+window.addEventListener("unload",
+    function(e) {
+  keynav.shutdown();
   })
 

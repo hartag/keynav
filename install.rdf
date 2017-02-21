@@ -13,14 +13,16 @@
     <em:type>2</em:type>
     <em:optionsURL>chrome://keynav/content/options.xul</em:optionsURL>
 
-    <em:name>Key Navigation</em:name>
+    <em:name>Quick Folder Key Navigation</em:name>
     <em:creator>Andrew Hart</em:creator>
+    <em:translator>Patricio Torres</em:translator>
 
     <em:localized>
       <description>
         <em:locale>en</em:locale>
-        <em:name> Key Navigation</em:name>
+        <em:name>Quick Folder Key Navigation</em:name>
         <em:creator>Andrew Hart</em:creator>
+        <em:translator>Patricio Torres</em:translator>
         <em:description>This extension makes it possible to quickly navigate to a particular folder in  the folder pane simply by typing the first few letters of the folder name when  the folder pane has focus. Note that  single-letter Thunderbird short-cuts (such as the short-cuts for moving to the  next and previous unread message) do not work in the folder pane when key navigation is enabled.  Therefore, There is an option to turn key navigation on/off, as well as for adding this item to the "Go" menu.</em:description>
       </description>
     </em:localized>
@@ -30,6 +32,7 @@
         <em:locale>es</em:locale>
         <em:name>Acceso Rápido a Carpetas</em:name>
         <em:creator>Andrew Hart</em:creator>
+        <em:translator>Patricio Torres</em:translator>
         <em:description>Esta extensión permite acceder rápidamente a una carpeta determinada en el panel  con sólo escribir las primeras letras del nombre de la carpeta  cuando se selecciona el panel de carpetas. Tenga en cuenta que el uso de short-cuts (que contienen  una sola letra  como "n" y "p" que van al siguiente mensaje no leyido y al mensaje anterior no leyido respectivamente) no funcionan de la misma forma si el complemento de acceso rápido a carpetas está activado. Además, existe una opción para  activar y desactivar el Acceso Rápido, así como añadir  esta opción al menú (se debe acceder al menú "Ir").</em:description>
       </description>
     </em:localized>
