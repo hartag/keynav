@@ -9,7 +9,7 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>keynav@andrew.hart</em:id>
-    <em:version>1.0.0.1</em:version>
+    <em:version>1.0.0.2</em:version>
     <em:type>2</em:type>
     <em:optionsURL>chrome://keynav/content/options.xul</em:optionsURL>
 
@@ -41,7 +41,7 @@
       <Description>
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
         <em:minVersion>38.0</em:minVersion>
-        <em:maxVersion>45.*</em:maxVersion>
+        <em:maxVersion>52.*</em:maxVersion>
       </Description>
     </em:targetApplication>
    
