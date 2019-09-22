@@ -10,7 +10,16 @@ var keynav = {
 
   startup : function(e) {
   	var MailFolderKeyNav, GoMenuMailFolderKeyNavToggle;
-    var keynavBundle = document.getElementById("keynav.keynav.strings"); // get the keynav stringbundle
+    // get the keynav stringbundle
+    // The following technique was only available up to version 60.*.
+    //var keynavBundle = document.getElementById("keynav.keynav.strings");
+    // The following is an alternative way of getting access to the string 
+    // bundle service. It seems to be available in 68, but the next method 
+    // is neater imho.
+    //var sbs = Components.classes["@mozilla.org/intl/stringbundle;1"]
+    //.getService(Components.interfaces.nsIStringBundleService);
+    // The next line shows how to access string bundles in version 68 and later.
+    var keynavBundle  = Services.strings.createBundle("chrome://keynav/locale/keynav.properties");
   	// Get preference machinery for keynav
     this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
     .getService(Components.interfaces.nsIPrefService)
@@ -22,10 +31,10 @@ var keynav = {
     this.MailFolderKeyNavMenuItem = document.createElementNS(XULNS, "menuitem");
     this.MailFolderKeyNavMenuItem.setAttribute("id", "appmenu_goMailFolderKeyNavMenuItem");
     this.MailFolderKeyNavMenuItem.setAttribute("label", 
-      keynavBundle.getString("menu_EnableMailFolderKeyNav.label"));
+      keynavBundle.getStringFromName("menu_EnableMailFolderKeyNav.label"));
     this.MailFolderKeyNavMenuItem.setAttribute("type", "checkbox");
     this.MailFolderKeyNavMenuItem.setAttribute("accesskey", 
-      keynavBundle.getString("menu_EnableMailFolderKeyNav.accesskey"));
+      keynavBundle.getStringFromName("menu_EnableMailFolderKeyNav.accesskey"));
     this.MailFolderKeyNavMenuItem.setAttribute("autocheck", "false");
     this.MailFolderKeyNavMenuItem.setAttribute("checked", "false");
     this.MailFolderKeyNavMenuItem.addEventListener("command",
