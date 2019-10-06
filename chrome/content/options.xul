@@ -11,6 +11,7 @@ href="chrome://messenger/skin/preferences/preferences.css"?>
  <!DOCTYPE dialog SYSTEM "chrome://keynav/locale/options.dtd"> 
 
 <dialog id="keynav-prefs"
+		title="&options_window_title;"
     buttons="accept"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
  
