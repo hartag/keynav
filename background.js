@@ -19,8 +19,6 @@ var updateMenuItem = function(itemId) {
   	  return;
     }
     await enableKeyNavigation(changes.MailFolderKeyNav.newValue);
-    //let [tab, ...rest] = await browser.tabs.query({ currentWindow: true, active: true });
-    //await browser.myapi.enableKeyNavigation(tab.id, changes.MailFolderKeyNav.newValue);
     browser.menus.update(iid, {
       checked: changes.MailFolderKeyNav.newValue
     });
