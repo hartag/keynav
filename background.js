@@ -62,9 +62,3 @@ async function startUp() {
 
 //startUp().catch(function(e) {});
 browser.runtime.onStartup.addListener(startUp);
-
-/*
-browser.onSuspend.addListener(() => {
-  browser.storage.onChanged.removeListener(updateMenuItem);
-});
-*/
