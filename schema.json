@@ -9,12 +9,6 @@
         "async": true,
         "parameters": [
           {
-            "name": "tabId",
-            "description": "id of a mail tab",
-            "type": "integer",
-            "minimum": 1
-          },
-          {
             "name": "value",
             "description": "true: enable ; false: disable.",
             "type": "boolean"
