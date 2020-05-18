@@ -56,7 +56,7 @@ async function startUp() {
     }
   });
   browser.storage.onChanged.addListener(updateMenuItem(itemId));
-  await enableKeyNavigation(keyNavActive);
+  await browser.myapi.enableKeyNavigationOnReady(keyNavActive);
   return itemId;
 }
 

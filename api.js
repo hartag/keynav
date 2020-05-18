@@ -5,26 +5,22 @@ var myapi = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     return {
       myapi: {
-
+      	async enableKeyNavigationOnReady(value) {
+      		let win = Services.wm.getMostRecentWindow("mail:3pane");
+        	if (!win) {
+        	  throw new ExtensionError("enableKeyNavigationOnReady was not able to get the mail:3pane window");
+        	}
+      		win.addEventListener("DOMContentLoaded", (event) => {
+      		  this.enableKeyNavigation(value);
+      		}, {once: true});
+      	},
+		
         async enableKeyNavigation(value) {
-        	let tries = 25; // number of times to try getting the folder payne
-        	const ms = 200; // timer delay in milliseconds between tries
-        	let win = null; // for holding the mail:3pane window
-        	let folder = null; // for holding the folder pane
-        	while (!folder && tries>0) {
-        		win = Services.wm.getMostRecentWindow("mail:3pane");
-        	  if (!win) {
-        	    throw new ExtensionError("Unable to get mail:3pane window");
-        	  }
-       		  folder = win.document.getElementById("folderTree");
-        		if (!folder) {
-        			tries -= 1;
-        		  await new Promise(resolve => win.setTimeout(resolve, ms));
-        	  }
+        	let win = Services.wm.getMostRecentWindow("mail:3pane");
+        	if (!win) {
+        	  throw new ExtensionError("enableKeyNavigation was not able to get the mail:3pane window");
         	}
-        	if (!folder) {
-        	  throw new ExtensionError("Unable to get folderTree element");
-        	}
+       		let folder = win.document.getElementById("folderTree");
           if (value) {
             folder.removeAttribute("disableKeyNavigation");
           } else {
