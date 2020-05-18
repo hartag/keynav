@@ -4,7 +4,7 @@
 // Default settings. Initialize storage to these values.
 const defaultSettings = {
   MailFolderKeyNav: true,
-  MailFolderKeyNavMenuItem: true
+  GoMenuMailFolderKeyNavToggle: true
 }
 
 async function enableKeyNavigation(enable) {
@@ -20,7 +20,9 @@ var updateMenuItem = function(itemId) {
     }
     await enableKeyNavigation(changes.MailFolderKeyNav.newValue);
     browser.menus.update(iid, {
-      checked: changes.MailFolderKeyNav.newValue
+      checked: changes.MailFolderKeyNav.newValue,
+      enabled: changes.GoMenuMailFolderKeyNavToggle.newValue,
+      visible: changes.GoMenuMailFolderKeyNavToggle.newValue
     });
   };
 }
@@ -30,9 +32,9 @@ On startup, check whether we have stored settings.
 If we don't, then store the default settings.
 */
 async function checkSavedSettings(settings) {
-  if (!settings.MailfolderKeyNav || !settings.MailFolderKeyNavMenuItem) {
+  if (!settings.MailfolderKeyNav || !settings.GoMenuMailFolderKeyNavToggle) {
     settings.MailFolderKeyNav = defaultSettings.MailFolderKeyNav;
-    settings.MailFolderKeyNavMenuItem = defaultSettings.MailFolderKeyNavMenuItem;
+    settings.GoMenuMailFolderKeyNavToggle = defaultSettings.GoMenuMailFolderKeyNavToggle;
     await browser.storage.local.set(settings);
   }
 }
@@ -42,9 +44,9 @@ async function startUp() {
   const settings = await browser.storage.local.get();
   await checkSavedSettings(settings); // check if the settings are saved, otherwise use defaults
   let keyNavActive = 	settings.MailFolderKeyNav;
-  let showMenuItem = settings.MailFolderKeyNavMenuItem;
+  let showMenuItem = settings.GoMenuMailFolderKeyNavToggle;
   let itemId = browser.menus.create({
-    id: "appmenu_goMailFolderKeyNavMenuItem",
+    id: "appmenu_goGoMenuMailFolderKeyNavToggle",
     type: "checkbox",
     contexts: ["folder_pane"],
     title: browser.i18n.getMessage("menu_EnableMailFolderKeyNav.label"),
