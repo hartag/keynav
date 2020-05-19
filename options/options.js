@@ -1,32 +1,17 @@
 /*
-Store the currently selected settings using browser.storage.local.
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 */
-function storeSettings() {
-  browser.storage.local.set({
-      MailFolderKeyNav: MailFolderKeyNavInput.checked,
-      GoMenuMailFolderKeyNavToggle: GoMenuMailFolderKeyNavToggleInput.checked
-  });
-}
 
-/*
-Update the options UI with the settings values retrieved from storage,
-or the default settings if the stored settings are empty.
-*/
-function updateUI(restoredSettings) {
-  MailFolderKeyNavInput.checked = restoredSettings.MailFolderKeyNav;
-  GoMenuMailFolderKeyNavToggleInput.checked = restoredSettings.GoMenuMailFolderKeyNavToggle;
-}
+"use strict";
 
-function onError(e) {
-  console.error(e);
-}
-
-
+// Translate language-specific text in the page
 function translateLanguageStrings() {
-  var objects = document.getElementsByTagName("html");
+  let objects = document.getElementsByTagName("html");
   for(var i = 0; i < objects.length; i++) {
-    var strVal = objects[i].innerHTML.toString();
-    var newVal = strVal.replace(/__MSG_(\S+)__/g, function(match, group1) {
+    let strVal = objects[i].innerHTML.toString();
+    let newVal = strVal.replace(/__MSG_(\S+)__/g, function(match, group1) {
       return group1 ? browser.i18n.getMessage(group1) : "";
     });
     if (newVal != strVal) {
@@ -35,38 +20,50 @@ function translateLanguageStrings() {
   } // for
 }
 
-// Translate language-specific text in the page
-translateLanguageStrings();
- 
+// For holding the input fields on the page
+var MailFolderKeyNavInput  = null;
+var MailFolderKeyNavMenuItemInput  = null;
 
-const MailFolderKeyNavInput = document.querySelector("#MailFolderKeyNav");
-const GoMenuMailFolderKeyNavToggleInput = document.querySelector("#GoMenuMailFolderKeyNavToggle");
+// Save the currently selected settings using browser.storage.local.
+function saveSettings() {
+  browser.storage.local.set({
+      MailFolderKeyNav: MailFolderKeyNavInput.checked,
+      MailFolderKeyNavMenuItem: MailFolderKeyNavMenuItemInput.checked
+  });
+}
 
-/*
-On opening the options page, fetch stored settings and update the UI with them.
-*/
-const gettingStoredSettings = browser.storage.local.get();
-gettingStoredSettings.then(updateUI, onError);
+// Update the options UI with the settings values retrieved from storage
+function updateUI(settings) {
+  MailFolderKeyNavInput.checked = settings.MailFolderKeyNav;
+  MailFolderKeyNavMenuItemInput.checked = settings.MailFolderKeyNavMenuItem;
+}
 
+// When the saved settings change, update the values displayed in the options dialog
 function updateUIOnSettingChange(changes, areaName) {
   if (areaName!="local") {
 	  return;
   }
-  if (changes.MailFolderKeyNav.newValue) {
+  if (changes.hasOwnProperty("MailFolderKeyNav")) {
     MailFolderKeyNavInput.checked = changes.MailFolderKeyNav.newValue;
   }
-  if (changes.GoMenuMailFolderKeyNavToggle.newValue) {
-    GoMenuMailFolderKeyNavToggleInput.checked = changes.GoMenuMailFolderKeyNavToggle.newValue;
+  if (changes.hasOwnProperty("MailFolderKeyNavMenuItem")) {
+    MailFolderKeyNavMenuItemInput.checked = changes.MailFolderKeyNavMenuItem.newValue;
   }
 }
 
-/*
-On change, save the currently selected settings.
-*/
-MailFolderKeyNavInput.addEventListener("change", storeSettings);
-GoMenuMailFolderKeyNavToggleInput.addEventListener("change", storeSettings);
-browser.storage.onChange.addListener(updateUIOnSettingChange);
+async function setupListeners() {
+  MailFolderKeyNavInput = document.querySelector("#MailFolderKeyNav");
+  MailFolderKeyNavMenuItemInput = document.querySelector("#MailFolderKeyNavMenuItem");
+  let settings = await browser.storage.local.get();
+  updateUI(settings);
+  MailFolderKeyNavInput.addEventListener("change", saveSettings);
+  MailFolderKeyNavMenuItemInput.addEventListener("change", saveSettings);
+  browser.storage.onChanged.addListener(updateUIOnSettingChange);
+  document.addEventListener("unload", (event) => {
+    browser.storage.onChanged.removeListener(updateUIOnSettingChange);
+  });
+  MailFolderKeyNavInput.focus();
+}
 
-window.addEventListener("unload", function(ev) {
-  browser.storage.onChanged.removeListener(updateUIOnSettingChange);
-});
+document.addEventListener("DOMContentLoaded", translateLanguageStrings, {once: true});
+document.addEventListener("DOMContentLoaded", setupListeners, {once: true});

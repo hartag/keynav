@@ -1,9 +1,15 @@
 <!DOCTYPE html>
+<!--
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
+-->
 
 <html>
   <head>
     <meta charset="utf-8"/>
-    <link rel="stylesheet" href="options.css"/>
+    <script src="options.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="options.css"/>
   </head>
 
   <body>
@@ -13,11 +19,9 @@
 
       <label>__MSG_options_enableMailFolderKeyNav.label__<input id="MailFolderKeyNav" 
       	type="checkbox"/></label>
-      <label>__MSG_options_addGoMenuQuickToggle.label__<input 
-      	id="GoMenuMailFolderKeyNavToggle" type="checkbox"/></label>
+      <label>__MSG_options_addContextMenuQuickToggle.label__<input 
+      	id="MailFolderKeyNavMenuItem" type="checkbox"/></label>
 
     </section>
-
-    <script src="options.js"></script>
   </body>
 </html>
