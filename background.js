@@ -70,5 +70,6 @@ async function startUp() {
   return itemId;
 }
 
-//startUp().catch(function(e) {});
+// Set up listeners for initializing the addon.
 browser.runtime.onStartup.addListener(startUp);
+browser.runtime.onInstalled.addListener(startUp);
