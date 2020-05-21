@@ -4,6 +4,7 @@
   "description": "__MSG_extensionDescription__",
   "author": "Andrew Hart",
   "version": "3.0",
+"homepage_url": "https://github.com/hartag/keynav",
   "default_locale": "en",
   "applications": {
     "gecko": {
@@ -27,7 +28,7 @@
   ],
 
   "experiment_apis": {
-    "myapi": {
+    "KeyNavigationAPI": {
       "schema": "schema.json",
       "parent": {
         "scopes": [
@@ -35,7 +36,7 @@
         ],
         "paths": [
           [
-            "myapi"
+            "KeyNavigationAPI"
           ]
         ],
         "script": "api.js"

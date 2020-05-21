@@ -13,11 +13,7 @@ const defaultSettings = {
   MailFolderKeyNavMenuItem: true
 }
 
-async function enableKeyNavigation(enable) {
-await browser.myapi.enableKeyNavigation(enable);
-return enable;
-}
-	
+
 var updateMenuItem = function(itemId) {
   let iid = itemId;
   return async (changes, areaName) => {
@@ -27,7 +23,7 @@ var updateMenuItem = function(itemId) {
     let menuProperties = {};
     if (changes.hasOwnProperty("MailFolderKeyNav")) {
   	  menuProperties.checked = changes.MailFolderKeyNav.newValue;
-      await enableKeyNavigation(changes.MailFolderKeyNav.newValue);
+      await browser.KeyNavigationAPI.enableKeyNavigation(changes.MailFolderKeyNav.newValue);
     }
     if (changes.hasOwnProperty("MailFolderKeyNavMenuItem")) {
       menuProperties.enabled = changes.MailFolderKeyNavMenuItem.newValue;
@@ -47,7 +43,7 @@ async function checkSavedSettings(settings) {
   }
 }
 
-async function startUp() {
+async function setup() {
 // Set up menu
   const settings = await browser.storage.local.get();
   await checkSavedSettings(settings); // check if the settings are saved, otherwise use defaults
@@ -66,10 +62,18 @@ async function startUp() {
     }
   });
   browser.storage.onChanged.addListener(updateMenuItem(itemId));
-  await browser.myapi.enableKeyNavigationOnReady(keyNavActive);
+  await browser.KeyNavigationAPI.enableKeyNavigation(keyNavActive);
   return itemId;
 }
 
+var startup= function (tab) {
+  if (tab.status=="complete" && tab.mailTab) {
+    setup();
+    browser.tabs.onCreated.removeListener(startup);
+  }
+};
+
 // Set up listeners for initializing the addon.
-browser.runtime.onStartup.addListener(startUp);
-browser.runtime.onInstalled.addListener(startUp);
+browser.tabs.onCreated.addListener(startup);
+
+browser.runtime.onInstalled.addListener(setup);

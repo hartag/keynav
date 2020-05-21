@@ -9,20 +9,10 @@
 var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
-var myapi = class extends ExtensionCommon.ExtensionAPI {
+var KeyNavigationAPI = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     return {
-      myapi: {
-      	async enableKeyNavigationOnReady(value) {
-      		let win = Services.wm.getMostRecentWindow("mail:3pane");
-        	if (!win) {
-        	  throw new ExtensionError("enableKeyNavigationOnReady was not able to get the mail:3pane window");
-        	}
-      		win.addEventListener("DOMContentLoaded", (event) => {
-      		  this.enableKeyNavigation(value);
-      		}, {once: true});
-      	},
-		
+      KeyNavigationAPI: {
         async enableKeyNavigation(value) {
         	let win = Services.wm.getMostRecentWindow("mail:3pane");
         	if (!win) {
