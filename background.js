@@ -75,5 +75,4 @@ var startup= function (tab) {
 
 // Set up listeners for initializing the addon.
 browser.tabs.onCreated.addListener(startup);
-
 browser.runtime.onInstalled.addListener(setup);

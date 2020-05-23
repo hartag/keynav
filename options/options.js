@@ -6,18 +6,12 @@
 
 "use strict";
 
-// Translate language-specific text in the page
-function translateLanguageStrings() {
-  let objects = document.getElementsByTagName("html");
-  for(var i = 0; i < objects.length; i++) {
-    let strVal = objects[i].innerHTML.toString();
-    let newVal = strVal.replace(/__MSG_(\S+)__/g, function(match, group1) {
-      return group1 ? browser.i18n.getMessage(group1) : "";
-    });
-    if (newVal != strVal) {
-      objects[i].innerHTML = newVal;
-    }
-  } // for
+// Localise page
+function localisePage() {
+  for (let el of document.querySelectorAll("[data-l10n-id]")) {
+    let id = el.getAttribute("data-l10n-id");
+    el.textContent = browser.i18n.getMessage(id);
+  }
 }
 
 // For holding the input fields on the page
@@ -65,5 +59,5 @@ async function setupListeners() {
   MailFolderKeyNavInput.focus();
 }
 
-document.addEventListener("DOMContentLoaded", translateLanguageStrings, {once: true});
+document.addEventListener("DOMContentLoaded", localisePage, {once: true});
 document.addEventListener("DOMContentLoaded", setupListeners, {once: true});

@@ -15,13 +15,17 @@
   <body>
 
     <section class="keyNavOptions">
-      <h1 class="title">__MSG_options_window_title__</h1>
+      <h1 class="title" data-l10n-id="options_window_title"></h1>
 
-      <label>__MSG_options_enableMailFolderKeyNav.label__<input id="MailFolderKeyNav" 
-      	type="checkbox"/></label>
-      <label>__MSG_options_addContextMenuQuickToggle.label__<input 
-      	id="MailFolderKeyNavMenuItem" type="checkbox"/></label>
-
+      <div class="option">
+        <label for="MailFolderKeyNav" data-l10n-id="options_enableMailFolderKeyNav.label"></label>
+        <input id="MailFolderKeyNav" type="checkbox"/>
+      </div>
+      
+      <div class="option">
+      	<label for="MailFolderKeyNavMenuItem" data-l10n-id="options_addContextMenuQuickToggle.label"></label>
+        <input id="MailFolderKeyNavMenuItem" type="checkbox"/>
+      </div>
     </section>
   </body>
 </html>

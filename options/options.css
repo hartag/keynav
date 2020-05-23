@@ -1,21 +1,28 @@
+/*
+  This Source Code Form is subject to the terms of the Mozilla Public
+  License, v. 2.0. If a copy of the MPL was not distributed with this
+  file, You can obtain one at http://mozilla.org/MPL/2.0/.
+*/
+
 body {
-  width: 25em;
   font-family: "Open Sans Light", sans-serif;
-  font-size: 0.9em;
-  font-weight: 300;
 }
 
 .title {
-  font-size: 1.2em;
-  margin-bottom: 0.5em;
+  font-size: 1.5em;
+  margin: 0.5em;
+}
+
+.option {
+  display: block;
+  margin: 0.5em 0em;
 }
 
 label {
-  float: right;
+  font-size: 1.25em;
+  line-height: 1.8em ;
 }
 
 input {
   margin: 0.5em;
-  width: 200px;
-  height: 2.5em;
 }
