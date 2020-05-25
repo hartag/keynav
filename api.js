@@ -14,18 +14,20 @@ var KeyNavigationAPI = class extends ExtensionCommon.ExtensionAPI {
     return {
       KeyNavigationAPI: {
         async enableKeyNavigation(value) {
-        	let win = Services.wm.getMostRecentWindow("mail:3pane");
-        	if (!win) {
-        	  throw new ExtensionError("enableKeyNavigation was not able to get the mail:3pane window");
-        	}
-       		let folder = win.document.getElementById("folderTree");
-          if (value) {
-            folder.removeAttribute("disableKeyNavigation");
-          } else {
-            folder.setAttribute("disableKeyNavigation", "true");
-          }
-        }
-      }
-    }
-  }
-};
+          let enumerator = Services.wm.getEnumerator("mail:3pane");
+          while (enumerator.hasMoreElements()) {
+        	  let win = enumerator.getNext();
+        	  if (!win) continue;
+       		  let folder = win.document.getElementById("folderTree");
+       		  if (!folder) return;
+            if (value) {
+              folder.removeAttribute("disableKeyNavigation");
+            } else {
+              folder.setAttribute("disableKeyNavigation", "true");
+            }
+          } // while
+        } // function
+      } // KeyNavigation namespace
+    } // object
+  } // getAPI
+}; // class

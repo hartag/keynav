@@ -43,36 +43,59 @@ async function checkSavedSettings(settings) {
   }
 }
 
+var contextMenuReady = false;
+
 async function setup() {
-// Set up menu
+  // Get saved settings
   const settings = await browser.storage.local.get();
   await checkSavedSettings(settings); // check if the settings are saved, otherwise use defaults
   let keyNavActive = 	settings.MailFolderKeyNav;
-  let showMenuItem = settings.MailFolderKeyNavMenuItem;
-  let itemId = browser.menus.create({
-    id: "appmenu_MailFolderKeyNavMenuItem",
-    type: "checkbox",
-    contexts: ["folder_pane"],
-    title: browser.i18n.getMessage("menu_EnableMailFolderKeyNav.label"),
-    checked: keyNavActive,
-    visible: showMenuItem,
-    enabled: showMenuItem,
-    onclick: async function(ev) {
-      await browser.storage.local.set({"MailFolderKeyNav": ev.checked});
-    }
-  });
-  browser.storage.onChanged.addListener(updateMenuItem(itemId));
+  // Set up menu
+  if (!contextMenuReady) {
+    let showMenuItem = settings.MailFolderKeyNavMenuItem;
+    let itemId = browser.menus.create({
+      id: "appmenu_MailFolderKeyNavMenuItem",
+      type: "checkbox",
+      contexts: ["folder_pane"],
+      title: browser.i18n.getMessage("menu_EnableMailFolderKeyNav.label"),
+      checked: keyNavActive,
+      visible: showMenuItem,
+      enabled: showMenuItem,
+      onclick: async function(ev) {
+        await browser.storage.local.set({"MailFolderKeyNav": ev.checked});
+      }
+    });
+    browser.storage.onChanged.addListener(updateMenuItem(itemId));
+    contextMenuReady = true;
+  }
   await browser.KeyNavigationAPI.enableKeyNavigation(keyNavActive);
-  return itemId;
+  //return itemId;
 }
 
-var startup= function (tab) {
+var setKeyNavOnCreate = function (tab) {
   if (tab.status=="complete" && tab.mailTab) {
     setup();
-    browser.tabs.onCreated.removeListener(startup);
+  }
+};
+
+var setKeyNavOnActivate = function (activeInfo) {
+  let getTab = browser.tabs.get(activeInfo.tabId);
+  getTab.then((tab) => {
+    if (tab.status=="complete" && tab.mailTab) {
+      setup();
+    }
+  });
+};
+
+var setKeyNavOnUpdate = function (tabId, changeInfo, tab) {
+  if (changeInfo.hasOwnProperty("status") && changeInfo.status=="complete" && 
+  tab.mailTab) {
+    setup();
   }
 };
 
 // Set up listeners for initializing the addon.
-browser.tabs.onCreated.addListener(startup);
+browser.tabs.onCreated.addListener(setKeyNavOnCreate);
+browser.tabs.onActivated.addListener(setKeyNavOnActivate);
+browser.tabs.onUpdated.addListener(setKeyNavOnUpdate);
 browser.runtime.onInstalled.addListener(setup);
