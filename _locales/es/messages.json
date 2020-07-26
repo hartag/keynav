@@ -16,5 +16,14 @@
   },
   "options_addContextMenuQuickToggle.label": {
     "message": "Añadir una opción para activar Acceso Rápido a Carpetas en el menú de contexto: "
+  },
+  "whatsnew_title": {
+    "message": "Qué es nuevo en Acceso Rápido a Carpetas"
+  },
+  "whatsnew_text_message": {
+   "message": "El complemento se ha actualizado para que sea compatible con Thunderbird versión 69.0 y posteriores. Sigue siendo compatible con Thunderbird 68.0. Tenga en cuenta que el elemento \"Habilitar Acceso Rápido a Carpetas\" para activar y desactivar el acceso rápido a carpetas en el árbol de carpetas que solía agregarse al menú \"Ir\" se ha movido al menú contextual del árbol de carpetas."
+  },
+  "whatsnew_button": {
+    "message": "Cerrar"
   }
 }

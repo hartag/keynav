@@ -14,7 +14,16 @@
   "options_enableMailFolderKeyNav.label": {
     "message": "Enable mail-folder key navigation: "
   },
-  "options_addContextMenuQuickToggle.label": {
+  "onnptions_addContextMenuQuickToggle.label": {
     "message": "Add key-navigation quick toggle to the context menu: "
+  },
+  "whatsnew_title": {
+    "message": "What's New in Quick Folder Key Navigation"
+  },
+  "whatsnew_text_message": {
+   "message": "The add-on has been updated to make it compatible with Thunderbird version 69.0 and later. It continues to be compatible with Thunderbird 68.0. Note that the \"Enable key navigation\" item for toggling key navigation on and off in the folder tree that used to be added to the \"Go\" menu has been moved to the context menu of the folder tree."
+  },
+  "whatsnew_button": {
+    "message": "Close"
   }
 }

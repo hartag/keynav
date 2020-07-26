@@ -69,7 +69,6 @@ async function setup() {
     contextMenuReady = true;
   }
   await browser.KeyNavigationAPI.enableKeyNavigation(keyNavActive);
-  //return itemId;
 }
 
 var setKeyNavOnCreate = function (tab) {
@@ -94,8 +93,21 @@ var setKeyNavOnUpdate = function (tabId, changeInfo, tab) {
   }
 };
 
+var setKeyNavOnInstall = function (details) {
+	if (details.reason=="update") {
+    browser.windows.create({
+      allowScriptsToClose: true,
+      //focused: true,
+      state: "maximized",
+      type: "normal",
+      url: "whatsnew/whatsnew.html"
+    });
+  }
+  setup();
+};
+
 // Set up listeners for initializing the addon.
 browser.tabs.onCreated.addListener(setKeyNavOnCreate);
 browser.tabs.onActivated.addListener(setKeyNavOnActivate);
 browser.tabs.onUpdated.addListener(setKeyNavOnUpdate);
-browser.runtime.onInstalled.addListener(setup);
+browser.runtime.onInstalled.addListener(setKeyNavOnInstall);

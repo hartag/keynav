@@ -6,10 +6,12 @@
   "version": "3.0",
 "homepage_url": "https://github.com/hartag/keynav",
   "default_locale": "en",
+
   "applications": {
     "gecko": {
       "id": "keynav@andrew.hart",
-      "strict_min_version": "68.0a1"
+      "strict_min_version": "68.0A1",
+      "strict_max_version": "80.*"
     }
   },
 
@@ -22,14 +24,11 @@
     "browser_style": true
   },
 
-  "permissions": [
-    "storage",
-    "menus"
-  ],
+  "permissions": ["storage", "menus"],
 
   "experiment_apis": {
     "KeyNavigationAPI": {
-      "schema": "schema.json",
+      "schema": "api/schema.json",
       "parent": {
         "scopes": [
           "addon_parent"
@@ -39,7 +38,7 @@
             "KeyNavigationAPI"
           ]
         ],
-        "script": "api.js"
+        "script": "api/api.js"
       }
     }
   }
