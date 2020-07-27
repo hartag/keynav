@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>
-keynav Add-on for Thunderbird
+Quick folder Key Navigation (keynav)  Add-on for Thunderbird
 </title>
 
 <script>
@@ -25,13 +25,13 @@ function toggleSuggestions() {
 <body>
 <h1>The keynav Add-on</h1>
 
-<p>keynav is an add-on for Thunderbird that allows the folder pane to be 
+<p>Quick Folder Key Navigation (keynav) is an add-on for Thunderbird that allows the folder pane to be 
 quickly navigated by typing part or all of a folder name when it has the focus.</p>
 <p>Note that  single-letter Thunderbird short-cuts (such 
-"n" and "p" which move to the  next and previous unread messages respectively) do not 
+as "n" and "p" which move to the  next and previous unread messages respectively) do not 
 work in the folder pane when key navigation is enabled.  Therefore, There is an 
-option to turn key navigation on/off, as well as for adding this item to the 
-"Go" menu.</p>
+option to turn key navigation on/off, as well as for adding this item to 
+the context menu when the folder pane has the focus.</p>
 
 <h1>Where to Get keynav</h1>
 
@@ -39,7 +39,9 @@ option to turn key navigation on/off, as well as for adding this item to the
 <p><a href="keynav@andrew.hart.xpi"><b>Download keynav</b></a></p>
 
 <p>The source code for keynav is available on <a href="https://github.com/hartag/keynav.git">gitHub</a>. Alternatively, the git repository can be cloned directly at the command line by typing<br/>
-	git clone https://github.com/hartag/keynav.git keynav<br/>
+	<code>
+		git clone https://github.com/hartag/keynav.git keynav
+		</code><br/>
 	which places a copy of the repository in a directory called "keynav".
 	</p>
 
@@ -52,7 +54,7 @@ option to turn key navigation on/off, as well as for adding this item to the
   <li>Click on the Tools menu and then click on Add-ons to open the Add-ons Manager. From the keyboard, this can be done by typing Alt+t followed by a.</li>
   <li>Click on the "Tools for all add-ons" button, which appears as a cog wheel. It is just before the "Search all add-ons" edit field in the tab order.
       <ul>
-      	<li><b>Note to screen-reader users.</b> The button needs to be clicked using the mouse by simulating a left mouse-button click at the location of the button on screen.
+      	at the location of the button on screen.
 <div><button onclick="toggleSuggestions()" id="suggestionsButton">Show some suggestions for how to accomplish this.</button></div>
 <div id="suggestions" style="display:none;">
 	<p>First use Tab and Shift+Tab to move the focus to the "Tools for all add-ons" button.</p>
@@ -102,14 +104,14 @@ or downloading an archive of the repository and extracting it to a
 directory, simply type "make" at the command prompt to build the .xpi 
 file.</p>
 
-<p>In addition, "make showversion" will display the source code version and 
+<p>In addition, "make version" will display the source code version and 
 "make clean" will clean up the repository folder structure, deleting the zip 
 file, as well as files with names like *.bak, etc.</p>
 
 <p>Once the xpi file has been built, it can be installed using the instructions given above in <a href="#install">How to Install keynav</a>.</p>
 
 <hr/>
-<p>Last updated: 20 February, 2017</p>
+<p>Last updated: 25 May, 2020</p>
 
 </body>
 </html>
