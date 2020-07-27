@@ -10,11 +10,11 @@ EXT-VERSION=$(shell cat $(MANIFEST) |grep '"version":' |sed 's/^.*"version":\s*"
 XPI-FILE=$(EXT-NAME).xpi
 
 #Extra files to include or exclude
-INCLUDE-FILES=schema.json
+INCLUDE-FILES=
 EXCLUDE-FILES=
 
 #Collect files for packing into the .xpi file
-CONTENT-FILES=$(wildcard *.js options/*.html options/*.js options/*.css)
+CONTENT-FILES=$(wildcard *.js options/*.html options/*.js options/*.css api/*.js api/schema.json whatsnew/*.html whatsnew/*.js whatsnew/*.css)
 LOCALE-FILES=$(wildcard _locales/*/messages.json _locales/messages.json)
 ALL-FILES=$(MANIFEST) $(CONTENT-FILES) $(LOCALE-FILES) $(INCLUDE-FILES)
 SRC-FILES=$(filter-out $(EXCLUDE-FILES),$(ALL-FILES))
