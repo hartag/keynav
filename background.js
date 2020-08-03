@@ -99,7 +99,7 @@ var setKeyNavOnInstall = function (details) {
       allowScriptsToClose: true,
       //focused: true,
       state: "maximized",
-      type: "normal",
+      type: "popup",
       url: "whatsnew/whatsnew.html"
     });
   }
