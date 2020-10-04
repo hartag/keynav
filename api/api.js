@@ -19,7 +19,7 @@ var KeyNavigationAPI = class extends ExtensionCommon.ExtensionAPI {
         	  let win = enumerator.getNext();
         	  if (!win) continue;
        		  let folder = win.document.getElementById("folderTree");
-       		  if (!folder) return;
+       		  if (!folder) continue;
             if (value) {
               folder.removeAttribute("disableKeyNavigation");
             } else {
@@ -28,6 +28,6 @@ var KeyNavigationAPI = class extends ExtensionCommon.ExtensionAPI {
           } // while
         } // function
       } // KeyNavigation namespace
-    } // object
+    } // return object holding experiment namespaces
   } // getAPI
 }; // class
