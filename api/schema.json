@@ -1,6 +1,6 @@
 [
   {
-    "namespace": "KeyNavigationAPI",
+    "namespace": "FolderUI",
     "functions": [
       {
         "name": "enableKeyNavigation",

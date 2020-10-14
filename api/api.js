@@ -9,10 +9,10 @@
 var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
-var KeyNavigationAPI = class extends ExtensionCommon.ExtensionAPI {
+var FolderUIAPI = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     return {
-      KeyNavigationAPI: {
+      FolderUI: {
         async enableKeyNavigation(value) {
           let enumerator = Services.wm.getEnumerator("mail:3pane");
           while (enumerator.hasMoreElements()) {
