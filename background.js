@@ -23,13 +23,13 @@ var updateMenuItem = function(itemId) {
     let menuProperties = {};
     if (changes.hasOwnProperty("MailFolderKeyNav")) {
   	  menuProperties.checked = changes.MailFolderKeyNav.newValue;
-      await browser.FolderUI.enableKeyNavigation(changes.MailFolderKeyNav.newValue);
+      await messenger.FolderUI.enableKeyNavigation(changes.MailFolderKeyNav.newValue);
     }
     if (changes.hasOwnProperty("MailFolderKeyNavMenuItem")) {
       menuProperties.enabled = changes.MailFolderKeyNavMenuItem.newValue;
       menuProperties.visible = changes.MailFolderKeyNavMenuItem.newValue;
     }
-    browser.menus.update(iid, menuProperties);
+    messenger.menus.update(iid, menuProperties);
   };
 }
 
@@ -39,7 +39,7 @@ async function checkSavedSettings(settings) {
      !settings.hasOwnProperty("MailFolderKeyNavMenuItem")) {
     settings.MailFolderKeyNav = defaultSettings.MailFolderKeyNav;
     settings.MailFolderKeyNavMenuItem= defaultSettings.MailFolderKeyNavMenuItem;
-    await browser.storage.local.set(settings);
+    await messenger.storage.local.set(settings);
   }
 }
 
@@ -47,57 +47,63 @@ var contextMenuReady = false;
 
 async function setup() {
   // Get saved settings
-  const settings = await browser.storage.local.get();
+  const settings = await messenger.storage.local.get();
   await checkSavedSettings(settings); // check if the settings are saved, otherwise use defaults
   let keyNavActive = 	settings.MailFolderKeyNav;
   // Set up menu
   if (!contextMenuReady) {
     let showMenuItem = settings.MailFolderKeyNavMenuItem;
-    let itemId = browser.menus.create({
+    let itemId = messenger.menus.create({
       id: "appmenu_MailFolderKeyNavMenuItem",
       type: "checkbox",
       contexts: ["folder_pane"],
-      title: browser.i18n.getMessage("menu_EnableMailFolderKeyNav.label"),
+      title: messenger.i18n.getMessage("menu_EnableMailFolderKeyNav.label"),
       checked: keyNavActive,
       visible: showMenuItem,
       enabled: showMenuItem,
       onclick: async function(ev) {
-        await browser.storage.local.set({"MailFolderKeyNav": ev.checked});
+        await messenger.storage.local.set({"MailFolderKeyNav": ev.checked});
       }
     });
-    browser.storage.onChanged.addListener(updateMenuItem(itemId));
+    messenger.storage.onChanged.addListener(updateMenuItem(itemId));
     contextMenuReady = true;
   }
-  await browser.FolderUI.enableKeyNavigation(keyNavActive);
+  await messenger.FolderUI.enableKeyNavigation(keyNavActive);
 }
 
 var setKeyNavOnCreate = function (tab) {
+  console.debug("keynav.onCreated fired");
   if (tab.status=="complete" && tab.mailTab) {
+  	console.debug("keynav.onCreated: success");
     setup();
   }
 };
 
 var setKeyNavOnActivate = function (activeInfo) {
-  let getTab = browser.tabs.get(activeInfo.tabId);
-  getTab.then((tab) => {
+  console.debug("keynav.onActivated fired");
+  messenger.tabs.get(activeInfo.tabId)
+  .then((tab) => {
     if (tab.status=="complete" && tab.mailTab) {
+  	  console.debug("keynav.onActivated: success");
       setup();
     }
   });
 };
 
 var setKeyNavOnUpdate = function (tabId, changeInfo, tab) {
+  console.debug("keynav.onUpdated fired");
   if (changeInfo.hasOwnProperty("status") && changeInfo.status=="complete" && 
   tab.mailTab) {
+  	console.debug("keynav.onUpdated: success");
     setup();
   }
 };
 
 var setKeyNavOnInstall = function (details) {
 	if (details.reason=="update") {
-    browser.windows.create({
+    messenger.windows.create({
       allowScriptsToClose: true,
-      //focused: true,
+      //focused: true, //not allowed in Thunderbird
       state: "maximized",
       type: "popup",
       url: "whatsnew/whatsnew.html"
@@ -106,13 +112,14 @@ var setKeyNavOnInstall = function (details) {
   setup();
 };
 
-// Set up listeners for initializing the addon.
 function start() {
-  browser.tabs.onCreated.addListener(setKeyNavOnCreate);
-  browser.tabs.onActivated.addListener(setKeyNavOnActivate);
-  browser.tabs.onUpdated.addListener(setKeyNavOnUpdate);
-  browser.runtime.onInstalled.addListener(setKeyNavOnInstall);
-    setup();
-  }
+	console.debug("keynav.onStartup: success");
+  setup();
+}
 
-browser.runtime.onStartup.addListener(start);
+// Set up listeners for initializing the addon.
+messenger.tabs.onCreated.addListener(setKeyNavOnCreate);
+messenger.tabs.onActivated.addListener(setKeyNavOnActivate);
+messenger.tabs.onUpdated.addListener(setKeyNavOnUpdate);
+messenger.runtime.onInstalled.addListener(setKeyNavOnInstall);
+messenger.runtime.onStartup.addListener(start);
