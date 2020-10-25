@@ -13,14 +13,3 @@ function localisePage() {
     el.textContent = messenger.i18n.getMessage(id);
   }
 }
-
-function setupListeners() {
-  let OKButton = document.querySelector("#whatsnew_button");
-  OKButton.addEventListener("click", (event) => {
-  	window.close();
-  });
-}
-
-document.addEventListener("DOMContentLoaded", localisePage, {once: true});
-document.addEventListener("DOMContentLoaded", setupListeners, {once: true});
-
