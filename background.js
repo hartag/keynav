@@ -71,43 +71,13 @@ async function setup() {
   await browser.KeyNavigationAPI.enableKeyNavigation(keyNavActive);
 }
 
-var setKeyNavOnCreate = function (tab) {
-  if (tab.status=="complete" && tab.mailTab) {
-    setup();
-  }
-};
+// init all future windows
+browser.windows.onCreated.addListener(setup);
 
-var setKeyNavOnActivate = function (activeInfo) {
-  let getTab = browser.tabs.get(activeInfo.tabId);
-  getTab.then((tab) => {
-    if (tab.status=="complete" && tab.mailTab) {
+// init all existing windows
+browser.windows.getAll({windowTypes:["normal"]})
+  .then(windows => {
+    for (let window of windows) {
       setup();
     }
   });
-};
-
-var setKeyNavOnUpdate = function (tabId, changeInfo, tab) {
-  if (changeInfo.hasOwnProperty("status") && changeInfo.status=="complete" && 
-  tab.mailTab) {
-    setup();
-  }
-};
-
-var setKeyNavOnInstall = function (details) {
-	if (details.reason=="update") {
-    browser.windows.create({
-      allowScriptsToClose: true,
-      //focused: true,
-      state: "maximized",
-      type: "popup",
-      url: "whatsnew/whatsnew.html"
-    });
-  }
-  setup();
-};
-
-// Set up listeners for initializing the addon.
-browser.tabs.onCreated.addListener(setKeyNavOnCreate);
-browser.tabs.onActivated.addListener(setKeyNavOnActivate);
-browser.tabs.onUpdated.addListener(setKeyNavOnUpdate);
-browser.runtime.onInstalled.addListener(setKeyNavOnInstall);
