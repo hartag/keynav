@@ -27,7 +27,7 @@ var FolderUIAPI = class extends ExtensionCommon.ExtensionAPI {
             }
           } // while
         } // function
-      } // KeyNavigation namespace
+      } // FolderUI namespace
     } // return object holding experiment namespaces
   } // getAPI
 }; // class
