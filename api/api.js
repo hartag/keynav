@@ -7,7 +7,6 @@
 "use strict";
 
 var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 var FolderUIAPI = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
@@ -16,14 +15,21 @@ var FolderUIAPI = class extends ExtensionCommon.ExtensionAPI {
 
         async enableKeyNavigation(windowId, value) {
           let win = context.extension.windowManager.get(windowId, context).window;
-        	if (!win) return;
-       		let folder = win.document.getElementById("folderTree");
-       		if (!folder) return;
-       		console.debug("keynav.enableKeyNavigation: successfully set");
+          if (!win) {
+            console.debug("keynav.enableKeyNavigation: failed to get window object");
+            return;
+          }
+          let folder = win.document.getElementById("folderTree");
+          if (!folder) {
+            console.debug("keynav.enableKeyNavigation: failed to find a folderTree element");
+            return;
+          }
           if (value) {
             folder.removeAttribute("disableKeyNavigation");
+            console.debug("keynav.enableKeyNavigation: successfully enabled key navigation");
           } else {
             folder.setAttribute("disableKeyNavigation", "true");
+            console.debug("keynav.enableKeyNavigation: successfully disabled key navigation");
           }
         } // function
 

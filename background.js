@@ -14,13 +14,21 @@ const defaultSettings = {
 }
 
 // If there are missing settings, save their default values.
-async function checkSavedSettings(settings) {
-  if (!settings.hasOwnProperty("MailFolderKeyNav") ||
-     !settings.hasOwnProperty("MailFolderKeyNavMenuItem")) {
+async function getSavedSettings() {
+  let settings = await messenger.storage.local.get();
+  let save = false;
+  if (!settings.hasOwnProperty("MailFolderKeyNav")) {
     settings.MailFolderKeyNav = defaultSettings.MailFolderKeyNav;
+    save = true;
+  }
+  if (!settings.hasOwnProperty("MailFolderKeyNavMenuItem")) {
     settings.MailFolderKeyNavMenuItem= defaultSettings.MailFolderKeyNavMenuItem;
+    save = true;
+  }
+  if (save) {
     await messenger.storage.local.set(settings);
   }
+  return(settings);
 }
 
 
@@ -37,10 +45,12 @@ var updateMenuItem = function(itemId) {
     if (changes.hasOwnProperty("MailFolderKeyNav")) {
   	  menuProperties.checked = changes.MailFolderKeyNav.newValue;
       await applyKeyNavToAllWindows(changes.MailFolderKeyNav.newValue);
+      console.debug("keynav.updateMenuItem: updated key navigation setting");
     }
     if (changes.hasOwnProperty("MailFolderKeyNavMenuItem")) {
       menuProperties.enabled = changes.MailFolderKeyNavMenuItem.newValue;
       menuProperties.visible = changes.MailFolderKeyNavMenuItem.newValue;
+      console.debug("keynav.updateMenuItem: Updated context menu item visibility setting");
     }
     messenger.menus.update(iid, menuProperties);
     console.debug("keynav.updateMenuItem: done");
@@ -51,7 +61,7 @@ var updateMenuItem = function(itemId) {
 // enable/disable key navigation on the mail folder tree of a specified window
 async function applyKeyNavToWindow(windowId) {
   // Get saved settings
-  const settings = await messenger.storage.local.get();
+  const settings = await getSavedSettings();
   console.debug("keynav.applyKeyNavToWindow: calling enableKeyNavigation");
   // Apply key navigation setting to mail folder tree
   await messenger.FolderUI.enableKeyNavigation(windowId, settings.MailFolderKeyNav);
@@ -61,7 +71,7 @@ async function applyKeyNavToWindow(windowId) {
 // enable/disable key navigation on the mail folder tree of all windows
 async function applyKeyNavToAllWindows() {
   // Get saved settings
-  const settings = await messenger.storage.local.get();
+  const settings = await getSavedSettings();
   console.debug("keynav.applyKeyNavToAllWindows: looping through all windows");
   let windows = await messenger.windows.getAll({windowTypes:["normal"]});
   for (let win of windows) {
@@ -90,8 +100,8 @@ function setKeyNavOnInstall(details) {
 (async function() {
   console.debug("keynav.init: starting");
   // Get saved settings
-  const settings = await messenger.storage.local.get();
-  await checkSavedSettings(settings); // check if the settings are saved, otherwise use defaults
+  const settings = await getSavedSettings(); // check if the settings are saved, otherwise use defaults
+  console.debug("keynav.init: setting up context menu entry");
   // Set up menu
   let itemId = messenger.menus.create({
     id: "appmenu_MailFolderKeyNavMenuItem",
@@ -114,9 +124,15 @@ function setKeyNavOnInstall(details) {
 
 
 // Set up listeners
+// Since this is just a bug-fix release, there's no What's New dialog 
+// to display. The following line is commented so it doesn't get set up.
 //messenger.runtime.onInstalled.addListener(setKeyNavOnInstall ); // display a What's New dialog on installation
+
 messenger.windows.onCreated.addListener(window => {
   console.debug("keynav.windows.onCreated: fired");
-	applyKeyNavToWindow(window.id);
+	applyKeyNavToWindow(window.id)
+	.then(() => {
+		console.debug("keynav.windows.onCreated: applyKeyNavToWindow done");
+	});
 });
 	
