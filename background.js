@@ -43,32 +43,13 @@ async function checkSavedSettings(settings) {
   }
 }
 
-var contextMenuReady = false;
-
+ 
 async function setup() {
   // Get saved settings
   const settings = await messenger.storage.local.get();
-  await checkSavedSettings(settings); // check if the settings are saved, otherwise use defaults
-  let keyNavActive = 	settings.MailFolderKeyNav;
-  // Set up menu
-  if (!contextMenuReady) {
-    let showMenuItem = settings.MailFolderKeyNavMenuItem;
-    let itemId = messenger.menus.create({
-      id: "appmenu_MailFolderKeyNavMenuItem",
-      type: "checkbox",
-      contexts: ["folder_pane"],
-      title: messenger.i18n.getMessage("menu_EnableMailFolderKeyNav.label"),
-      checked: keyNavActive,
-      visible: showMenuItem,
-      enabled: showMenuItem,
-      onclick: async function(ev) {
-        await messenger.storage.local.set({"MailFolderKeyNav": ev.checked});
-      }
-    });
-    messenger.storage.onChanged.addListener(updateMenuItem(itemId));
-    contextMenuReady = true;
-  }
-  await messenger.FolderUI.enableKeyNavigation(keyNavActive);
+  // Apply key navigation setting to mail folder tree
+  await messenger.FolderUI.enableKeyNavigation(settings.MailFolderKeyNav);
+  console.debug("keynav.enableKeyNavigation: called");
 }
 
 var setKeyNavOnCreate = function (tab) {
@@ -109,17 +90,55 @@ var setKeyNavOnInstall = function (details) {
       url: "whatsnew/whatsnew.html"
     });
   }
-  setup();
 };
 
-function start() {
-	console.debug("keynav.onStartup: success");
-  setup();
-}
+messenger.runtime.onInstalled.addListener(setKeyNavOnInstall );
 
-// Set up listeners for initializing the addon.
-messenger.tabs.onCreated.addListener(setKeyNavOnCreate);
-messenger.tabs.onActivated.addListener(setKeyNavOnActivate);
-messenger.tabs.onUpdated.addListener(setKeyNavOnUpdate);
-messenger.runtime.onInstalled.addListener(setKeyNavOnInstall);
-messenger.runtime.onStartup.addListener(start);
+// init all future windows
+messenger.windows.onCreated.addListener(window => {
+  console.debug("keynav.windows.onCreated: fired");
+  let hasMailTab = false;
+  let win = messenger.windows.get(window.id, {populate: true});
+  if (win.hasOwnProperty("tabs")) {
+    for (let tab of win.tabs) {
+      if (tab.mailTab) {
+        hasMailTab = true;
+        break;
+      }
+    }
+  }
+  hasMailTab = true;
+  if (hasMailTab) {
+	  setup();
+	  console.debug("keynav.windows.onCreated: found mailTab, called setup");
+  }
+});
+
+
+(async function() {
+  // Get saved settings
+  const settings = await messenger.storage.local.get();
+  await checkSavedSettings(settings); // check if the settings are saved, otherwise use defaults
+  // Set up menu
+  let itemId = messenger.menus.create({
+    id: "appmenu_MailFolderKeyNavMenuItem",
+    type: "checkbox",
+    contexts: ["folder_pane"],
+    title: messenger.i18n.getMessage("menu_EnableMailFolderKeyNav.label"),
+    checked: settings.MailFolderKeyNav,
+    visible: settings.MailFolderKeyNavMenuItem,
+    enabled: settings.MailFolderKeyNavMenuItem,
+    onclick: async function(ev) {
+      await messenger.storage.local.set({"MailFolderKeyNav": ev.checked});
+    }
+  });
+  messenger.storage.onChanged.addListener(updateMenuItem(itemId));
+  // Initialise all existing windows
+  let windows = await messenger.windows.getAll({windowTypes:["normal"]});
+  if (windows.length>0) {
+    setup();
+    console.debug("keynav.init: success");
+  } else {
+    console.debug("keynav.init: no windows found");
+  }
+})();
