@@ -9,6 +9,11 @@
         "async": true,
         "parameters": [
           {
+            "name": "windowId",
+            "description": "the window id",
+            "type": "integer"
+          },
+          {
             "name": "value",
             "description": "true: enable ; false: disable.",
             "type": "boolean"

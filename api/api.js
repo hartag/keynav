@@ -13,20 +13,20 @@ var FolderUIAPI = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     return {
       FolderUI: {
-        async enableKeyNavigation(value) {
-          let enumerator = Services.wm.getEnumerator("mail:3pane");
-          while (enumerator.hasMoreElements()) {
-        	  let win = enumerator.getNext();
-        	  if (!win) continue;
-       		  let folder = win.document.getElementById("folderTree");
-       		  if (!folder) continue;
-            if (value) {
-              folder.removeAttribute("disableKeyNavigation");
-            } else {
-              folder.setAttribute("disableKeyNavigation", "true");
-            }
-          } // while
+
+        async enableKeyNavigation(windowId, value) {
+          let win = context.extension.windowManager.get(windowId, context).window;
+        	if (!win) return;
+       		let folder = win.document.getElementById("folderTree");
+       		if (!folder) return;
+       		console.debug("keynav.enableKeyNavigation: successfully set");
+          if (value) {
+            folder.removeAttribute("disableKeyNavigation");
+          } else {
+            folder.setAttribute("disableKeyNavigation", "true");
+          }
         } // function
+
       } // FolderUI namespace
     } // return object holding experiment namespaces
   } // getAPI

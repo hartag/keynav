@@ -13,26 +13,6 @@ const defaultSettings = {
   MailFolderKeyNavMenuItem: true
 }
 
-
-var updateMenuItem = function(itemId) {
-  let iid = itemId;
-  return async (changes, areaName) => {
-  	if (areaName!="local") {
-  	  return;
-    }
-    let menuProperties = {};
-    if (changes.hasOwnProperty("MailFolderKeyNav")) {
-  	  menuProperties.checked = changes.MailFolderKeyNav.newValue;
-      await messenger.FolderUI.enableKeyNavigation(changes.MailFolderKeyNav.newValue);
-    }
-    if (changes.hasOwnProperty("MailFolderKeyNavMenuItem")) {
-      menuProperties.enabled = changes.MailFolderKeyNavMenuItem.newValue;
-      menuProperties.visible = changes.MailFolderKeyNavMenuItem.newValue;
-    }
-    messenger.menus.update(iid, menuProperties);
-  };
-}
-
 // If there are missing settings, save their default values.
 async function checkSavedSettings(settings) {
   if (!settings.hasOwnProperty("MailFolderKeyNav") ||
@@ -43,44 +23,57 @@ async function checkSavedSettings(settings) {
   }
 }
 
- 
-async function setup() {
-  // Get saved settings
-  const settings = await messenger.storage.local.get();
-  // Apply key navigation setting to mail folder tree
-  await messenger.FolderUI.enableKeyNavigation(settings.MailFolderKeyNav);
-  console.debug("keynav.enableKeyNavigation: called");
+
+// For updating the state of the "Enable mail folder key navigation" menu item
+// in response to changes in settings saved in storage.local.
+var updateMenuItem = function(itemId) {
+  let iid = itemId;
+  return async (changes, areaName) => {
+  	if (areaName!="local") {
+  	  return;
+    }
+    console.debug("keynav.updateMenuItem: making changes");
+    let menuProperties = {};
+    if (changes.hasOwnProperty("MailFolderKeyNav")) {
+  	  menuProperties.checked = changes.MailFolderKeyNav.newValue;
+      await applyKeyNavToAllWindows(changes.MailFolderKeyNav.newValue);
+    }
+    if (changes.hasOwnProperty("MailFolderKeyNavMenuItem")) {
+      menuProperties.enabled = changes.MailFolderKeyNavMenuItem.newValue;
+      menuProperties.visible = changes.MailFolderKeyNavMenuItem.newValue;
+    }
+    messenger.menus.update(iid, menuProperties);
+    console.debug("keynav.updateMenuItem: done");
+  };
 }
 
-var setKeyNavOnCreate = function (tab) {
-  console.debug("keynav.onCreated fired");
-  if (tab.status=="complete" && tab.mailTab) {
-  	console.debug("keynav.onCreated: success");
-    setup();
-  }
-};
+ 
+// enable/disable key navigation on the mail folder tree of a specified window
+async function applyKeyNavToWindow(windowId) {
+  // Get saved settings
+  const settings = await messenger.storage.local.get();
+  console.debug("keynav.applyKeyNavToWindow: calling enableKeyNavigation");
+  // Apply key navigation setting to mail folder tree
+  await messenger.FolderUI.enableKeyNavigation(windowId, settings.MailFolderKeyNav);
+  console.debug("keynav.applyKeyNavToWindow: enableKeyNavigation done");
+}
 
-var setKeyNavOnActivate = function (activeInfo) {
-  console.debug("keynav.onActivated fired");
-  messenger.tabs.get(activeInfo.tabId)
-  .then((tab) => {
-    if (tab.status=="complete" && tab.mailTab) {
-  	  console.debug("keynav.onActivated: success");
-      setup();
-    }
-  });
-};
+// enable/disable key navigation on the mail folder tree of all windows
+async function applyKeyNavToAllWindows() {
+  // Get saved settings
+  const settings = await messenger.storage.local.get();
+  console.debug("keynav.applyKeyNavToAllWindows: looping through all windows");
+  let windows = await messenger.windows.getAll({windowTypes:["normal"]});
+  for (let win of windows) {
+    // Apply key navigation setting to mail folder tree
+    await messenger.FolderUI.enableKeyNavigation(win.id, settings.MailFolderKeyNav);
+  } // for
+  console.debug("keynav.applyKeyNavToAllWindows: done looping through windows");
+}
 
-var setKeyNavOnUpdate = function (tabId, changeInfo, tab) {
-  console.debug("keynav.onUpdated fired");
-  if (changeInfo.hasOwnProperty("status") && changeInfo.status=="complete" && 
-  tab.mailTab) {
-  	console.debug("keynav.onUpdated: success");
-    setup();
-  }
-};
 
-var setKeyNavOnInstall = function (details) {
+// For displaying a "What's New" dialog
+function setKeyNavOnInstall(details) {
 	if (details.reason=="update") {
     messenger.windows.create({
       allowScriptsToClose: true,
@@ -90,32 +83,12 @@ var setKeyNavOnInstall = function (details) {
       url: "whatsnew/whatsnew.html"
     });
   }
-};
-
-messenger.runtime.onInstalled.addListener(setKeyNavOnInstall );
-
-// init all future windows
-messenger.windows.onCreated.addListener(window => {
-  console.debug("keynav.windows.onCreated: fired");
-  let hasMailTab = false;
-  let win = messenger.windows.get(window.id, {populate: true});
-  if (win.hasOwnProperty("tabs")) {
-    for (let tab of win.tabs) {
-      if (tab.mailTab) {
-        hasMailTab = true;
-        break;
-      }
-    }
-  }
-  hasMailTab = true;
-  if (hasMailTab) {
-	  setup();
-	  console.debug("keynav.windows.onCreated: found mailTab, called setup");
-  }
-});
+}
 
 
+// Initialise extension
 (async function() {
+  console.debug("keynav.init: starting");
   // Get saved settings
   const settings = await messenger.storage.local.get();
   await checkSavedSettings(settings); // check if the settings are saved, otherwise use defaults
@@ -134,11 +107,16 @@ messenger.windows.onCreated.addListener(window => {
   });
   messenger.storage.onChanged.addListener(updateMenuItem(itemId));
   // Initialise all existing windows
-  let windows = await messenger.windows.getAll({windowTypes:["normal"]});
-  if (windows.length>0) {
-    setup();
-    console.debug("keynav.init: success");
-  } else {
-    console.debug("keynav.init: no windows found");
-  }
+  console.debug("keynav.init: applying key navigation to all windows");
+  await applyKeyNavToAllWindows();
+  console.debug("keynav.init: done");
 })();
+
+
+// Set up listeners
+//messenger.runtime.onInstalled.addListener(setKeyNavOnInstall ); // display a What's New dialog on installation
+messenger.windows.onCreated.addListener(window => {
+  console.debug("keynav.windows.onCreated: fired");
+	applyKeyNavToWindow(window.id);
+});
+	
