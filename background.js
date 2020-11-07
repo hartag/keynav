@@ -15,16 +15,17 @@ const defaultSettings = {
 
 // If there are missing settings, save their default values.
 async function getSavedSettings() {
-  let settings = await messenger.storage.local.get();
+  let settings = {};
   let save = false;
-  if (!settings.hasOwnProperty("MailFolderKeyNav")) {
-    settings.MailFolderKeyNav = defaultSettings.MailFolderKeyNav;
-    save = true;
-  }
-  if (!settings.hasOwnProperty("MailFolderKeyNavMenuItem")) {
-    settings.MailFolderKeyNavMenuItem= defaultSettings.MailFolderKeyNavMenuItem;
-    save = true;
-  }
+  for (let key of Object.keys(defaultSettings)) {
+    let option = await messenger.storage.local.get(key);
+    if (option.hasOwnProperty(key)) {
+      settings[key] = option[key];
+    } else {
+      settings[key] = defaultSettings[key];
+      save = true;
+    }
+  } // for
   if (save) {
     await messenger.storage.local.set(settings);
   }
