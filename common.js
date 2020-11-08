@@ -7,12 +7,6 @@
 "use strict";
 
 
-// Default settings. Initialize storage to these values.
-const defaultSettings = {
-  MailFolderKeyNav: true,
-  MailFolderKeyNavMenuItem: true
-}
-
 // getSavedSettings: for fetching all the settings and initialising any that are
 // missing with default values.
 // If there are missing settings, save their default values.
