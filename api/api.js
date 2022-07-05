@@ -6,13 +6,21 @@
 
 "use strict";
 
-var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm");
+// Get  ExtensionCommon and Services.
+// Prior to Thunderbird 103, these were accessed  by using CrhomeUtils.import 
+// to import the appropriate module. From 103, Thunderbird is transitioning 
+// to the ES Modules scheme. Now, objects like Services are available as 
+// components of the globalThis object. For backward compatibility, use
+// ChromeUtils.import if globalThis lacks the required component.
+var ExtensionCommon = globalThis.ExtensionCommon || 
+  ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm").ExtensionCommon;
+const  Services = globalThis.Services || 
+  ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 
 var FolderUIAPI = class extends ExtensionCommon.ExtensionAPI {
 
   onShutdown(isAppShutdown) {
     console.debug("FolderUI.onShutdown: disabling key navigation everywhere");
-    const {Services} = ChromeUtils.import("resource://gre/modules/Services.jsm");
     // Disable key navigation on all mail folder trees
     let enumerator = Services.wm.getEnumerator("mail:3pane");
     while (enumerator.hasMoreElements()) {
