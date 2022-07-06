@@ -6,14 +6,12 @@
 
 "use strict";
 
-// Get  ExtensionCommon and Services.
-// Prior to Thunderbird 103, these were accessed  by using CrhomeUtils.import 
+// Get   Services
+// Prior to Thunderbird 103, this  was  accessed  by using CrhomeUtils.import 
 // to import the appropriate module. From 103, Thunderbird is transitioning 
 // to the ES Modules scheme. Now, objects like Services are available as 
 // components of the globalThis object. For backward compatibility, use
 // ChromeUtils.import if globalThis lacks the required component.
-var ExtensionCommon = globalThis.ExtensionCommon || 
-  ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm").ExtensionCommon;
 const  Services = globalThis.Services || 
   ChromeUtils.import("resource://gre/modules/Services.jsm").Services;
 
