@@ -16,3 +16,7 @@ label {
 input {
   margin: 0.5em;
 }
+
+.invalid {
+  background-color: rgb(233, 104, 104);
+}
