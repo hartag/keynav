@@ -8,16 +8,6 @@ body {
   font-family: "Open Sans Light", sans-serif;
 }
 
-.title {
-  font-size: 1.5em;
-  margin: 0.5em;
-}
-
-.option {
-  display: block;
-  margin: 0.5em 0em;
-}
-
 label {
   font-size: 1.25em;
   line-height: 1.8em ;

@@ -3,43 +3,32 @@
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
   "author": "Andrew Hart",
-  "version": "3.3.3",
-"homepage_url": "https://github.com/hartag/keynav",
+  "version": "4.0",
+  "homepage_url": "https://github.com/hartag/keynav",
   "default_locale": "en",
 
   "applications": {
     "gecko": {
       "id": "keynav@andrew.hart",
-      "strict_min_version": "91.0",
-      "strict_max_version": "103.*"
+      "strict_min_version": "102.0"
     }
   },
 
   "background": {
     "scripts": ["defaults.js", "common.js", "background.js"]
   },
-
-  "options_ui": {
-    "page": "options/options.html",
-    "browser_style": true
-  },
-
-  "permissions": ["storage", "menus"],
-
-  "experiment_apis": {
-    "FolderUIAPI": {
-      "schema": "api/schema.json",
-      "parent": {
-        "scopes": [
-          "addon_parent"
-        ],
-        "paths": [
-          [
-            "FolderUI"
-          ]
-        ],
-        "script": "api/api.js"
-      }
+  "commands": {
+    "folder-quick-nav": {
+      "suggested_key": {
+        "default": "F6"
+      },
+      "description": "Open Folder Quick Navigation Popup"
     }
+  },
+  "permissions": ["accountsRead", "storage", "menus"],
+
+  "browser_action": {
+    "default_title":"QuickNav",
+    "default_popup": "/popup/popup.html"
   }
 }
