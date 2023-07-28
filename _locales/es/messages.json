@@ -3,7 +3,7 @@
   "message": "Acceso Rápido a Carpetas"
   },
   "extensionDescription": {
-    "message": "Esta extensión permite acceder rápidamente a una carpeta determinada en el panel  con sólo escribir las primeras letras del nombre de la carpeta  cuando se selecciona el panel de carpetas. Tenga en cuenta que el uso de short-cuts (que contienen  una sola letra  como \"n\" y \"p\" que van al siguiente mensaje no leyido y al mensaje anterior no leyido respectivamente) no funcionan de la misma forma si el complemento de acceso rápido a carpetas está activado. Además, existe una opción para  activar y desactivar el Acceso Rápido, así como añadir  esta opción al menú contextual del panel de carpetas."
+    "message": "Esta extensión hace posible navegar rápidamente a una carpeta en particular en el panel de carpetas simplemente presionando F6 y luego escribiendo las primeras letras del nombre de la carpeta en los campos de entrada de texto abiertos. Si varias carpetas comienzan con las mismas últimas, puede recorrerlas presionando la tecla TAB."
   },
   "menu_EnableMailFolderKeyNav.label": {
     "message": "&Habilitar Acceso Rápido a Carpetas"
