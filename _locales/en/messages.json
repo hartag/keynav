@@ -3,7 +3,7 @@
   "message": "Quick Folder Key Navigation"
   },
   "extensionDescription": {
-    "message": "This extension makes it possible to quickly navigate to a particular folder in  the folder pane simply by typing the first few letters of the folder name when  the folder pane has focus. Note that  single-letter Thunderbird short-cuts (such as \"p\" and \"n\" for moving to the  previous and next unread message respectively) do not work in the folder pane when key navigation is enabled.  Therefore, There is an option to turn key navigation on/off, as well as for adding this option to the context menu when the folder pane has focus."
+    "message": "This extension makes it possible to quickly navigate to a particular folder in the folder pane simply by pressing F6 and then typing the first few letters of the folder name into the opened text input fields. If multiple folders start with the same latters, you can loop through them by pressing the TAB key."
   },
   "menu_EnableMailFolderKeyNav.label": {
     "message": "&Enable mail-folder key navigation"
