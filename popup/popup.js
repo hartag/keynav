@@ -33,14 +33,18 @@ function getFolders(subFolders, prettyPath) {
 
 function updateFolderDisplay(folder) {
   let currentFolderElement = document.getElementById("currentFolder");
-  let quickNav = document.getElementById("quick-nav");
+  let quickNavElement = document.getElementById("quick-nav");
+  let idxElement = document.getElementById("idx");
 
   if (folder) {
     browser.mailTabs.update({ displayedFolder: folder.mailFolder })
-    quickNav.classList.remove("invalid");
+    quickNavElement.classList.remove("invalid");
     currentFolderElement.textContent = folder.prettyPath;
+    idxElement.textContent = `${currentSubSearchIdx+1}/${currentSubSearch.length}`;
   } else {
-    quickNav.classList.add("invalid");
+    quickNavElement.classList.add("invalid");
+    idxElement.textContent = "";
+
   }
 }
 
@@ -95,7 +99,7 @@ async function load() {
     currentSubSearch = folders.filter(f => f.matchName.startsWith(matchValue));
     
     currentSubSearchIdx = 0;
-    if (currentSubSearch.length == 0) {
+    if (currentSubSearch.length == 0 || value == "") {
       // Make the input element red, to indicate to the user: No result found.
       updateFolderDisplay(null);
     } else {
