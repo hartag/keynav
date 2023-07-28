@@ -6,6 +6,7 @@
 
 "use strict";
 
+let caseInsensitiveMatch = true;
 
 let folders = [];
 let lastValue = "";
@@ -19,7 +20,11 @@ function getFolders(subFolders, prettyPath) {
   if (subFolders) {
     for (let subFolder of subFolders) {
       let subFolderPrettyPath = `${prettyPath} / ${subFolder.name}`
-      folders.push({ mailFolder: subFolder, prettyPath: subFolderPrettyPath })
+      folders.push({
+        mailFolder: subFolder,
+        matchName: caseInsensitiveMatch ? subFolder.name.toLowerCase() : subFolder.name,
+        prettyPath: subFolderPrettyPath,
+      })
       folders.push(...getFolders(subFolder.subFolders, subFolderPrettyPath))
     }
   }
@@ -46,7 +51,8 @@ async function load() {
   for (let account of accounts) {
     folders.push(...getFolders(account.folders, account.name));
   }
-  folders.sort((a, b) => a.mailFolder.name.localeCompare(b.mailFolder.name, undefined, { sensitivity: 'base' }))
+  // TODO: Is sorting the cache needed? It may cause jumping back and forth when looping through folders/accounts.
+  // folders.sort((a, b) => a.matchName.localeCompare(b.matchName))
 
   let quickNav = document.getElementById("quick-nav");
   quickNav.addEventListener("keydown", async event => {
@@ -84,8 +90,10 @@ async function load() {
     }
     console.log("VALUE update");
     lastValue = value;
-    // TODO: Improve case insensitive handling here.
-    currentSubSearch = folders.filter(f => f.mailFolder.name.startsWith(value));
+    
+    let matchValue = caseInsensitiveMatch ? value.toLowerCase() : value;
+    currentSubSearch = folders.filter(f => f.matchName.startsWith(matchValue));
+    
     currentSubSearchIdx = 0;
     if (currentSubSearch.length == 0) {
       // Make the input element red, to indicate to the user: No result found.
