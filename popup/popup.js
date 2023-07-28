@@ -31,20 +31,23 @@ function getFolders(subFolders, prettyPath) {
   return folders;
 }
 
-function updateFolderDisplay(folder) {
+function updateFolderDisplay(config) {
   let currentFolderElement = document.getElementById("currentFolder");
   let quickNavElement = document.getElementById("quick-nav");
   let idxElement = document.getElementById("idx");
 
-  if (folder) {
-    browser.mailTabs.update({ displayedFolder: folder.mailFolder })
+  if (config.valid) {
     quickNavElement.classList.remove("invalid");
-    currentFolderElement.textContent = folder.prettyPath;
-    idxElement.textContent = `${currentSubSearchIdx+1}/${currentSubSearch.length}`;
   } else {
     quickNavElement.classList.add("invalid");
-    idxElement.textContent = "";
+  }
 
+  if (config.folder) {
+    browser.mailTabs.update({ displayedFolder: config.folder.mailFolder })
+    currentFolderElement.textContent = config.folder.prettyPath;
+    idxElement.textContent = `${currentSubSearchIdx+1}/${currentSubSearch.length}`;
+  } else {
+    idxElement.textContent = "";
   }
 }
 
@@ -66,8 +69,11 @@ async function load() {
       event.preventDefault();
       event.stopPropagation();
 
+
       // If currentSubSearch is empty (no match) or only one result, ignore tab.
-      if (currentSubSearch.length < 2) {
+      // Also ignore tab if there is no entered text.
+      let value = event.target.value;
+      if (currentSubSearch.length < 2 || value == "") {
         return;
       }
 
@@ -79,7 +85,7 @@ async function load() {
       }
 
       console.log("TAB cycle");
-      updateFolderDisplay(currentSubSearch[currentSubSearchIdx]);
+      updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]});
     }
 
     if (event.key == "Enter") {
@@ -99,11 +105,13 @@ async function load() {
     currentSubSearch = folders.filter(f => f.matchName.startsWith(matchValue));
     
     currentSubSearchIdx = 0;
-    if (currentSubSearch.length == 0 || value == "") {
+    if (currentSubSearch.length == 0) {
       // Make the input element red, to indicate to the user: No result found.
-      updateFolderDisplay(null);
+      updateFolderDisplay({valid: false});
+    } else if (value == "" ) {
+      updateFolderDisplay({valid: true})
     } else {
-      updateFolderDisplay(currentSubSearch[currentSubSearchIdx])
+      updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]})
     }
   });
 
