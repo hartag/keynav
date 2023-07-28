@@ -14,12 +14,13 @@ let currentSubSearchIdx = 0;
 let originalSelectedFolder = null;
 
 // Recursive function to get all folders.
-function getFolders(subFolders) {
+function getFolders(subFolders, prettyPath) {
   let folders = []
   if (subFolders) {
     for (let subFolder of subFolders) {
-      folders.push(subFolder)
-      folders.push(...getFolders(subFolder.subFolders))
+      let subFolderPrettyPath = `${prettyPath} / ${subFolder.name}`
+      folders.push({ mailFolder: subFolder, prettyPath: subFolderPrettyPath })
+      folders.push(...getFolders(subFolder.subFolders, subFolderPrettyPath))
     }
   }
   return folders;
@@ -30,10 +31,9 @@ function updateFolderDisplay(folder) {
   let quickNav = document.getElementById("quick-nav");
 
   if (folder) {
-    browser.mailTabs.update({ displayedFolder: folder })
+    browser.mailTabs.update({ displayedFolder: folder.mailFolder })
     quickNav.classList.remove("invalid");
-    // TODO: Make this use pretty names and let cache have the correct hierarchy with pretty names already. 
-    currentFolderElement.textContent = `${folder.accountId}/${folder.path}`;
+    currentFolderElement.textContent = folder.prettyPath;
   } else {
     quickNav.classList.add("invalid");
   }
@@ -44,40 +44,36 @@ async function load() {
   // but only if the folders changed?
   let accounts = await browser.accounts.list(true);
   for (let account of accounts) {
-    folders.push(...getFolders(account.folders));
+    folders.push(...getFolders(account.folders, account.name));
   }
-  folders.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }))
+  folders.sort((a, b) => a.mailFolder.name.localeCompare(b.mailFolder.name, undefined, { sensitivity: 'base' }))
 
   let quickNav = document.getElementById("quick-nav");
   quickNav.addEventListener("keydown", async event => {
-    switch (event.key) {
-      case "Tab": {
-        // The tab key is used to cycle to the next folder, so make sure we do jump
-        // out of the input field.
-        event.preventDefault();
-        event.stopPropagation();
+    if (event.key == "Tab") {
+      // The tab key is used to cycle to the next folder, so make sure we do jump
+      // out of the input field.
+      event.preventDefault();
+      event.stopPropagation();
 
-        // If currentSubSearch is empty (no match) or only one result, ignore tab.
-        if (currentSubSearch.length < 2) {
-          return;
-        }
-
-        // Cycle through results, wrap back to first result if at the end.
-        if (currentSubSearchIdx + 1 < currentSubSearch.length) {
-          currentSubSearchIdx++;
-        } else {
-          currentSubSearchIdx = 0;
-        }
-
-        console.log("TAB cycle");
-        updateFolderDisplay(currentSubSearch[currentSubSearchIdx]);
+      // If currentSubSearch is empty (no match) or only one result, ignore tab.
+      if (currentSubSearch.length < 2) {
+        return;
       }
-      break;
 
-      case "Enter": {
-        window.close();
+      // Cycle through results, wrap back to first result if at the end.
+      if (currentSubSearchIdx + 1 < currentSubSearch.length) {
+        currentSubSearchIdx++;
+      } else {
+        currentSubSearchIdx = 0;
       }
-      break;
+
+      console.log("TAB cycle");
+      updateFolderDisplay(currentSubSearch[currentSubSearchIdx]);
+    }
+
+    if (event.key == "Enter") {
+      window.close();
     }
   });
 
@@ -89,7 +85,7 @@ async function load() {
     console.log("VALUE update");
     lastValue = value;
     // TODO: Improve case insensitive handling here.
-    currentSubSearch = folders.filter(f => f.name.startsWith(value));
+    currentSubSearch = folders.filter(f => f.mailFolder.name.startsWith(value));
     currentSubSearchIdx = 0;
     if (currentSubSearch.length == 0) {
       // Make the input element red, to indicate to the user: No result found.
@@ -105,5 +101,5 @@ async function load() {
   originalSelectedFolder = mailTab.displayedFolder;
 }
 
-//document.addEventListener("DOMContentLoaded", localisePage, { once: true });
+document.addEventListener("DOMContentLoaded", localisePage, { once: true });
 document.addEventListener("DOMContentLoaded", load, { once: true });
