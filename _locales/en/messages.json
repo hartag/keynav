@@ -3,19 +3,10 @@
   "message": "Quick Folder Key Navigation"
   },
   "extensionDescription": {
-    "message": "This extension makes it possible to quickly navigate to a particular folder in the folder pane simply by pressing F6 and then typing the first few letters of the folder name into the opened text input fields. If multiple folders start with the same latters, you can loop through them by pressing the TAB key."
+    "message": "This extension makes it possible to quickly navigate to a particular folder in the folder pane simply by pressing F4 and then typing the first few letters of the folder name into the QuickNav edit box. If multiple folders start with the same prefix, you can cycle through them using TAB and Shift+Tab keys or the up and down arrow keys."
   },
-  "menu_EnableMailFolderKeyNav.label": {
-    "message": "&Enable mail-folder key navigation"
-  },
-  "options_window_title": {
-    "message": "Key Navigation Options"
-  },
-  "options_enableMailFolderKeyNav.label": {
-    "message": "Enable mail-folder key navigation: "
-  },
-  "options_addContextMenuQuickToggle.label": {
-    "message": "Add key-navigation quick toggle to the context menu: "
+  "actionButtonLabel": {
+    "message": "QuickNav"
   },
   "whatsnew_title": {
     "message": "What's New in Quick Folder Key Navigation"

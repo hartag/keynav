@@ -63,12 +63,11 @@ async function load() {
 
   let quickNav = document.getElementById("quick-nav");
   quickNav.addEventListener("keydown", async event => {
-    if (event.key == "Tab") {
+    if ((!event.shiftKey && event.key == "Tab") || event.key == "ArrowDown") {
       // The tab key is used to cycle to the next folder, so make sure we do jump
       // out of the input field.
       event.preventDefault();
       event.stopPropagation();
-
 
       // If currentSubSearch is empty (no match) or only one result, ignore tab.
       // Also ignore tab if there is no entered text.
@@ -85,6 +84,30 @@ async function load() {
       }
 
       console.log("TAB cycle");
+      updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]});
+    }
+
+    if ((event.shiftKey && event.key == "Tab") || event.key == "ArrowUp") {
+      // The shift+tab key is used to cycle to the previous folder, so make sure we do jump
+      // out of the input field.
+      event.preventDefault();
+      event.stopPropagation();
+
+      // If currentSubSearch is empty (no match) or only one result, ignore tab.
+      // Also ignore tab if there is no entered text.
+      let value = event.target.value;
+      if (currentSubSearch.length < 2 || value == "") {
+        return;
+      }
+
+      // Cycle through results, wrap back to first result if at the end.
+      if (currentSubSearchIdx > 0) {
+        currentSubSearchIdx--;
+      } else {
+        currentSubSearchIdx = currentSubSearch.length;
+      }
+
+      console.log("shift+TAB cycle");
       updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]});
     }
 

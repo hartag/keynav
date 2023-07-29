@@ -14,8 +14,7 @@ INCLUDE-FILES=
 EXCLUDE-FILES=
 
 #Collect files for packing into the .xpi file
-CONTENT-FILES=$(wildcard *.js options/*.html options/*.js options/*.css api/*.js api/schema.json)
-#CONTENT-FILES=$(wildcard *.js options/*.html options/*.js options/*.css api/*.js api/schema.json whatsnew/*.html whatsnew/*.js whatsnew/*.css)
+CONTENT-FILES=$(wildcard *.js popup/*.html popup/*.js popup/*.css )
 LOCALE-FILES=$(wildcard _locales/*/messages.json _locales/messages.json)
 ALL-FILES=$(MANIFEST) $(CONTENT-FILES) $(LOCALE-FILES) $(INCLUDE-FILES)
 SRC-FILES=$(filter-out $(EXCLUDE-FILES),$(ALL-FILES))
@@ -29,7 +28,6 @@ $(XPI-FILE): $(SRC-FILES)
 .PHONEY: clean version
 clean:
 	-@rm -f *.xpi
-	-@find . -name "*.bak" -delete
 	-@rm -f log.txt
 
 version:

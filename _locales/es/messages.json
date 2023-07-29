@@ -3,19 +3,10 @@
   "message": "Acceso Rápido a Carpetas"
   },
   "extensionDescription": {
-    "message": "Esta extensión hace posible navegar rápidamente a una carpeta en particular en el panel de carpetas simplemente presionando F6 y luego escribiendo las primeras letras del nombre de la carpeta en los campos de entrada de texto abiertos. Si varias carpetas comienzan con las mismas últimas, puede recorrerlas presionando la tecla TAB."
+    "message": "Esta extensión hace posible navegar rápidamente a una carpeta en particular en el panel de carpetas simplemente presionando F4 y luego escribiendo las primeras letras del nombre de la carpeta en el cuadro de edición de AccesoRápido. Si varias carpetas comienzan con el mismo prefijo, puede recorrerlas usando las teclas TAB y Shift+Tab o las teclas de flecha arriba y abajo."
   },
-  "menu_EnableMailFolderKeyNav.label": {
-    "message": "&Habilitar Acceso Rápido a Carpetas"
-  },
-  "options_window_title": {
-    "message": "Opciones para Acceso Rápido a Carpetas"
-  },
-  "options_enableMailFolderKeyNav.label": {
-    "message": "Habilitar Acceso Rápido a Carpetas: "
-  },
-  "options_addContextMenuQuickToggle.label": {
-    "message": "Añadir una opción para activar Acceso Rápido a Carpetas en el menú de contexto: "
+  "actionButtonLabel": {
+    "message": "AccesoRápido"
   },
   "whatsnew_title": {
     "message": "Qué es nuevo en Acceso Rápido a Carpetas"

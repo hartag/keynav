@@ -10,25 +10,28 @@
   "applications": {
     "gecko": {
       "id": "keynav@andrew.hart",
-      "strict_min_version": "102.0"
+      "strict_min_version": "115.0",
+      "strict_max_version": "116.*"
     }
   },
 
   "background": {
     "scripts": ["defaults.js", "common.js", "background.js"]
   },
+
   "commands": {
     "folder-quick-nav": {
       "suggested_key": {
-        "default": "F6"
+        "default": "F4"
       },
-      "description": "Open Folder Quick Navigation Popup"
+      "description": "Open  Quick Folder Key Navigation Popup"
     }
   },
+
   "permissions": ["accountsRead", "storage", "menus"],
 
   "browser_action": {
-    "default_title":"QuickNav",
+    "default_title": "__MSG_actionButtonLabel__",
     "default_popup": "/popup/popup.html"
   }
 }
