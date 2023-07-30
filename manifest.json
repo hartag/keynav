@@ -10,8 +10,7 @@
   "applications": {
     "gecko": {
       "id": "keynav@andrew.hart",
-      "strict_min_version": "115.0",
-      "strict_max_version": "116.*"
+      "strict_min_version": "115.0"
     }
   },
 
