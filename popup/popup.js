@@ -16,16 +16,16 @@ let originalSelectedFolder = null;
 
 // Recursive function to get all folders.
 function getFolders(subFolders, prettyPath) {
-  let folders = []
+  let folders = [];
   if (subFolders) {
     for (let subFolder of subFolders) {
-      let subFolderPrettyPath = `${prettyPath} / ${subFolder.name}`
+      let subFolderPrettyPath = `${prettyPath} / ${subFolder.name}`;
       folders.push({
         mailFolder: subFolder,
         matchName: caseInsensitiveMatch ? subFolder.name.toLowerCase() : subFolder.name,
         prettyPath: subFolderPrettyPath,
-      })
-      folders.push(...getFolders(subFolder.subFolders, subFolderPrettyPath))
+      });
+      folders.push(...getFolders(subFolder.subFolders, subFolderPrettyPath));
     }
   }
   return folders;
@@ -43,7 +43,7 @@ function updateFolderDisplay(config) {
   }
 
   if (config.folder) {
-    browser.mailTabs.update({ displayedFolder: config.folder.mailFolder })
+    browser.mailTabs.update({ displayedFolder: config.folder.mailFolder });
     currentFolderElement.textContent = config.folder.prettyPath;
     idxElement.textContent = `${currentSubSearchIdx+1}/${currentSubSearch.length}`;
   } else {
@@ -63,51 +63,39 @@ async function load() {
 
   let quickNav = document.getElementById("quick-nav");
   quickNav.addEventListener("keydown", async event => {
-    if ((!event.shiftKey && event.key == "Tab") || event.key == "ArrowDown") {
-      // The tab key is used to cycle to the next folder, so make sure we do jump
-      // out of the input field.
+    if (event.key == "Tab" || event.key == "ArrowDown" || event.key == "ArrowUp") {
+      // Tab, Shift+Tab, up arrow and down arrow keys are  used to cycle to the next or previous folder, so 
+      // make sure we do jump out of the input field.
       event.preventDefault();
       event.stopPropagation();
 
-      // If currentSubSearch is empty (no match) or only one result, ignore tab.
-      // Also ignore tab if there is no entered text.
+      // If currentSubSearch is empty (no match) or only one result, ignore the keypress.
+      // Also ignore the keypress if there is no entered text.
       let value = event.target.value;
       if (currentSubSearch.length < 2 || value == "") {
         return;
       }
 
-      // Cycle through results, wrap back to first result if at the end.
-      if (currentSubSearchIdx + 1 < currentSubSearch.length) {
-        currentSubSearchIdx++;
-      } else {
-        currentSubSearchIdx = 0;
+      if (event.key == "Tab" || event.key == "ArrowDown") {
+        // Cycle through results, wrap back to first result if at the end.
+        if (currentSubSearchIdx + 1 < currentSubSearch.length) {
+          currentSubSearchIdx++;
+        } else {
+          currentSubSearchIdx = 0;
+        }
+        console.log("TAB/ArrowDown cycle");
       }
 
-      console.log("TAB cycle");
-      updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]});
-    }
-
-    if ((event.shiftKey && event.key == "Tab") || event.key == "ArrowUp") {
-      // The shift+tab key is used to cycle to the previous folder, so make sure we do jump
-      // out of the input field.
-      event.preventDefault();
-      event.stopPropagation();
-
-      // If currentSubSearch is empty (no match) or only one result, ignore tab.
-      // Also ignore tab if there is no entered text.
-      let value = event.target.value;
-      if (currentSubSearch.length < 2 || value == "") {
-        return;
+      if ((event.shiftKey && event.key == "Tab") || event.key == "ArrowUp") {
+        // Cycle bacwards through results, wrap back to last result if at the start .
+        if (currentSubSearchIdx > 0) {
+          currentSubSearchIdx--;
+        } else {
+          currentSubSearchIdx = currentSubSearch.length-1;
+        }
+        console.log("Shift+TAB/ArrowUp cycle");
       }
 
-      // Cycle through results, wrap back to first result if at the end.
-      if (currentSubSearchIdx > 0) {
-        currentSubSearchIdx--;
-      } else {
-        currentSubSearchIdx = currentSubSearch.length;
-      }
-
-      console.log("shift+TAB cycle");
       updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]});
     }
 
