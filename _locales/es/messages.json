@@ -12,7 +12,7 @@
     "message": "Qué es nuevo en Acceso Rápido a Carpetas"
   },
   "whatsnew_text_message": {
-   "message": "El complemento se ha actualizado para que sea compatible con Thunderbird versión 69.0 y posteriores. Sigue siendo compatible con Thunderbird 68.0. Tenga en cuenta que el elemento \"Habilitar Acceso Rápido a Carpetas\" para activar y desactivar el acceso rápido a carpetas en el árbol de carpetas que solía agregarse al menú \"Ir\" se ha movido al menú contextual del árbol de carpetas."
+   "message": "El complemento se ha actualizado para que sea compatible con Thunderbird versión 115.0 y posteriores. Debido a la importante revisión de la interfaz de usuario de Thunderbird, no ha sido posible hacer que Quick Folder Key Navigation funcione como solía hacerlo, simplemente escribiendo letras mientras el árbol de carpetas de correo tenía el foco. Para saltar rápidamente a una carpeta, ahora es necesario presionar F4 o hacer clic en el botón QuickNav en el encabezado del panel Carpeta para abrir la ventana emergente QuickNav. Luego, comience a escribir un nombre de carpeta en el campo de búsqueda y la primera carpeta que coincida se mostrará debajo. Puede continuar escribiendo para reducir el conjunto de coincidencias o usar las teclas de flecha hacia arriba y hacia abajo para desplazarse por el conjunto de carpetas coincidentes. Tab y Shift+Tab también se pueden usar para desplazarse. Una vez que haya encontrado la carpeta deseada, presione la tecla ENTER para ir directamente a ella. Si decide que no quiere salir de la carpeta actual, simplemente presione la tecla Escape para cerrar QuickNav."
   },
   "whatsnew_button": {
     "message": "Cerrar"

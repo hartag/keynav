@@ -13,10 +13,13 @@ body {
   margin: 1em;
 }
 
-
 p {
   font-size: 1.25em;
   line-height: 1.8em ;
+}
+
+.button {
+  text-align: center;
 }
 
 button {

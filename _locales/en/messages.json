@@ -12,7 +12,7 @@
     "message": "What's New in Quick Folder Key Navigation"
   },
   "whatsnew_text_message": {
-   "message": "The add-on has been updated to make it compatible with Thunderbird version 69.0 and later. It continues to be compatible with Thunderbird 68.0. Note that the \"Enable key navigation\" item for toggling key navigation on and off in the folder tree that used to be added to the \"Go\" menu has been moved to the context menu of the folder tree."
+   "message": "The add-on has been updated to make it compatible with Thunderbird version 115.0 and later. Due to the major overhaul of  the Thunderbird user interface, it has not been possible to make Quick Folder Key Navigation work as it used to, simply by typing letters while the mail folder tree had the focus. To quickly jump to a folder, it is now necessary to iether press F4 or click  the QuickNav button on the Folder Pane Header to open the QuickNav pop-up. Then, start typing a folder name into the search field and the first matching folder will be displayed beneath it. You can either continue typing to narrow down the set of matches or use the up and down arrow keys to scroll through the set of matching foldres. Tab and Shift+Tab can also be used to scroll. Once you've found the desired folder, press the ENTER key to jump directly to it. If you change your mind and don't want to leave the current folder, simply press the Escape key to close QuickNav."
   },
   "whatsnew_button": {
     "message": "Close"

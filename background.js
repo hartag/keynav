@@ -13,3 +13,15 @@ messenger.commands.onCommand.addListener((command, tab) => {
   messenger.browserAction.openPopup();
 });
 	
+// Show a What's New dialog
+messenger.runtime.onInstalled.addListener(	details => {
+  if (details.reason=="update") {
+    messenger.windows.create({
+      allowScriptsToClose: true,
+      //focused: true,
+      state: "maximized",
+      type: "popup",
+      url: "whatsnew/whatsnew.html"
+    });
+  }
+});
