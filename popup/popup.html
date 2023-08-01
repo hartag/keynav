@@ -7,6 +7,7 @@
 
 <html>
   <head>
+    <title data-l10n-id="actionButtonLabel"></title>
     <meta charset="utf-8"/>
     <script src="../defaults.js"></script>
     <script src="../common.js"></script>
@@ -16,10 +17,15 @@
 
   <body>
 
-    <div class="hbox" role="searchbox">
+    <div role="dialog">
+    <div class="hbox" role="application">
       <input type="text" id="quick-nav">
       <div id="idx"></div>
     </div>
-    <div id="currentFolder" aria-live="polite"></div>
+    <div id="currentFolder" class="showFolder">
+      <span id="quiet"></span>
+      <span id="announce" aria-live="assertive"></span>
+    </div>
+    </div>
   </body>
 </html>

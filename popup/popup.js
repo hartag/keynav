@@ -6,20 +6,22 @@
 
 "use strict";
 
+const PRETTYSEP = " / ";
+
 let caseInsensitiveMatch = true;
 
 let folders = [];
 let lastValue = "";
 let currentSubSearch = [];
 let currentSubSearchIdx = 0;
-let originalSelectedFolder = null;
+let folderIsSelected = false;
 
 // Recursive function to get all folders.
 function getFolders(subFolders, prettyPath) {
   let folders = [];
   if (subFolders) {
     for (let subFolder of subFolders) {
-      let subFolderPrettyPath = `${prettyPath} / ${subFolder.name}`;
+      let subFolderPrettyPath = `${prettyPath}${PRETTYSEP}${subFolder.name}`;
       folders.push({
         mailFolder: subFolder,
         matchName: caseInsensitiveMatch ? subFolder.name.toLowerCase() : subFolder.name,
@@ -31,8 +33,41 @@ function getFolders(subFolders, prettyPath) {
   return folders;
 }
 
+// Function for determining how much two strings match from  their starts.
+function commonStringLength(str1, str2) {
+  if (caseInsensitiveMatch) {
+    str1 = str1.toLowerCase();
+	str2 = str2.toLowerCase();
+  }
+  let idx = 0;
+  while (idx<str1.length && idx<str2.length && str1[idx]===str2[idx]) {
+    idx++;
+  }
+  return idx;
+}
+
+function populateCurrentFolder(folder) {
+  let quietEl = document.getElementById("quiet");
+  let announceEl = document.getElementById("announce");
+  let oldFolder = `${quietEl.textContent}${announceEl.textContent}`;
+  let commonLength = commonStringLength(folder, oldFolder);
+  commonLength = folder.slice(0, commonLength).lastIndexOf(PRETTYSEP);
+  if (commonLength==-1) {
+    commonLength = 0;
+  } else {
+    commonLength += PRETTYSEP.length;
+  }
+  quietEl.textContent = folder.slice(0, commonLength);
+  announceEl.textContent = folder.slice(commonLength, folder.length);
+}
+
+function clearCurrentFolder() {
+  document.getElementById("quiet").textContent = "";
+  document.getElementById("announce").textContent = "";
+}
+
 function updateFolderDisplay(config) {
-  let currentFolderElement = document.getElementById("currentFolder");
+  //let currentFolderElement = document.getElementById("currentFolder");
   let quickNavElement = document.getElementById("quick-nav");
   let idxElement = document.getElementById("idx");
 
@@ -43,11 +78,16 @@ function updateFolderDisplay(config) {
   }
 
   if (config.folder) {
-    browser.mailTabs.update({ displayedFolder: config.folder.mailFolder });
-    currentFolderElement.textContent = config.folder.prettyPath;
+    folderIsSelected = true;
+    // The following line is commented to defer actual folder display until ENTER is pressed.
+    //browser.mailTabs.update({ displayedFolder: config.folder.mailFolder });
+    //currentFolderElement.textContent = config.folder.prettyPath;
     idxElement.textContent = `${currentSubSearchIdx+1}/${currentSubSearch.length}`;
+    populateCurrentFolder(config.folder.prettyPath);
   } else {
-    idxElement.textContent = "";
+    folderIsSelected = false;
+    idxElement.textContent = `0/${folders.length}`;
+    clearCurrentFolder();
   }
 }
 
@@ -73,11 +113,12 @@ async function load() {
       // Also ignore the keypress if there is no entered text.
       let value = event.target.value;
       if (currentSubSearch.length < 2 || value == "") {
+        clearCurrentFolder();
         return;
       }
 
       if (event.key == "Tab" || event.key == "ArrowDown") {
-        // Cycle through results, wrap back to first result if at the end.
+        // Cycle forward through results, wrap back to first result if at the end.
         if (currentSubSearchIdx + 1 < currentSubSearch.length) {
           currentSubSearchIdx++;
         } else {
@@ -100,6 +141,9 @@ async function load() {
     }
 
     if (event.key == "Enter") {
+      if (folderIsSelected) {
+        browser.mailTabs.update({ displayedFolder: currentSubSearch[currentSubSearchIdx].mailFolder });
+      }
       window.close();
     }
   });
@@ -120,16 +164,16 @@ async function load() {
       // Make the input element red, to indicate to the user: No result found.
       updateFolderDisplay({valid: false});
     } else if (value == "" ) {
-      updateFolderDisplay({valid: true})
+      updateFolderDisplay({valid: true});
     } else {
       updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]})
     }
   });
 
+  // Set focus on input field and fill initial match values
   quickNav.focus();
-
-  let mailTab = await browser.mailTabs.getCurrent();
-  originalSelectedFolder = mailTab.displayedFolder;
+  let idxElement = document.getElementById("idx");
+  idxElement.textContent = `0/${folders.length}`;
 }
 
 document.addEventListener("DOMContentLoaded", localisePage, { once: true });
