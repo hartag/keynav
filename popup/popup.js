@@ -80,7 +80,7 @@ function updateFolderDisplay(config) {
   if (config.folder) {
     folderIsSelected = true;
     // The following line is commented to defer actual folder display until ENTER is pressed.
-    //browser.mailTabs.update({ displayedFolder: config.folder.mailFolder });
+    //messenger.mailTabs.update({ displayedFolder: config.folder.mailFolder });
     //currentFolderElement.textContent = config.folder.prettyPath;
     idxElement.textContent = `${currentSubSearchIdx+1}/${currentSubSearch.length}`;
     populateCurrentFolder(config.folder.prettyPath);
@@ -94,7 +94,7 @@ function updateFolderDisplay(config) {
 async function load() {
   // Build flat folder list. Maybe use a cache, which is not rebuild each time the popup is opened
   // but only if the folders changed?
-  let accounts = await browser.accounts.list(true);
+  let accounts = await messenger.accounts.list(true);
   for (let account of accounts) {
     folders.push(...getFolders(account.folders, account.name));
   }
@@ -142,7 +142,7 @@ async function load() {
 
     if (event.key == "Enter") {
       if (folderIsSelected) {
-        browser.mailTabs.update({ displayedFolder: currentSubSearch[currentSubSearchIdx].mailFolder });
+        messenger.mailTabs.update({ displayedFolder: currentSubSearch[currentSubSearchIdx].mailFolder });
       }
       window.close();
     }
