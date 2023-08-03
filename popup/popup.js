@@ -6,7 +6,11 @@
 
 "use strict";
 
-const PRETTYSEP = " / ";
+// Define a pretty separator to demarcate the various components of a 
+// complete file path. The unicode non-breaking space prevents  the  
+// space following the slash from being collapsed if it is the last 
+// thing in the textContent of an element.
+const PRETTYSEP = " /\u00a0";
 
 let caseInsensitiveMatch = true;
 
@@ -103,7 +107,7 @@ async function load() {
 
   let quickNav = document.getElementById("quick-nav");
   quickNav.addEventListener("keydown", async event => {
-    if (event.key == "Tab" || event.key == "ArrowDown" || event.key == "ArrowUp") {
+    if (event.key == "ArrowDown" || event.key == "ArrowUp" || event.key == "Tab") {
       // Tab, Shift+Tab, up arrow and down arrow keys are  used to cycle to the next or previous folder, so 
       // make sure we do jump out of the input field.
       event.preventDefault();
@@ -117,7 +121,7 @@ async function load() {
         return;
       }
 
-      if (event.key == "Tab" || event.key == "ArrowDown") {
+      if (event.key == "ArrowDown" || event.key == "Tab") {
         // Cycle forward through results, wrap back to first result if at the end.
         if (currentSubSearchIdx + 1 < currentSubSearch.length) {
           currentSubSearchIdx++;
@@ -127,7 +131,7 @@ async function load() {
         console.log("TAB/ArrowDown cycle");
       }
 
-      if ((event.shiftKey && event.key == "Tab") || event.key == "ArrowUp") {
+      if (event.key == "ArrowUp" || (event.shiftKey && event.key == "Tab")) {
         // Cycle bacwards through results, wrap back to last result if at the start .
         if (currentSubSearchIdx > 0) {
           currentSubSearchIdx--;

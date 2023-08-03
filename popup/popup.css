@@ -24,11 +24,17 @@ input {
 .hbox {
   display:flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
 }
 
-.showFolder {
+#idx {
+  display: inline-block;
+}
+
+#currentFolder {
   display:flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
 }
