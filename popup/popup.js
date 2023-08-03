@@ -107,8 +107,8 @@ async function load() {
 
   let quickNav = document.getElementById("quick-nav");
   quickNav.addEventListener("keydown", async event => {
-    if (event.key == "ArrowDown" || event.key == "ArrowUp" || event.key == "Tab") {
-      // Tab, Shift+Tab, up arrow and down arrow keys are  used to cycle to the next or previous folder, so 
+    if (event.key == "ArrowDown" || event.key == "ArrowUp") {
+      // up arrow and down arrow keys are  used to cycle to the next or previous folder, so 
       // make sure we do jump out of the input field.
       event.preventDefault();
       event.stopPropagation();
@@ -121,24 +121,24 @@ async function load() {
         return;
       }
 
-      if (event.key == "ArrowDown" || event.key == "Tab") {
+      if (event.key == "ArrowDown") {
         // Cycle forward through results, wrap back to first result if at the end.
         if (currentSubSearchIdx + 1 < currentSubSearch.length) {
           currentSubSearchIdx++;
         } else {
           currentSubSearchIdx = 0;
         }
-        console.log("TAB/ArrowDown cycle");
+        console.log("ArrowDown cycle");
       }
 
-      if (event.key == "ArrowUp" || (event.shiftKey && event.key == "Tab")) {
+      if (event.key == "ArrowUp") {
         // Cycle bacwards through results, wrap back to last result if at the start .
         if (currentSubSearchIdx > 0) {
           currentSubSearchIdx--;
         } else {
           currentSubSearchIdx = currentSubSearch.length-1;
         }
-        console.log("Shift+TAB/ArrowUp cycle");
+        console.log("ArrowUp cycle");
       }
 
       updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]});

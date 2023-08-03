@@ -3,7 +3,7 @@
   "message": "Acceso Rápido a Carpetas"
   },
   "extensionDescription": {
-    "message": "Esta extensión hace posible navegar rápidamente a una carpeta en particular en el panel de carpetas simplemente presionando F4 y luego escribiendo las primeras letras del nombre de la carpeta en el cuadro de edición de AccesoRápido. Si varias carpetas comienzan con el mismo prefijo, puede recorrerlas usando las teclas TAB y Shift+Tab o las teclas de flecha arriba y abajo."
+    "message": "Esta extensión hace posible navegar rápidamente a una carpeta en particular en el panel de carpetas simplemente presionando F4 y luego escribiendo las primeras letras del nombre de la carpeta en el cuadro de edición de AccesoRápido. Si varias carpetas comienzan con el mismo prefijo, puede recorrerlas usando las teclas de flecha arriba y flecha abajo. Se usa ENTER para ssaltar directamente a la carpeta eligida o Esc para cancelar la operación."
   },
   "actionButtonLabel": {
     "message": "AccesoRápido"
