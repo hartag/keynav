@@ -6,7 +6,7 @@
 
 "use strict";
 
-document.addEventListener("DOMContentLoaded", localisePage, {once: true});
+document.addEventListener("DOMContentLoaded", () => {localisePage(true);}, {once: true});
 
 document.addEventListener("DOMContentLoaded", function() {
   let OKButton = document.querySelector("#whatsnew_button");
