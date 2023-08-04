@@ -8,6 +8,9 @@
   "actionButtonLabel": {
     "message": "AccesoRápido"
   },
+  "searchLabel": {
+    "message": "Buscar"
+  },
   "whatsnew_title": {
     "message": "Qué es nuevo en Acceso Rápido a Carpetas"
   },

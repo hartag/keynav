@@ -8,6 +8,9 @@
   "actionButtonLabel": {
     "message": "QuickNav"
   },
+  "searchLabel": {
+    "message": "Search for"
+  },
   "whatsnew_title": {
     "message": "What's New in Quick Folder Key Navigation"
   },
