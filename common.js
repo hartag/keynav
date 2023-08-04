@@ -30,13 +30,9 @@ async function getSavedSettings() {
 
 
 // Localise page
-function localisePage(innerHTML=false) {
+function localisePage() {
   for (let el of window.document.querySelectorAll("[data-l10n-id]")) {
     let id = el.getAttribute("data-l10n-id");
-    if (innerHTML) {
-      el.innerHTML = messenger.i18n.getMessage(id);
-    }else {
-      el.textContent = messenger.i18n.getMessage(id);
-    }
+    el.textContent = messenger.i18n.getMessage(id);
   }
 }
