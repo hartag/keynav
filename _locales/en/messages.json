@@ -11,6 +11,27 @@
   "searchLabel": {
     "message": "Search for"
   },
+  "btnGoLabel": {
+    "message": "Go"
+  },
+  "btnCancelLabel": {
+    "message": "Cancel"
+  },
+  "btnHelpLabel": {
+    "message": "Help"
+  },
+  "verbosityModeLabel": {
+    "message": "Screen-reader verbosity"
+  },
+  "conciseLabel": {
+    "message": "Speak Concisely"
+  },
+  "FolderOnlyLabel": {
+    "message": "Speak only folder name"
+  },
+  "wholeLabel": {
+    "message": "Speak whole folder path"
+  },
   "whatsnew_title": {
     "message": "What's New in Quick Folder Key Navigation"
   },
@@ -23,7 +44,7 @@
   "whatsnew_text3": {
    "message": "Note for JAWS users: If you have Forms Mode set to Manual, it is necessary to press enter when the QuickNav dialog opens in order to type into the search box. As this is extremely  inconvenient, it is recommended that you uncheck  the \"Disable forms Mode when a  new page is loaded\" option in JAWS Settings Center. This will cause you to be placed  into the edit field immediately when the QuickNav dialog opens. Alternatively, this can also be achieved by setting Forms Mode to anything other than Manual."
   },
-  "whatsnew_button": {
+  "btnCloseLabel": {
     "message": "Close"
   }
 }

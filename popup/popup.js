@@ -13,6 +13,7 @@
 const PRETTYSEP = " /\u00a0";
 
 let caseInsensitiveMatch = true;
+let  verbosityMode = "concise";
 
 let folders = [];
 let lastValue = "";
@@ -53,13 +54,28 @@ function commonStringLength(str1, str2) {
 function populateCurrentFolder(folder) {
   let quietEl = document.getElementById("quiet");
   let announceEl = document.getElementById("announce");
-  let oldFolder = `${quietEl.textContent}${announceEl.textContent}`;
-  let commonLength = commonStringLength(folder, oldFolder);
-  commonLength = folder.slice(0, commonLength).lastIndexOf(PRETTYSEP);
-  if (commonLength==-1) {
-    commonLength = 0;
-  } else {
-    commonLength += PRETTYSEP.length;
+  let commonLength = 0;
+  switch (verbosityMode) {
+    case "folder":
+      commonLength = folder.lastIndexOf(PRETTYSEP);
+      if (commonLength==-1) {
+        commonLength = 0;
+      } else {
+      commonLength += PRETTYSEP.length;
+      }
+      break;
+    case "whole":
+      break;
+    default:
+      let oldFolder = `${quietEl.textContent}${announceEl.textContent}`;
+      commonLength = commonStringLength(folder, oldFolder);
+      commonLength = folder.slice(0, commonLength).lastIndexOf(PRETTYSEP);
+      if (commonLength==-1) {
+        commonLength = 0;
+      } else {
+      commonLength += PRETTYSEP.length;
+      }
+      break;
   }
   quietEl.textContent = folder.slice(0, commonLength);
   announceEl.textContent = folder.slice(commonLength, folder.length);
@@ -93,6 +109,13 @@ function updateFolderDisplay(config) {
     idxElement.textContent = `0/${folders.length}`;
     clearCurrentFolder();
   }
+}
+
+function jumpToFolder() {
+  if (folderIsSelected) {
+    messenger.mailTabs.update({ displayedFolder: currentSubSearch[currentSubSearchIdx].mailFolder });
+  }
+  window.close();
 }
 
 async function load() {
@@ -145,10 +168,7 @@ async function load() {
     }
 
     if (event.key == "Enter") {
-      if (folderIsSelected) {
-        messenger.mailTabs.update({ displayedFolder: currentSubSearch[currentSubSearchIdx].mailFolder });
-      }
-      window.close();
+      jumpToFolder();
     }
   });
 
@@ -172,6 +192,26 @@ async function load() {
     } else {
       updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]})
     }
+  });
+
+  // Add event listeners to buttons
+  let goButton = document.getElementById("btnGo");
+  goButton.addEventListener("click", event => {jumpToFolder();});
+  let cancelButton = document.getElementById("btnCancel");
+  cancelButton.addEventListener("click", event => {window.close();});
+
+  let verbbositySelector = document.getElementById("verbosity");
+  let settings  = await messenger.storage.local.get(null);
+  if (settings.hasOwnProperty("verbosityMode")) {
+    verbosityMode = settings.verbosityMode;
+  } else {
+    verbosityMode = "concise";
+    await messenger.storage.local.set({ "verbosityMode": verbosityMode });
+  }
+  verbbositySelector.value = verbosityMode;
+  verbbositySelector.addEventListener("change", async (event) => {
+    verbosityMode = event.target.value;
+    await messenger.storage.local.set({ "verbosityMode": verbosityMode });
   });
 
   // Set focus on input field and fill initial match values

@@ -11,6 +11,27 @@
   "searchLabel": {
     "message": "Buscar"
   },
+  "btnGoLabel": {
+    "message": "Ir"
+  },
+  "btnCancelLabel": {
+    "message": "Cancelar"
+  },
+  "btnHelpLabel": {
+    "message": "Ayuda"
+  },
+  "verbosityModeLabel": {
+    "message": "Verbosedad de lector de pantalla"
+  },
+  "conciseLabel": {
+    "message": "Hablar concisamente"
+  },
+  "FolderOnlyLabel": {
+    "message": "Decir solo nombre de carpeta"
+  },
+  "wholeLabel": {
+    "message": "Decir ruta completa de carpeta"
+  },
   "whatsnew_title": {
     "message": "Qué es nuevo en Acceso Rápido a Carpetas"
   },
@@ -23,7 +44,7 @@
   "whatsnew_text3": {
    "message": "Nota para los usuarios de JAWS: Si tiene el Modo de formularios configurado en Manual, es necesario presionar ENTER cuando se abra el cuadro de diálogo QuickNav para escribir en el campo  de búsqueda. Como esto es extremadamente inconveniente, se recomienda que desmarque la opción \"Deshabilitar el modo de formularios cuando se carga una nueva página\" en el Centro de configuración de JAWS. Esto hará que se le coloque en el campo de edición inmediatamente cuando se abra el cuadro de diálogo QuickNav. Alternativamente, esto también se puede lograr configurando el Modo de formularios en cualquier otra cosa que no sea Manual."
   },
-  "whatsnew_button": {
+  "btnCloseLabel": {
     "message": "Cerrar"
   }
 }

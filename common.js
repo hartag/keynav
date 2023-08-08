@@ -6,29 +6,6 @@
 
 "use strict";
 
-
-// getSavedSettings: for fetching all the settings and initialising any that are
-// missing with default values.
-// If there are missing settings, save their default values.
-async function getSavedSettings() {
-  let settings = {};
-  let save = false;
-  for (let key of Object.keys(defaultSettings)) {
-    let option = await messenger.storage.local.get(key);
-    if (option.hasOwnProperty(key)) {
-      settings[key] = option[key];
-    } else {
-      settings[key] = defaultSettings[key];
-      save = true;
-    }
-  } // for
-  if (save) {
-    await messenger.storage.local.set(settings);
-  }
-  return(settings);
-}
-
-
 // Localise page
 function localisePage() {
   for (let el of window.document.querySelectorAll("[data-l10n-id]")) {

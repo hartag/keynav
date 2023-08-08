@@ -7,25 +7,42 @@
 
 <html>
   <head>
-    <title data-l10n-id="actionButtonLabel"></title>
     <meta charset="utf-8"/>
     <script src="../common.js"></script>
     <script src="popup.js"></script>
     <link rel="stylesheet" type="text/css" href="popup.css"/>
+    <title data-l10n-id="actionButtonLabel"></title>
   </head>
 
   <body>
 
-    <div role="dialog">
-    <div class="hbox">
-      <label for="quick-nav" data-l10n-id="searchLabel"></label>
-      <input type="text" id="quick-nav">
-      <div id="idx"></div>
-    </div>
-    <div id="currentFolder">
-      <span id="quiet"></span>
-      <span id="announce" aria-live="assertive"></span>
-    </div>
+    <div role="application" tabindex="-1">
+      <div class="hbox">
+        <label for="quick-nav" data-l10n-id="searchLabel"></label>
+        <input type="text" id="quick-nav" tabindex="2">
+        <div id="idx" tabindex="-1"></div>
+      </div>
+
+      <div id="currentFolder">
+        <span id="quiet"></span>
+        <span id="announce" aria-live="assertive"></span>
+      </div>
+
+        <div class="buttons">
+          <button id="btnGo" data-l10n-id="btnGoLabel" tabindex="3"></button>
+          <button id="btnCancel" data-l10n-id="btnCancelLabel" tabindex="4"></button>
+          <button id="btnHelp" data-l10n-id="btnHelpLabel" tabindex="5"></button>
+        </div>
+
+        <div>
+          <label for="verbosity" data-l10n-id="verbosityModeLabel"></label>
+          <select id="verbosity" tabindex="1">
+            <option value="concise" data-l10n-id="conciseLabel"></option>
+            <option value="folder" data-l10n-id="FolderOnlyLabel"></option>
+            <option value="whole" data-l10n-id="wholeLabel"></option>
+          </select>
+        </div>
+
     </div>
   </body>
 </html>
