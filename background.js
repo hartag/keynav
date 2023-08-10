@@ -15,7 +15,7 @@ messenger.commands.onCommand.addListener((command, tab) => {
 	
 // Show a What's New dialog
 messenger.runtime.onInstalled.addListener(	details => {
-  //if (details.reason=="update") {
+  if (details.reason=="update") {
     messenger.windows.create({
       allowScriptsToClose: true,
       //focused: true,
@@ -23,5 +23,5 @@ messenger.runtime.onInstalled.addListener(	details => {
       type: "popup",
       url: "whatsnew/whatsnew.html"
     });
-  //}
+  }
 });

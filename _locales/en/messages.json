@@ -3,7 +3,7 @@
   "message": "Quick Folder Key Navigation"
   },
   "extensionDescription": {
-    "message": "This extension makes it possible to quickly navigate to a particular folder in the folder pane simply by pressing F4 and then typing the first few letters of the folder name into the QuickNav edit box. If multiple folders start with the same prefix, you can cycle through them using  the up and down arrow keys. Use ENTER to jump to the selected folder or Esc to cancel the operation. Note for JAWS users: if you have Forms Mode set to Manual, it is necessary to press enter when the QuickNav dialog opens in order to type into the search box. As this is extremely  inconvenient, it is recommended that you uncheck  the \"Disable forms Mode when a  new page is loaded\" option in JAWS Settings Center. This will cause you to be placed  into the edit field immediately when the QuickNav dialog opens. Alternatively, this can also be achieved by setting Forms Mode to anything other than Manual."
+    "message": "This extension makes it possible to quickly navigate to a particular folder in the folder pane simply by pressing F4 and then typing the first few letters of the folder name into the QuickNav edit box. If multiple folders start with the same prefix, you can cycle through them using  the up and down arrow keys. Use ENTER to jump to the selected folder or Esc to cancel the operation. Note for JAWS users: if you have Forms Mode set to Manual, it is necessary to press enter when the QuickNav dialog opens in order to type into the search box. As this is extremely  inconvenient, it is recommended that you uncheck  the \"Disable forms Mode when a  new page is loaded\" option in JAWS Settings Center. This will cause you to be placed  into the edit field immediately when the QuickNav dialog opens. Alternatively, this can also be achieved by setting Forms Mode to anything other than Manual. The verbosity of  screen-reader speech can be adjusted using the \"Screen-reader verbosity\" combo box in the QuickNav dialog."
   },
   "actionButtonLabel": {
     "message": "QuickNav"
@@ -16,9 +16,6 @@
   },
   "btnCancelLabel": {
     "message": "Cancel"
-  },
-  "btnHelpLabel": {
-    "message": "Help"
   },
   "verbosityModeLabel": {
     "message": "Screen-reader verbosity"
@@ -35,14 +32,8 @@
   "whatsnew_title": {
     "message": "What's New in Quick Folder Key Navigation"
   },
-  "whatsnew_text1": {
-   "message": "The add-on has been updated to make it compatible with Thunderbird version 115.0 and later. Due to the major overhaul of  the Thunderbird user interface, it has not been possible to make Quick Folder Key Navigation work as it used to, simply by typing letters while the mail folder tree had the focus. To quickly jump to a folder, it is now necessary to iether press F4 or click  the QuickNav button on the Folder Pane Header to open the QuickNav pop-up. Then, start typing a folder name into the search field and the first matching folder will be displayed beneath it. You can either continue typing to narrow down the set of matches or use the up and down arrow keys to scroll through the set of matching foldres. Once you've found the desired folder, press the ENTER key to jump directly to it. If you change your mind and don't want to leave the current folder, simply press the Escape key to close QuickNav."
-  },
-  "whatsnew_text2": {
-   "message": "Please be aware that this new incarnation of the add-on is a work in progress and   more work is needed  to  improve the user experience."
-  },
-  "whatsnew_text3": {
-   "message": "Note for JAWS users: If you have Forms Mode set to Manual, it is necessary to press enter when the QuickNav dialog opens in order to type into the search box. As this is extremely  inconvenient, it is recommended that you uncheck  the \"Disable forms Mode when a  new page is loaded\" option in JAWS Settings Center. This will cause you to be placed  into the edit field immediately when the QuickNav dialog opens. Alternatively, this can also be achieved by setting Forms Mode to anything other than Manual."
+  "whatsnew_text": {
+   "message": "In this version, Go and Cancel buttons have been  added to the QuickNav dialog, as well as a combo box for controlling how much of the folder  name is spoken by  screen readers. A  small issue that could affect JAWS has  also been fixed."
   },
   "btnCloseLabel": {
     "message": "Close"

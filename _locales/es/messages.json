@@ -3,7 +3,7 @@
   "message": "Acceso Rápido a Carpetas"
   },
   "extensionDescription": {
-    "message": "Esta extensión hace posible navegar rápidamente a una carpeta en particular en el panel de carpetas simplemente presionando F4 y luego escribiendo las primeras letras del nombre de la carpeta en el cuadro de edición de AccesoRápido. Si varias carpetas comienzan con el mismo prefijo, puede recorrerlas usando las teclas de flecha arriba y flecha abajo. Se usa ENTER para ssaltar directamente a la carpeta eligida o Esc para cancelar la operación. Nota para los usuarios de JAWS: si tiene el Modo de formularios configurado en Manual, es necesario presionar ENTER cuando se abra el cuadro de diálogo QuickNav para escribir en el campo  de búsqueda. Como esto es extremadamente inconveniente, se recomienda que desmarque la opción \"Deshabilitar el modo de formularios cuando se carga una nueva página\" en el Centro de configuración de JAWS. Esto hará que se le coloque en el campo de edición inmediatamente cuando se abra el cuadro de diálogo QuickNav. Alternativamente, esto también se puede lograr configurando el Modo de formularios en cualquier otra cosa que no sea Manual."
+    "message": "Esta extensión hace posible navegar rápidamente a una carpeta en particular en el panel de carpetas simplemente presionando F4 y luego escribiendo las primeras letras del nombre de la carpeta en el cuadro de edición de AccesoRápido. Si varias carpetas comienzan con el mismo prefijo, puede recorrerlas usando las teclas de flecha arriba y flecha abajo. Se usa ENTER para ssaltar directamente a la carpeta eligida o Esc para cancelar la operación. Nota para los usuarios de JAWS: si tiene el Modo de formularios configurado en Manual, es necesario presionar ENTER cuando se abra el cuadro de diálogo QuickNav para escribir en el campo  de búsqueda. Como esto es extremadamente inconveniente, se recomienda que desmarque la opción \"Deshabilitar el modo de formularios cuando se carga una nueva página\" en el Centro de configuración de JAWS. Esto hará que se le coloque en el campo de edición inmediatamente cuando se abra el cuadro de diálogo QuickNav. Alternativamente, esto también se puede lograr configurando el Modo de formularios en cualquier otra cosa que no sea Manual. La verbosidad del lector de pantalla se puede ajustar mediante el cuadro combinado \"Verbosidad del lector de pantalla\" en el cuadro de diálogo QuickNav."
   },
   "actionButtonLabel": {
     "message": "AccesoRápido"
@@ -16,9 +16,6 @@
   },
   "btnCancelLabel": {
     "message": "Cancelar"
-  },
-  "btnHelpLabel": {
-    "message": "Ayuda"
   },
   "verbosityModeLabel": {
     "message": "Verbosedad de lector de pantalla"
@@ -35,14 +32,8 @@
   "whatsnew_title": {
     "message": "Qué es nuevo en Acceso Rápido a Carpetas"
   },
-  "whatsnew_text1": {
-   "message": "El complemento se ha actualizado para que sea compatible con Thunderbird versión 115.0 y posteriores. Debido a la importante revisión de la interfaz de usuario de Thunderbird, no ha sido posible hacer que Quick Folder Key Navigation funcione como solía hacerlo, simplemente escribiendo letras mientras el árbol de carpetas de correo tenía el foco. Para saltar rápidamente a una carpeta, ahora es necesario presionar F4 o hacer clic en el botón QuickNav en el encabezado del panel Carpeta para abrir la ventana emergente QuickNav. Luego, comience a escribir un nombre de carpeta en el campo de búsqueda y la primera carpeta que coincida se mostrará debajo. Puede continuar escribiendo para reducir el conjunto de coincidencias o usar las teclas de flecha hacia arriba y hacia abajo para desplazarse por el conjunto de carpetas coincidentes. Una vez que haya encontrado la carpeta deseada, presione la tecla ENTER para ir directamente a ella. Si decide que no quiere salir de la carpeta actual, simplemente presione la tecla Escape para cerrar QuickNav."
-  },
-  "whatsnew_text2": {
-   "message": "Tenga en cuenta que esta nueva encarnación del complemento es un trabajo en progreso y se necesita más trabajo para mejorar la experiencia del usuario."
-  },
-  "whatsnew_text3": {
-   "message": "Nota para los usuarios de JAWS: Si tiene el Modo de formularios configurado en Manual, es necesario presionar ENTER cuando se abra el cuadro de diálogo QuickNav para escribir en el campo  de búsqueda. Como esto es extremadamente inconveniente, se recomienda que desmarque la opción \"Deshabilitar el modo de formularios cuando se carga una nueva página\" en el Centro de configuración de JAWS. Esto hará que se le coloque en el campo de edición inmediatamente cuando se abra el cuadro de diálogo QuickNav. Alternativamente, esto también se puede lograr configurando el Modo de formularios en cualquier otra cosa que no sea Manual."
+  "whatsnew_text": {
+   "message": "En esta versión, se agregaron los botones Ir y Cancelar al cuadro de diálogo QuickNav, así como un cuadro combinado para controlar la cantidad del nombre de la carpeta que pronuncian los lectores de pantalla. También se solucionó un pequeño problema que podría afectar a JAWS."
   },
   "btnCloseLabel": {
     "message": "Cerrar"
