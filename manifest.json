@@ -3,19 +3,21 @@
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
   "author": "Andrew Hart",
-  "version": "4.1",
+  "version": "4.2",
   "homepage_url": "https://github.com/hartag/keynav",
   "default_locale": "en",
 
   "browser_specific_settings": {
     "gecko": {
       "id": "keynav@andrew.hart",
-      "strict_min_version": "115.0"
+      "strict_min_version": "121.0"
     }
   },
 
   "background": {
-    "scripts": ["common.js", "background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
 
   "commands": {
@@ -23,11 +25,14 @@
       "suggested_key": {
         "default": "F4"
       },
-      "description": "Open  Quick Folder Key Navigation Popup"
+      "description": "Open Quick Folder Key Navigation Popup"
     }
   },
 
-  "permissions": ["accountsRead", "storage"],
+  "permissions": [
+    "accountsRead", 
+    "storage"
+  ],
 
   "browser_action": {
     "default_title": "__MSG_actionButtonLabel__",

@@ -118,6 +118,13 @@ function jumpToFolder() {
   window.close();
 }
 
+async function jumpToFolderInNewTab() {
+  if (folderIsSelected) {
+    await messenger.mailTabs.create({ displayedFolder: currentSubSearch[currentSubSearchIdx].mailFolder });
+  }
+  window.close();
+}
+
 async function load() {
   // Build flat folder list. Maybe use a cache, which is not rebuild each time the popup is opened
   // but only if the folders changed?
@@ -167,8 +174,12 @@ async function load() {
       updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]});
     }
 
-    if (event.key == "Enter") {
+    if (event.key == "Enter" && !event.ctrlKey) {
       jumpToFolder();
+    }
+
+    if (event.key == "Enter" && event.ctrlKey) {
+      jumpToFolderInNewTab();
     }
   });
 
@@ -197,6 +208,8 @@ async function load() {
   // Add event listeners to buttons
   let goButton = document.getElementById("btnGo");
   goButton.addEventListener("click", event => {jumpToFolder();});
+  let goNewButton = document.getElementById("btnGoNew");
+  goNewButton.addEventListener("click", event => {jumpToFolderInNewTab();});
   let cancelButton = document.getElementById("btnCancel");
   cancelButton.addEventListener("click", event => {window.close();});
 

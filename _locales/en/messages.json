@@ -3,7 +3,7 @@
   "message": "Quick Folder Key Navigation"
   },
   "extensionDescription": {
-    "message": "This extension makes it possible to quickly navigate to a particular folder in the folder pane simply by pressing F4 and then typing the first few letters of the folder name into the QuickNav edit box. If multiple folders start with the same prefix, you can cycle through them using  the up and down arrow keys. Use ENTER to jump to the selected folder or Esc to cancel the operation. Note for JAWS users: if you have Forms Mode set to Manual, it is necessary to press enter when the QuickNav dialog opens in order to type into the search box. As this is extremely  inconvenient, it is recommended that you uncheck  the \"Disable forms Mode when a  new page is loaded\" option in JAWS Settings Center. This will cause you to be placed  into the edit field immediately when the QuickNav dialog opens. Alternatively, this can also be achieved by setting Forms Mode to anything other than Manual. The verbosity of  screen-reader speech can be adjusted using the \"Screen-reader verbosity\" combo box in the QuickNav dialog."
+    "message": "This extension makes it possible to quickly navigate to a particular folder in the folder pane simply by pressing F4 and then typing the first few letters of the folder name into the QuickNav edit box. If multiple folders start with the same prefix, you can cycle through them using  the up and down arrow keys. Use ENTER to jump to the selected folder or Esc to cancel the operation. Note for JAWS users: if you have Forms Mode set to Manual, it is necessary to press ENTER when the QuickNav dialog opens in order to type into the search box. As this is extremely  inconvenient, it is recommended that you uncheck  the 'Disable forms Mode when a  new page is loaded' option in JAWS Settings Center. This will cause you to be placed  into the edit field immediately when the QuickNav dialog opens. Alternatively, this can also be achieved by setting Forms Mode to anything other than Manual. The verbosity of  screen-reader speech can be adjusted using the 'Screen-reader verbosity' combo box in the QuickNav dialog."
   },
   "actionButtonLabel": {
     "message": "QuickNav"
@@ -13,6 +13,9 @@
   },
   "btnGoLabel": {
     "message": "Go"
+  },
+  "btnGoNewLabel": {
+    "message": "Go to New Tab"
   },
   "btnCancelLabel": {
     "message": "Cancel"
@@ -33,7 +36,7 @@
     "message": "What's New in Quick Folder Key Navigation"
   },
   "whatsnew_text": {
-   "message": "In this version, Go and Cancel buttons have been  added to the QuickNav dialog, as well as a combo box for controlling how much of the folder  name is spoken by  screen readers. A  small issue that could affect JAWS has  also been fixed."
+   "message": "The 'Go to New Tab' button has been added which causes the selected folder to be opened in a new mail tab. A new tab can also be opened by pressing CTRL+ENTER instead of ENTER."
   },
   "btnCloseLabel": {
     "message": "Close"
