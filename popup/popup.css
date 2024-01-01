@@ -21,7 +21,14 @@ input {
   background-color: rgb(233, 104, 104);
 }
 
-.hbox {
+.spacedhbox {
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.betweendhbox {
   display:flex;
   flex-direction: row;
   justify-content: space-between;
@@ -39,9 +46,3 @@ input {
   align-items: center;
 }
 
-.buttons {
-  display:flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}

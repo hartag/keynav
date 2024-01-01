@@ -11,15 +11,15 @@
     <script src="../common.js"></script>
     <script src="popup.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="popup.css"/>
-    <title data-l10n-id="actionButtonLabel"></title>
+    <title id="quick-nav" data-l10n-id="actionButtonLabel"></title>
   </head>
 
   <body>
 
-    <div role="application" tabindex="-1">
-      <div class="hbox">
-        <label for="quick-nav" data-l10n-id="searchLabel"></label>
-        <input type="text" id="quick-nav" tabindex="2">
+    <div role="application" aria-labelledby="quick-nav" tabindex="-1">
+      <div class="betweenhbox">
+        <label for="search-text" data-l10n-id="searchLabel"></label>
+        <input type="text" id="search-text" tabindex="3">
         <div id="idx" tabindex="-1"></div>
       </div>
 
@@ -28,18 +28,24 @@
         <span id="announce" aria-live="assertive"></span>
       </div>
 
-        <div class="buttons">
-          <button id="btnGo" data-l10n-id="btnGoLabel" tabindex="3"></button>
+        <div class="betweenhbox">
+          <button id="btnGo" data-l10n-id="btnGoLabel" tabindex="4"></button>
           <button id="btnGoNew" data-l10n-id="btnGoNewLabel" tabindex="4"></button>
-          <button id="btnCancel" data-l10n-id="btnCancelLabel" tabindex="5"></button>
+          <button id="btnCancel" data-l10n-id="btnCancelLabel" tabindex="6"></button>
         </div>
 
-        <div>
+        <div class="spacedhbox">
           <label for="verbosity" data-l10n-id="verbosityModeLabel"></label>
           <select id="verbosity" tabindex="1">
             <option value="concise" data-l10n-id="conciseLabel"></option>
             <option value="folder" data-l10n-id="FolderOnlyLabel"></option>
             <option value="whole" data-l10n-id="wholeLabel"></option>
+          </select>
+
+          <label for="search-type" data-l10n-id="searchTypeLabel"></label>
+          <select id="search-type" tabindex="2">
+            <option value="start" data-l10n-id="atStartLabel"></option>
+            <option value="anywhere" data-l10n-id="anywhereLabel"></option>
           </select>
         </div>
 

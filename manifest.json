@@ -3,14 +3,14 @@
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
   "author": "Andrew Hart",
-  "version": "4.2",
+  "version": "4.3",
   "homepage_url": "https://github.com/hartag/keynav",
   "default_locale": "en",
 
   "browser_specific_settings": {
     "gecko": {
       "id": "keynav@andrew.hart",
-      "strict_min_version": "121.0"
+      "strict_min_version": "115.0"
     }
   },
 

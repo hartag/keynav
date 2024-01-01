@@ -9,9 +9,13 @@
 document.addEventListener("DOMContentLoaded", localisePage, {once: true});
 
 document.addEventListener("DOMContentLoaded", function() {
+  let body = document.querySelector("body");
+  body.addEventListener("keydown", (event) => {
+    if (event.key==="Escape") window.close();
+  });
   let OKButton = document.querySelector("#whatsnew_button");
   OKButton.addEventListener("click", (event) => {
-  	window.close();
+    window.close();
   });
 }, {once: true});
 

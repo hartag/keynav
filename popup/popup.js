@@ -13,13 +13,57 @@
 const PRETTYSEP = " /\u00a0";
 
 let caseInsensitiveMatch = true;
-let  verbosityMode = "concise";
+let verbosityMode = "concise";
+let searchType = "start";
 
 let folders = [];
 let lastValue = "";
 let currentSubSearch = [];
 let currentSubSearchIdx = 0;
 let folderIsSelected = false;
+
+// Get a setting
+async function getSetting(name, defaultValue) {
+  let value = null;
+  let settings = await messenger.storage.local.get(null);
+  if (settings.hasOwnProperty(name)) {
+    value = settings[name];
+  } else {
+    value = defaultValue;
+    await messenger.storage.local.set({ name: value });
+  }
+  return value;
+}
+
+// Search function factory
+function createFolderSearch(value, searchType="start", caseSensitive=false) {
+  if (searchType==="start") {
+    return folder => folder.matchName.startsWith(value);
+  }
+  return folder => folder.matchName.includes(value);
+}
+
+// Filter the list of folders
+async function applyFilterToFolderList(event) {
+  let value = event.target.value;
+  if (value == lastValue) {
+    return;
+  }
+  console.log("VALUE update");
+  lastValue = value;
+  let matchValue = caseInsensitiveMatch ? value.toLocaleLowerCase() : value;
+  currentSubSearch = folders.filter(createFolderSearch(matchValue, searchType, caseInsensitiveMatch));
+  // Display results of filtering
+  currentSubSearchIdx = 0;
+  if (currentSubSearch.length == 0) {
+    // Make the input element red, to indicate to the user: No result found.
+    updateFolderDisplay({valid: false});
+  } else if (value == "" ) {
+    updateFolderDisplay({valid: true});
+  } else {
+    updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]})
+  }
+}
 
 // Recursive function to get all folders.
 function getFolders(subFolders, prettyPath) {
@@ -29,7 +73,7 @@ function getFolders(subFolders, prettyPath) {
       let subFolderPrettyPath = `${prettyPath}${PRETTYSEP}${subFolder.name}`;
       folders.push({
         mailFolder: subFolder,
-        matchName: caseInsensitiveMatch ? subFolder.name.toLowerCase() : subFolder.name,
+        matchName: caseInsensitiveMatch ? subFolder.name.toLocaleLowerCase() : subFolder.name,
         prettyPath: subFolderPrettyPath,
       });
       folders.push(...getFolders(subFolder.subFolders, subFolderPrettyPath));
@@ -41,8 +85,8 @@ function getFolders(subFolders, prettyPath) {
 // Function for determining how much two strings match from  their starts.
 function commonStringLength(str1, str2) {
   if (caseInsensitiveMatch) {
-    str1 = str1.toLowerCase();
-	str2 = str2.toLowerCase();
+    str1 = str1.toLocaleLowerCase();
+	str2 = str2.toLocaleLowerCase();
   }
   let idx = 0;
   while (idx<str1.length && idx<str2.length && str1[idx]===str2[idx]) {
@@ -66,6 +110,7 @@ function populateCurrentFolder(folder) {
       break;
     case "whole":
       break;
+    case "concise":
     default:
       let oldFolder = `${quietEl.textContent}${announceEl.textContent}`;
       commonLength = commonStringLength(folder, oldFolder);
@@ -132,12 +177,10 @@ async function load() {
   for (let account of accounts) {
     folders.push(...getFolders(account.folders, account.name));
   }
-  // TODO: Is sorting the cache needed? It may cause jumping back and forth when looping through folders/accounts.
-  // folders.sort((a, b) => a.matchName.localeCompare(b.matchName))
 
-  let quickNav = document.getElementById("quick-nav");
+  let quickNav = document.getElementById("search-text");
   quickNav.addEventListener("keydown", async event => {
-    if (event.key == "ArrowDown" || event.key == "ArrowUp") {
+    if (event.key==="ArrowDown" || event.key==="ArrowUp") {
       // up arrow and down arrow keys are  used to cycle to the next or previous folder, so 
       // make sure we do jump out of the input field.
       event.preventDefault();
@@ -151,7 +194,7 @@ async function load() {
         return;
       }
 
-      if (event.key == "ArrowDown") {
+      if (event.key==="ArrowDown") {
         // Cycle forward through results, wrap back to first result if at the end.
         if (currentSubSearchIdx + 1 < currentSubSearch.length) {
           currentSubSearchIdx++;
@@ -161,7 +204,7 @@ async function load() {
         console.log("ArrowDown cycle");
       }
 
-      if (event.key == "ArrowUp") {
+      if (event.key=== "ArrowUp") {
         // Cycle bacwards through results, wrap back to last result if at the start .
         if (currentSubSearchIdx > 0) {
           currentSubSearchIdx--;
@@ -174,60 +217,53 @@ async function load() {
       updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]});
     }
 
-    if (event.key == "Enter" && !event.ctrlKey) {
+    if (event.key==="Enter" && !event.ctrlKey) {
       jumpToFolder();
     }
 
-    if (event.key == "Enter" && event.ctrlKey) {
+    if (event.key==="Enter" && event.ctrlKey) {
       jumpToFolderInNewTab();
     }
   });
 
-  quickNav.addEventListener("keyup", async event => {
-    let value = event.target.value;
-    if (value == lastValue) {
-      return;
-    }
-    console.log("VALUE update");
-    lastValue = value;
-    
-    let matchValue = caseInsensitiveMatch ? value.toLowerCase() : value;
-    currentSubSearch = folders.filter(f => f.matchName.startsWith(matchValue));
-    
-    currentSubSearchIdx = 0;
-    if (currentSubSearch.length == 0) {
-      // Make the input element red, to indicate to the user: No result found.
-      updateFolderDisplay({valid: false});
-    } else if (value == "" ) {
-      updateFolderDisplay({valid: true});
-    } else {
-      updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]})
-    }
-  });
+  quickNav.addEventListener("keyup", applyFilterToFolderList);
 
   // Add event listeners to buttons
   let goButton = document.getElementById("btnGo");
   goButton.addEventListener("click", event => {jumpToFolder();});
-  let goNewButton = document.getElementById("btnGoNew");
-  goNewButton.addEventListener("click", event => {jumpToFolderInNewTab();});
   let cancelButton = document.getElementById("btnCancel");
   cancelButton.addEventListener("click", event => {window.close();});
-
-  let verbbositySelector = document.getElementById("verbosity");
-  let settings  = await messenger.storage.local.get(null);
-  if (settings.hasOwnProperty("verbosityMode")) {
-    verbosityMode = settings.verbosityMode;
+  let goNewButton = document.getElementById("btnGoNew");
+  // Test for messenger.mailTabs.create. If it exists,
+  if (messenger.mailTabs.hasOwnProperty("create")) {
+    // Add an event  listener to  the "Go to new tab" button to respond to clicks.
+    goNewButton.addEventListener("click", event => {jumpToFolderInNewTab();});
   } else {
-    verbosityMode = "concise";
-    await messenger.storage.local.set({ "verbosityMode": verbosityMode });
+    // Otherwise, do not display the "Go to new tab" button.
+    goNewButton.style.display = "none";
   }
-  verbbositySelector.value = verbosityMode;
-  verbbositySelector.addEventListener("change", async (event) => {
+
+// Set verbosityMode
+  verbosityMode = await getSetting("verbosityMode", "concise");
+  let verbosityElement = document.getElementById("verbosity");
+  verbosityElement.value = verbosityMode;
+  verbosityElement.addEventListener("change", async (event) => {
     verbosityMode = event.target.value;
     await messenger.storage.local.set({ "verbosityMode": verbosityMode });
   });
 
-  // Set focus on input field and fill initial match values
+// Set searchType
+  searchType = await getSetting("searchType", "start");
+  let SearchTypeElement = document.getElementById("search-type");
+  SearchTypeElement.value = searchType;
+  SearchTypeElement.addEventListener("change", async (event) => {
+    searchType = event.target.value;
+    await messenger.storage.local.set({ "searchType": searchType });
+    lastValue = "";
+    await applyFilterToFolderList({ "target": quickNav.value });
+  });
+ 
+// Set focus on input field and fill initial match values
   quickNav.focus();
   let idxElement = document.getElementById("idx");
   idxElement.textContent = `0/${folders.length}`;

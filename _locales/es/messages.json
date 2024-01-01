@@ -32,11 +32,20 @@
   "wholeLabel": {
     "message": "Decir ruta completa de carpeta"
   },
+  "searchTypeLabel": {
+    "message": "Método de búsqueda"
+  },
+  "atStartLabel": {
+    "message": "Coincidir desde el inicio"
+  },
+  "anywhereLabel": {
+    "message": "Coincidir en cualquier lugar"
+  },
   "whatsnew_title": {
     "message": "Qué es nuevo en Acceso Rápido a Carpetas"
   },
   "whatsnew_text": {
-   "message": "Se agregó el botón 'Ir a Nueva Pestaña', lo que hace que la carpeta seleccionada se abra en una nueva pestaña de correo. También se puede abrir una nueva pestaña presionando CTRL+ENTER en lugar de ENTER."
+   "message": "Ahora existen dos formas de buscar carpetas. El método 'Coincidir desde el inicio' compara el texto de búsqueda con el inicio de los nombres de las carpetas. Este era el tipo de búsqueda realizada en versiones anteriores de AccesoRápido. El nuevo método 'Coincidir en cualquier lugar' busca todas las carpetas cuyo nombre contiene el texto de búsqueda. Se ha agregado un control de método de búsqueda para permitir cambiar entre los dos métodos. Se recuerda el método seleccionado actualmente.\n\nSi está ejecutando Thunderbird 121.0 o posterior, el cuadro de diálogo AccesoRápido mostrará el botón 'Ir a nueva pestaña', lo que hace que la carpeta seleccionada se abra en una nueva pestaña de correo al hacer clic. También se puede abrir una nueva pestaña presionando CTRL+ENTER en lugar de hacer clic en este botón."
   },
   "btnCloseLabel": {
     "message": "Cerrar"
