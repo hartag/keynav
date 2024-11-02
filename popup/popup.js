@@ -6,9 +6,9 @@
 
 "use strict";
 
-// Define a pretty separator to demarcate the various components of a 
-// complete file path. The unicode non-breaking space prevents  the  
-// space following the slash from being collapsed if it is the last 
+// Define a pretty separator to demarcate the various components of a
+// complete file path. The unicode non-breaking space prevents the
+// space following the slash from being collapsed if it is the last
 // thing in the textContent of an element.
 const PRETTYSEP = " /\u00a0";
 
@@ -180,9 +180,8 @@ async function load() {
 
   let quickNav = document.getElementById("search-text");
   quickNav.addEventListener("keydown", async event => {
-    if (event.key==="ArrowDown" || event.key==="ArrowUp") {
-      // up arrow and down arrow keys are  used to cycle to the next or previous folder, so 
-      // make sure we do jump out of the input field.
+    if (event.key === "ArrowDown" || event.key === "ArrowUp" || event.key === "Tab") {
+      // keys are used to cycle to the next or previous folder, so make sure we do jump out of the input field.
       event.preventDefault();
       event.stopPropagation();
 
@@ -194,7 +193,7 @@ async function load() {
         return;
       }
 
-      if (event.key==="ArrowDown") {
+      if (event.key === "ArrowDown" || (event.key === "Tab" && !event.shiftKey)) {
         // Cycle forward through results, wrap back to first result if at the end.
         if (currentSubSearchIdx + 1 < currentSubSearch.length) {
           currentSubSearchIdx++;
@@ -204,7 +203,7 @@ async function load() {
         console.log("ArrowDown cycle");
       }
 
-      if (event.key=== "ArrowUp") {
+      if (event.key === "ArrowUp" || (event.key === "Tab" && event.shiftKey)) {
         // Cycle bacwards through results, wrap back to last result if at the start .
         if (currentSubSearchIdx > 0) {
           currentSubSearchIdx--;
@@ -262,7 +261,7 @@ async function load() {
     lastValue = "";
     await applyFilterToFolderList({ "target": quickNav.value });
   });
- 
+
 // Set focus on input field and fill initial match values
   quickNav.focus();
   let idxElement = document.getElementById("idx");
