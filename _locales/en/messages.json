@@ -45,7 +45,7 @@
     "message": "What's New in Quick Folder Key Navigation"
   },
   "whatsnew_text": {
-   "message": "There are now two ways of searching for folders. the 'Match from start' method matches the search text against the start of  folder names. This was the  kind of search  performed in previous versions of QuickNav.   The new 'Match anywhere' method  finds all folders whose name contains the search text. A Search method control has been added to allow switching between the two methods and the currently selected method is remembered.\n\nIf you are running Thunderbird 121.0 or later,   the QuickNav dialog will display a 'Go to New Tab' button, which causes the selected folder to be opened in a new mail tab when clicked. A new tab can also be opened by pressing CTRL+ENTER instead of clicking this button."
+   "message": "This update allows you to cycle forward and backward  through the set of matching folders using Ctrl+n and Ctrl+p respectively, in addition to the down arrow and up arrow     keys."
   },
   "btnCloseLabel": {
     "message": "Close"
