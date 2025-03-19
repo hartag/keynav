@@ -7,16 +7,21 @@
 "use strict";
 
 // Define a pretty separator to demarcate the various components of a
-// complete file path. The unicode non-breaking space prevents the
+// complete folder path. The unicode non-breaking space prevents the
 // space following the slash from being collapsed if it is the last
 // thing in the textContent of an element.
 const PRETTYSEP = " /\u00a0";
+// Separator for constructing folder IDs
+const FOLDERSEP = "\x00";
 
 let caseInsensitiveMatch = true;
 let verbosityMode = "concise";
 let searchType = "start";
 
+let hiddenFolderSet;
+let allFolders = [];
 let folders = [];
+let hiddenFolders = [];
 let lastValue = "";
 let currentSubSearch = [];
 let currentSubSearchIdx = 0;
@@ -43,43 +48,84 @@ function createFolderSearch(value, searchType="start", caseSensitive=false) {
   return folder => folder.matchName.includes(value);
 }
 
-// Filter the list of folders
-async function applyFilterToFolderList(event) {
+// Filter the list of folders according to the search criteria
+async function applySearchToFolderListEvent(event) {
   let value = event.target.value;
   if (value == lastValue) {
     return;
   }
-  console.log("VALUE update");
+  await applySearchToFolderList(value, true);
+}
+    
+async function applySearchToFolderList(value, gotoFirstMatch) {
+  console.log(`Value update '${value}'`);
   lastValue = value;
   let matchValue = caseInsensitiveMatch ? value.toLocaleLowerCase() : value;
   currentSubSearch = folders.filter(createFolderSearch(matchValue, searchType, caseInsensitiveMatch));
   // Display results of filtering
-  currentSubSearchIdx = 0;
+  if (gotoFirstMatch || currentSubSearchIdx>=currentSubSearch.length) currentSubSearchIdx = 0;
   if (currentSubSearch.length == 0) {
     // Make the input element red, to indicate to the user: No result found.
     updateFolderDisplay({valid: false});
   } else if (value == "" ) {
     updateFolderDisplay({valid: true});
   } else {
-    updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]})
+    updateFolderDisplay({valid: true, folder: currentSubSearch[currentSubSearchIdx]});
   }
 }
 
 // Recursive function to get all folders.
-function getFolders(subFolders, prettyPath) {
+function getFolders(subFolders, id) {
   let folders = [];
   if (subFolders) {
     for (let subFolder of subFolders) {
-      let subFolderPrettyPath = `${prettyPath}${PRETTYSEP}${subFolder.name}`;
+      //let subFolderPrettyPath = `${prettyPath}${PRETTYSEP}${subFolder.name}`;
+      let subFolderID = `${id}${FOLDERSEP}${subFolder.name}`;
       folders.push({
         mailFolder: subFolder,
         matchName: caseInsensitiveMatch ? subFolder.name.toLocaleLowerCase() : subFolder.name,
-        prettyPath: subFolderPrettyPath,
+        id: subFolderID
       });
-      folders.push(...getFolders(subFolder.subFolders, subFolderPrettyPath));
+      folders.push(...getFolders(subFolder.subFolders, subFolderID));
     }
   }
   return folders;
+}
+
+// Filter allFolders array into folders and hiddenFolders based on folders 
+// whose IDs are contained in hiddenFolderSet.
+function splitFoldersIntoSearchableAndHidden() {
+  folders = [];
+  hiddenFolders = [];
+  for (let folder of allFolders) {
+    if (hiddenFolderSet.has(folder.id)) {
+      hiddenFolders.push(folder);
+    } else {
+      folders.push(folder);
+    }
+  }
+}
+
+function populateHiddenFolders() {
+  let hiddenFoldersElement = document.getElementById("hidden-folders");
+  // Clear the select control first
+  while (hiddenFoldersElement.length) hiddenFoldersElement.remove(0);
+  // Add all the hidden folders to the select element
+  for (let folder of hiddenFolders) {
+    let option = document.createElement("option");
+    option.textContent = folder.id.replaceAll(FOLDERSEP, PRETTYSEP);
+    hiddenFoldersElement.add(option);
+  }
+  if (hiddenFoldersElement.length==0) {
+    // If the hiddenFolders combo is empty, disable the show buttons;
+    document.getElementById("show-folder").disabled = true;
+    document.getElementById("show-all-folders").disabled = true;
+    hiddenFoldersElement.focus();
+  } else {
+    // otherwise, enable them
+    document.getElementById("show-folder").disabled = false;
+    document.getElementById("show-all-folders").disabled = false;
+  }
 }
 
 // Function for determining how much two strings match from  their starts.
@@ -92,11 +138,13 @@ function commonStringLength(str1, str2) {
   while (idx<str1.length && idx<str2.length && str1[idx]===str2[idx]) {
     idx++;
   }
+  
   return idx;
 }
 
-function populateCurrentFolder(folder) {
+function populateCurrentFolder(folderID) {
   let quietEl = document.getElementById("quiet");
+  let folder = folderID.replaceAll(FOLDERSEP, PRETTYSEP);
   let announceEl = document.getElementById("announce");
   let commonLength = 0;
   switch (verbosityMode) {
@@ -133,13 +181,13 @@ function clearCurrentFolder() {
 
 function updateFolderDisplay(config) {
   //let currentFolderElement = document.getElementById("currentFolder");
-  let quickNavElement = document.getElementById("quick-nav");
+  let searchTextElement = document.getElementById("search-text");
   let idxElement = document.getElementById("idx");
 
   if (config.valid) {
-    quickNavElement.classList.remove("invalid");
+    searchTextElement.classList.remove("invalid");
   } else {
-    quickNavElement.classList.add("invalid");
+    searchTextElement.classList.add("invalid");
   }
 
   if (config.folder) {
@@ -148,12 +196,66 @@ function updateFolderDisplay(config) {
     //messenger.mailTabs.update({ displayedFolder: config.folder.mailFolder });
     //currentFolderElement.textContent = config.folder.prettyPath;
     idxElement.textContent = `${currentSubSearchIdx+1}/${currentSubSearch.length}`;
-    populateCurrentFolder(config.folder.prettyPath);
+    populateCurrentFolder(config.folder.id);
   } else {
     folderIsSelected = false;
     idxElement.textContent = `0/${folders.length}`;
     clearCurrentFolder();
   }
+}
+
+async function hideFolderEvent(event) {
+  if (!folderIsSelected) {
+    return;
+  }
+  let id = currentSubSearch[currentSubSearchIdx].id;
+  hiddenFolderSet.add(id);
+  await messenger.storage.local.set({ "hiddenFolders": Array.from(hiddenFolderSet) });
+  splitFoldersIntoSearchableAndHidden();
+  let searchText = document.getElementById("search-text");
+  await applySearchToFolderList(searchText.value, false);
+  document.getElementById("show-folder").disabled = false;
+  document.getElementById("show-all-folders").disabled = false;
+  populateHiddenFolders();
+}
+
+async function showFolderEvent(event) {
+  let hiddenFoldersElement = document.getElementById("hidden-folders")
+  let id = hiddenFoldersElement[hiddenFoldersElement.selectedIndex].value.replaceAll(PRETTYSEP, FOLDERSEP);
+  hiddenFolderSet.delete(id);
+  // Remember the position in the select element
+  let idx = hiddenFoldersElement.selectedIndex
+  hiddenFoldersElement.remove(hiddenFoldersElement.selectedIndex);
+  if (idx>=hiddenFoldersElement.length) {
+    idx -= 1; // decrease idx so it's not past the end of the select options
+  }
+  await messenger.storage.local.set({ "hiddenFolders": Array.from(hiddenFolderSet) });
+  splitFoldersIntoSearchableAndHidden();
+  let searchText = document.getElementById("search-text");
+  await applySearchToFolderList(searchText.value, false);
+  if (hiddenFoldersElement.length) {
+    // Select the appropriate option
+    hiddenFoldersElement.selectedIndex = idx
+  } else {
+    // Since the hidden-folders element is empty, disable the show buttons 
+    // and move focus to the search box 
+    document.getElementById("show-folder").disabled = true;
+    document.getElementById("show-all-folders").disabled = true;
+    document.getElementById("search-text").focus();
+  }
+}
+
+async function showAllFoldersEvent() {
+  hiddenFolderSet.clear();
+  let hiddenFoldersElement = document.getElementById("hidden-folders");
+  while (hiddenFoldersElement.length) hiddenFoldersElement.remove(0);
+  await messenger.storage.local.set({ "hiddenFolders": Array.from(hiddenFolderSet) });
+  splitFoldersIntoSearchableAndHidden();
+  let searchText = document.getElementById("search-text");
+  await applySearchToFolderList(searchText.value, false);
+  populateHiddenFolders();
+  // Move focus to search box since the hidden-folders element is now empty
+  document.getElementById("search-text").focus();
 }
 
 function jumpToFolder() {
@@ -171,18 +273,19 @@ async function jumpToFolderInNewTab() {
 }
 
 async function load() {
-  // Build flat folder list. Maybe use a cache, which is not rebuild each time the popup is opened
-  // but only if the folders changed?
+  // Build flat folder list. 
   let accounts = await messenger.accounts.list(true);
+  allFolders = [];
   for (let account of accounts) {
-    folders.push(...getFolders(account.folders, account.name));
+    allFolders.push(...getFolders(account.folders, account.name));
   }
+  //folders = allFolders;
 
-  let quickNav = document.getElementById("search-text");
-  quickNav.addEventListener("keydown", async event => {
+  let searchText = document.getElementById("search-text");
+  searchText.addEventListener("keydown", async event => {
     if (
       event.key === "ArrowDown" || event.key === "ArrowUp" ||
-      (event.ctrlKey && (event.key === "n" || event.key === 'p'))
+      (event.ctrlKey && (event.key === "n" || event.key === "p"))
     ) {
       // keys are used to cycle to the next or previous folder, so make sure we do jump out of the input field.
       event.preventDefault();
@@ -226,24 +329,54 @@ async function load() {
     if (event.key==="Enter" && event.ctrlKey) {
       jumpToFolderInNewTab();
     }
+
+    if (event.ctrlKey && event.key==="Delete") {
+      await hideFolderEvent();
+    }
   });
 
-  quickNav.addEventListener("keyup", applyFilterToFolderList);
+  searchText.addEventListener("keyup", applySearchToFolderListEvent);
 
   // Add event listeners to buttons
   let goButton = document.getElementById("btnGo");
-  goButton.addEventListener("click", event => {jumpToFolder();});
+  goButton.addEventListener("click", jumpToFolder);
   let cancelButton = document.getElementById("btnCancel");
   cancelButton.addEventListener("click", event => {window.close();});
   let goNewButton = document.getElementById("btnGoNew");
   // Test for messenger.mailTabs.create. If it exists,
   if (messenger.mailTabs.hasOwnProperty("create")) {
     // Add an event  listener to  the "Go to new tab" button to respond to clicks.
-    goNewButton.addEventListener("click", event => {jumpToFolderInNewTab();});
+    goNewButton.addEventListener("click", jumpToFolderInNewTab);
   } else {
     // Otherwise, do not display the "Go to new tab" button.
     goNewButton.style.display = "none";
   }
+
+// Add keydown event to hiddenFoldersElement
+  document.getElementById("hidden-folders")
+  .addEventListener("keydown", async event => {
+    if (event.key==="Delete" && event.target.selectedIndex>=0) {
+      event.preventDefault();
+    event.stopPropagation();
+      await showFolderEvent();
+    }
+    if (event.ctrlKey && event.key==="Delete") {
+      event.stopPropagation();
+      event.preventDefault();
+      await showAllFoldersEvent();
+    }
+  });
+
+// Add event listeners to the hide-folder, show-folder and show-all-folders buttons
+  document.getElementById("hide-folder").addEventListener("click", hideFolderEvent);
+  document.getElementById("show-folder").addEventListener("click", showFolderEvent);
+  document.getElementById("show-all-folders").addEventListener("click", showAllFoldersEvent);
+ 
+// Retrieve the list of hidden folders from local storage and split the 
+// folder list into searchable and hidden
+  hiddenFolderSet = new Set(await getSetting("hiddenFolders", []));
+  splitFoldersIntoSearchableAndHidden();
+  populateHiddenFolders();
 
 // Set verbosityMode
   verbosityMode = await getSetting("verbosityMode", "concise");
@@ -262,11 +395,12 @@ async function load() {
     searchType = event.target.value;
     await messenger.storage.local.set({ "searchType": searchType });
     lastValue = "";
-    await applyFilterToFolderList({ "target": quickNav.value });
+    let searchText = document.getElementById("search-text");
+    await applySearchToFolderList(searchText.value);
   });
 
 // Set focus on input field and fill initial match values
-  quickNav.focus();
+  searchText.focus();
   let idxElement = document.getElementById("idx");
   idxElement.textContent = `0/${folders.length}`;
 }

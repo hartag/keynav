@@ -13,7 +13,7 @@ label {
   line-height: 1.8em ;
 }
 
-input {
+input, select, button {
   margin: 0.5em;
 }
 
@@ -22,14 +22,14 @@ input {
 }
 
 .spacedhbox {
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
 }
 
 .betweendhbox {
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -40,7 +40,7 @@ input {
 }
 
 #currentFolder {
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;

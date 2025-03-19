@@ -19,7 +19,7 @@
     <div role="application" aria-labelledby="quick-nav" tabindex="-1">
       <div class="betweenhbox">
         <label for="search-text" data-l10n-id="searchLabel"></label>
-        <input type="text" id="search-text" tabindex="3">
+        <input type="text" id="search-text" tabindex="4">
         <div id="idx" tabindex="-1"></div>
       </div>
 
@@ -28,26 +28,39 @@
         <span id="announce" aria-live="assertive"></span>
       </div>
 
-        <div class="betweenhbox">
-          <button id="btnGo" data-l10n-id="btnGoLabel" tabindex="4"></button>
-          <button id="btnGoNew" data-l10n-id="btnGoNewLabel" tabindex="4"></button>
-          <button id="btnCancel" data-l10n-id="btnCancelLabel" tabindex="6"></button>
-        </div>
+      <div class="betweenhbox">
+        <button id="hide-folder" data-l10n-id="hideFolderLabel" tabindex="5"></button>
+        <button id="btnGo" data-l10n-id="btnGoLabel" tabindex="6"></button>
+        <button id="btnGoNew" data-l10n-id="btnGoNewLabel" tabindex="6"></button>
+        <button id="btnCancel" data-l10n-id="btnCancelLabel" tabindex="6"></button>
+      </div>
 
+      <div class="spacedhbox">
+        <label for="verbosity" data-l10n-id="verbosityModeLabel"></label>
+        <select id="verbosity" tabindex="1">
+          <option value="concise" data-l10n-id="conciseLabel"></option>
+          <option value="folder" data-l10n-id="FolderOnlyLabel"></option>
+          <option value="whole" data-l10n-id="wholeLabel"></option>
+        </select>
+
+        <label for="search-type" data-l10n-id="searchTypeLabel"></label>
+        <select id="search-type" tabindex="3">
+          <option value="start" data-l10n-id="atStartLabel"></option>
+          <option value="anywhere" data-l10n-id="anywhereLabel"></option>
+        </select>
+      </div>
+
+      <div>
+        <div>
+          <label for="hidden-folders" data-l10n-id="hiddenFoldersLabel"></label>
+          <select id="hidden-folders" tabindex="7">
+          </select>
+        </div>
         <div class="spacedhbox">
-          <label for="verbosity" data-l10n-id="verbosityModeLabel"></label>
-          <select id="verbosity" tabindex="1">
-            <option value="concise" data-l10n-id="conciseLabel"></option>
-            <option value="folder" data-l10n-id="FolderOnlyLabel"></option>
-            <option value="whole" data-l10n-id="wholeLabel"></option>
-          </select>
-
-          <label for="search-type" data-l10n-id="searchTypeLabel"></label>
-          <select id="search-type" tabindex="2">
-            <option value="start" data-l10n-id="atStartLabel"></option>
-            <option value="anywhere" data-l10n-id="anywhereLabel"></option>
-          </select>
+          <button id="show-folder" data-l10n-id="showFolderLabel" tabindex="7"></button>
+          <button id="show-all-folders" data-l10n-id="showAllFoldersLabel" tabindex="7"></button>
         </div>
+      </div>
 
     </div>
   </body>

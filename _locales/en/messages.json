@@ -3,7 +3,7 @@
   "message": "Quick Folder Key Navigation"
   },
   "extensionDescription": {
-    "message": "This extension makes it possible to quickly navigate to a particular folder in the folder pane  by clicking on the \"QuickNav\" button (or pressing F4) and  typing the first few letters of the folder name into the Search box that appears. If multiple folders start with the same prefix, you can cycle through them using  the up and down arrow keys. Click the \"Go\" button (or press ENTER) to jump to the selected folder or Esc to cancel the operation. Using the Search method control, The way searching is carried out can be  changed to \"Match anywhere\" to allow searching for text that appears anywhere in the folder name, instead of only at the beginning of the folder name, which is what  the default \"Match from  start\" method does. In Thunderbird 121.0 and later, an additional \"Go to new tab\" button (or   pressing CTRL+ENTER) allows the selected folder to be opened in a new mail tab. Note for JAWS users:  if you have Forms Mode set to Manual, it is necessary to press ENTER when the QuickNav dialog opens in order to type into the search box. As this is extremely  inconvenient, it is recommended that you uncheck  the \"Disable forms Mode when a  new page is loaded\" option in JAWS Settings Center. This will cause you to be placed  into the edit field immediately when the QuickNav dialog opens. Alternatively, this can also be achieved by setting Forms Mode to anything other than Manual. The verbosity of  screen-reader speech can be adjusted using the \"Screen-reader verbosity\" combo box  in the QuickNav dialog."
+    "message": "This extension makes it possible to quickly navigate to a particular folder in the folder pane  by clicking on the \"QuickNav\" button (or pressing F4) and  typing the first few letters of the folder name into the Search box that appears. If multiple folders start with the same prefix, you can cycle through them using  the up and down arrow keys. Alternatively, you can also use CTRL+p and CTRL+n. Click the \"Go\" button (or press ENTER) to jump to the selected folder or Esc to cancel the operation. Using the Search method control, The way searching is carried out can be  changed to \"Match anywhere\" to allow searching for text that appears anywhere in the folder name, instead of only at the beginning of the folder name, which is what  the default \"Match from  start\" method does. In Thunderbird 121.0 and later, an additional \"Go to new tab\" button (or   pressing CTRL+ENTER) allows the selected folder to be opened in a new mail tab. Note for JAWS users:  if you have Forms Mode set to Manual, it is necessary to press ENTER when the QuickNav dialog opens in order to type into the search box. As this is extremely  inconvenient, it is recommended that you uncheck  the \"Disable forms Mode when a  new page is loaded\" option in JAWS Settings Center. This will cause you to be placed  into the edit field immediately when the QuickNav dialog opens. Alternatively, this can also be achieved by setting Forms Mode to anything other than Manual. The verbosity of  screen-reader speech can be adjusted using the \"Screen-reader verbosity\" combo box  in the QuickNav dialog."
   },
   "actionButtonLabel": {
     "message": "QuickNav"
@@ -41,11 +41,23 @@
   "anywhereLabel": {
     "message": "Match anywhere"
   },
+  "hiddenFoldersLabel": {
+    "message": "Hidden folders"
+  },
+  "hideFolderLabel": {
+    "message": "Hide folder"
+  },
+  "showFolderLabel": {
+    "message": "Show folder"
+  },
+  "showAllFoldersLabel": {
+    "message": "Show all folders"
+  },
   "whatsnew_title": {
     "message": "What's New in Quick Folder Key Navigation"
   },
   "whatsnew_text": {
-   "message": "This update allows you to cycle forward and backward  through the set of matching folders using Ctrl+n and Ctrl+p respectively, in addition to the down arrow and up arrow     keys."
+   "message": "Folders can now be excluded from the search by hiding them. The \"Hide\" button (or pressing CTRL+Delete) adds the currently selected folder to the hidden folders list. To make a hidden folder searchable once again, select it in the Hidden folders combo box and either click the \"Show folder\" button or press the Delete key. Clicking the \"Show all folders\" button or pressing CTRL+Delete clears the hidden folder list, making all folders searchable once again. The hidden folder list is saved locally and restored each time Thunderbird is started."
   },
   "btnCloseLabel": {
     "message": "Close"
