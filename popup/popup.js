@@ -56,7 +56,7 @@ async function applySearchToFolderListEvent(event) {
   }
   await applySearchToFolderList(value, true);
 }
-    
+
 async function applySearchToFolderList(value, gotoFirstMatch) {
   console.log(`Value update '${value}'`);
   lastValue = value;
@@ -92,7 +92,7 @@ function getFolders(subFolders, id) {
   return folders;
 }
 
-// Filter allFolders array into folders and hiddenFolders based on folders 
+// Filter allFolders array into folders and hiddenFolders based on folders
 // whose IDs are contained in hiddenFolderSet.
 function splitFoldersIntoSearchableAndHidden() {
   folders = [];
@@ -132,13 +132,13 @@ function populateHiddenFolders() {
 function commonStringLength(str1, str2) {
   if (caseInsensitiveMatch) {
     str1 = str1.toLocaleLowerCase();
-	str2 = str2.toLocaleLowerCase();
+    str2 = str2.toLocaleLowerCase();
   }
   let idx = 0;
   while (idx<str1.length && idx<str2.length && str1[idx]===str2[idx]) {
     idx++;
   }
-  
+
   return idx;
 }
 
@@ -237,8 +237,8 @@ async function showFolderEvent(event) {
     // Select the appropriate option
     hiddenFoldersElement.selectedIndex = idx
   } else {
-    // Since the hidden-folders element is empty, disable the show buttons 
-    // and move focus to the search box 
+    // Since the hidden-folders element is empty, disable the show buttons
+    // and move focus to the search box
     document.getElementById("show-folder").disabled = true;
     document.getElementById("show-all-folders").disabled = true;
     document.getElementById("search-text").focus();
@@ -273,7 +273,7 @@ async function jumpToFolderInNewTab() {
 }
 
 async function load() {
-  // Build flat folder list. 
+  // Build flat folder list.
   let accounts = await messenger.accounts.list(true);
   allFolders = [];
   for (let account of accounts) {
@@ -371,8 +371,8 @@ async function load() {
   document.getElementById("hide-folder").addEventListener("click", hideFolderEvent);
   document.getElementById("show-folder").addEventListener("click", showFolderEvent);
   document.getElementById("show-all-folders").addEventListener("click", showAllFoldersEvent);
- 
-// Retrieve the list of hidden folders from local storage and split the 
+
+// Retrieve the list of hidden folders from local storage and split the
 // folder list into searchable and hidden
   hiddenFolderSet = new Set(await getSetting("hiddenFolders", []));
   splitFoldersIntoSearchableAndHidden();

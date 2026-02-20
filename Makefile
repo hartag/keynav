@@ -24,7 +24,7 @@ all : $(XPI-FILE)
 $(XPI-FILE): $(SRC-FILES)
 	@echo Generating $(XPI-FILE).
 	@zip -qr $(XPI-FILE) $(SRC-FILES)
-	
+
 .PHONEY: clean version
 clean:
 	-@rm -f *.xpi
@@ -32,4 +32,4 @@ clean:
 
 version:
 	@echo $(EXT-NAME) version $(EXT-VERSION)
-	
+
