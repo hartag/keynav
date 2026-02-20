@@ -40,12 +40,20 @@ async function getSetting(name, defaultValue) {
   return value;
 }
 
-// Search function factory
-function createFolderSearch(value, searchType="start", caseSensitive=false) {
-  if (searchType==="start") {
-    return folder => folder.matchName.startsWith(value);
-  }
-  return folder => folder.matchName.includes(value);
+function filterFolders(folders, value, searchType="start", caseSensitive=false) {
+  const searchTerms = value.split(/\s+/);
+  const normalize = (token) => caseSensitive ? token : token.toLocaleLowerCase();
+  return folders.filter((folder) =>
+    // All search terms have to match
+    searchTerms.every((searchTerm, i) => {
+      if (i === 0 && searchType === "start") {
+        if (!normalize(folder.matchPath[0]).startsWith(searchTerm)) {
+          return false;
+        }
+      }
+      return folder.matchPath.some((token) => normalize(token).includes(searchTerm));
+    })
+  );
 }
 
 // Filter the list of folders according to the search criteria
@@ -61,7 +69,7 @@ async function applySearchToFolderList(value, gotoFirstMatch) {
   console.log(`Value update '${value}'`);
   lastValue = value;
   let matchValue = caseInsensitiveMatch ? value.toLocaleLowerCase() : value;
-  currentSubSearch = folders.filter(createFolderSearch(matchValue, searchType, caseInsensitiveMatch));
+  currentSubSearch = filterFolders(folders, matchValue, searchType);
   // Display results of filtering
   if (gotoFirstMatch || currentSubSearchIdx>=currentSubSearch.length) currentSubSearchIdx = 0;
   if (currentSubSearch.length == 0) {
@@ -75,18 +83,19 @@ async function applySearchToFolderList(value, gotoFirstMatch) {
 }
 
 // Recursive function to get all folders.
-function getFolders(subFolders, id) {
+function getFolders(subFolders, id, path) {
   let folders = [];
   if (subFolders) {
     for (let subFolder of subFolders) {
       //let subFolderPrettyPath = `${prettyPath}${PRETTYSEP}${subFolder.name}`;
-      let subFolderID = `${id}${FOLDERSEP}${subFolder.name}`;
+      const subFolderID = `${id}${FOLDERSEP}${subFolder.name}`;
+      const matchPath = [...path, caseInsensitiveMatch ? subFolder.name.toLocaleLowerCase() : subFolder.name];
       folders.push({
         mailFolder: subFolder,
-        matchName: caseInsensitiveMatch ? subFolder.name.toLocaleLowerCase() : subFolder.name,
+        matchPath,
         id: subFolderID
       });
-      folders.push(...getFolders(subFolder.subFolders, subFolderID));
+      folders.push(...getFolders(subFolder.subFolders, subFolderID, matchPath));
     }
   }
   return folders;
@@ -277,7 +286,7 @@ async function load() {
   let accounts = await messenger.accounts.list(true);
   allFolders = [];
   for (let account of accounts) {
-    allFolders.push(...getFolders(account.folders, account.name));
+    allFolders.push(...getFolders(account.folders, account.name, [account.name]));
   }
   //folders = allFolders;
 
