@@ -30,7 +30,7 @@
   },
 
   "permissions": [
-    "accountsRead", 
+    "accountsRead",
     "storage"
   ],
 

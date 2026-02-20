@@ -7,30 +7,30 @@ Quick folder Key Navigation (keynav)  Add-on for Thunderbird
 
 <script>
 function toggleSuggestions() {
-	var button = document.getElementById("suggestionsButton");
-	var text = document.getElementById("suggestions");
-	var displayState = text.style.display;
-	if (displayState=="none") {
-		text.style.display = "block";
-		button.innerHTML = "Hide suggestions.";
-	} else {
-		text.style.display = "none";
-		button.innerHTML = "Show some suggestions for how to accomplish this.";
-	}
+  var button = document.getElementById("suggestionsButton");
+  var text = document.getElementById("suggestions");
+  var displayState = text.style.display;
+  if (displayState=="none") {
+    text.style.display = "block";
+    button.innerHTML = "Hide suggestions.";
+  } else {
+    text.style.display = "none";
+    button.innerHTML = "Show some suggestions for how to accomplish this.";
+  }
 }
-	</script>
+  </script>
 
 </head>
 
 <body>
 <h1>The keynav Add-on</h1>
 
-<p>Quick Folder Key Navigation (keynav) is an add-on for Thunderbird that allows the folder pane to be 
+<p>Quick Folder Key Navigation (keynav) is an add-on for Thunderbird that allows the folder pane to be
 quickly navigated by typing part or all of a folder name when it has the focus.</p>
-<p>Note that  single-letter Thunderbird short-cuts (such 
-as "n" and "p" which move to the  next and previous unread messages respectively) do not 
-work in the folder pane when key navigation is enabled.  Therefore, There is an 
-option to turn key navigation on/off, as well as for adding this item to 
+<p>Note that  single-letter Thunderbird short-cuts (such
+as "n" and "p" which move to the  next and previous unread messages respectively) do not
+work in the folder pane when key navigation is enabled.  Therefore, There is an
+option to turn key navigation on/off, as well as for adding this item to
 the context menu when the folder pane has the focus.</p>
 
 <h1>Where to Get keynav</h1>
@@ -39,11 +39,11 @@ the context menu when the folder pane has the focus.</p>
 <p><a href="keynav@andrew.hart.xpi"><b>Download keynav</b></a></p>
 
 <p>The source code for keynav is available on <a href="https://github.com/hartag/keynav.git">gitHub</a>. Alternatively, the git repository can be cloned directly at the command line by typing<br/>
-	<code>
-		git clone https://github.com/hartag/keynav.git keynav
-		</code><br/>
-	which places a copy of the repository in a directory called "keynav".
-	</p>
+  <code>
+    git clone https://github.com/hartag/keynav.git keynav
+    </code><br/>
+  which places a copy of the repository in a directory called "keynav".
+  </p>
 
 <h1 id="install">How to Install keynav</h1>
 
@@ -54,36 +54,36 @@ the context menu when the folder pane has the focus.</p>
   <li>Click on the Tools menu and then click on Add-ons to open the Add-ons Manager. From the keyboard, this can be done by typing Alt+t followed by a.</li>
   <li>Click on the "Tools for all add-ons" button, which appears as a cog wheel. It is just before the "Search all add-ons" edit field in the tab order.
       <ul>
-      	at the location of the button on screen.
+        at the location of the button on screen.
 <div><button onclick="toggleSuggestions()" id="suggestionsButton">Show some suggestions for how to accomplish this.</button></div>
 <div id="suggestions" style="display:none;">
-	<p>First use Tab and Shift+Tab to move the focus to the "Tools for all add-ons" button.</p>
-	<p>If you are using Orca on Linux, you must press Orca Modifier+a to switch Orca into focus Mode before proceeding.</p>
-	<p>Next, you must move the mouse pointer to the button and then click the left mouse button to open the menu. The following table shows the commands for doing this in various screen readers.</p>
-	<table>
-		<tr><th>Operation</th><th>Desktop Command</th><th>Laptop Command</th></tr>
-		<tr><td colspan="3">NVDA</td></tr>
-		<tr>
-			<td>Move mouse to focused object</td><td>NumpadSlash</td><td>NVDA+shift+m</td>
-		</tr>
-		<tr>
-			<td>Click left mouse button</td><td>NVDA+NumpadSlash</td><td>NVDA+[</td>
-		</tr>
-		<tr><td colspan="3">JAWS for Windows</td></tr>
-		<tr>
-			<td>Move mouse to focused object</td><td>JAWSKey+NumpadMinus</td><td>JAWSKey+[</td>
-		</tr>
-		<tr>
-			<td>Click left mouse button</td><td>NumpadSlash</td><td>JAWSKey+8</td>
-		</tr>
+  <p>First use Tab and Shift+Tab to move the focus to the "Tools for all add-ons" button.</p>
+  <p>If you are using Orca on Linux, you must press Orca Modifier+a to switch Orca into focus Mode before proceeding.</p>
+  <p>Next, you must move the mouse pointer to the button and then click the left mouse button to open the menu. The following table shows the commands for doing this in various screen readers.</p>
+  <table>
+    <tr><th>Operation</th><th>Desktop Command</th><th>Laptop Command</th></tr>
+    <tr><td colspan="3">NVDA</td></tr>
+    <tr>
+      <td>Move mouse to focused object</td><td>NumpadSlash</td><td>NVDA+shift+m</td>
+    </tr>
+    <tr>
+      <td>Click left mouse button</td><td>NVDA+NumpadSlash</td><td>NVDA+[</td>
+    </tr>
+    <tr><td colspan="3">JAWS for Windows</td></tr>
+    <tr>
+      <td>Move mouse to focused object</td><td>JAWSKey+NumpadMinus</td><td>JAWSKey+[</td>
+    </tr>
+    <tr>
+      <td>Click left mouse button</td><td>NumpadSlash</td><td>JAWSKey+8</td>
+    </tr>
 <tr><td colspan="3">Orca</td></tr>
-		<tr>
-			<td>Move mouse to focused object</td><td>Orca Modifier+KP Divide</td><td>Orca Modifier+9</td>
-		</tr>
-		<tr>
-			<td>Click left mouse button</td><td>KP Divide</td><td>Orca Modifier+7</td>
-		</tr>
-		</table>
+    <tr>
+      <td>Move mouse to focused object</td><td>Orca Modifier+KP Divide</td><td>Orca Modifier+9</td>
+    </tr>
+    <tr>
+      <td>Click left mouse button</td><td>KP Divide</td><td>Orca Modifier+7</td>
+    </tr>
+    </table>
 </div>
 
 </li></ul>
@@ -95,17 +95,17 @@ the context menu when the folder pane has the focus.</p>
 
 <h1>Building From Source</h1>
 
-<p>To build the add-on from source, first download the source code from <a href="https://github.com/hartag/keynav.git">GitHub</a>. In addition to a shell such as bash, the following standard Linux/Unix  
-utilities are needed for building the extension: make, cat, 
+<p>To build the add-on from source, first download the source code from <a href="https://github.com/hartag/keynav.git">GitHub</a>. In addition to a shell such as bash, the following standard Linux/Unix
+utilities are needed for building the extension: make, cat,
 grep, head, sed, zip.</p>
 
 <p>Building the extension is straightforward. After cloning the repository
 or downloading an archive of the repository and extracting it to a
-directory, simply type "make" at the command prompt to build the .xpi 
+directory, simply type "make" at the command prompt to build the .xpi
 file.</p>
 
-<p>In addition, "make version" will display the source code version and 
-"make clean" will clean up the repository folder structure, deleting the zip 
+<p>In addition, "make version" will display the source code version and
+"make clean" will clean up the repository folder structure, deleting the zip
 file, as well as files with names like *.bak, etc.</p>
 
 <p>Once the xpi file has been built, it can be installed using the instructions given above in <a href="#install">How to Install keynav</a>.</p>
