@@ -45,11 +45,9 @@ function filterFolders(folders, value, searchType="start", caseSensitive=false) 
   const normalize = (token) => caseSensitive ? token : token.toLocaleLowerCase();
   return folders.filter((folder) =>
     // All search terms have to match
-    searchTerms.every((searchTerm, i) => {
-      if (i === 0 && searchType === "start") {
-        if (!normalize(folder.matchPath[0]).startsWith(searchTerm)) {
-          return false;
-        }
+    searchTerms.every(searchTerm => {
+      if (searchType === "start") {
+        return folder.matchPath.some((token) => normalize(token).startsWith(searchTerm));
       }
       return folder.matchPath.some((token) => normalize(token).includes(searchTerm));
     })
@@ -69,7 +67,7 @@ async function applySearchToFolderList(value, gotoFirstMatch) {
   console.log(`Value update '${value}'`);
   lastValue = value;
   let matchValue = caseInsensitiveMatch ? value.toLocaleLowerCase() : value;
-  currentSubSearch = filterFolders(folders, matchValue, searchType);
+  currentSubSearch = filterFolders(folders, matchValue, searchType, caseInsensitiveMatch);
   // Display results of filtering
   if (gotoFirstMatch || currentSubSearchIdx>=currentSubSearch.length) currentSubSearchIdx = 0;
   if (currentSubSearch.length == 0) {
