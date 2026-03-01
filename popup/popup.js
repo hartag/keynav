@@ -40,16 +40,35 @@ async function getSetting(name, defaultValue) {
   return value;
 }
 
+function getSearchFunc(value, searchType) {
+  return searchType==="start" ? token => token.startsWith(value) : token => token.includes(value);
+}
+
 function filterFolders(folders, value, searchType="start", caseSensitive=false) {
-  const searchTerms = value.split(/\s+/);
-  const normalize = (token) => caseSensitive ? token : token.toLocaleLowerCase();
+  if (value.length==0) {
+    return [...folders]; // no filtering; return shallow copy of whole array
+  }
+  const normalize = token => caseSensitive ? token : token.toLocaleLowerCase();
+  const searchTerms = value.split(/\s+/).map(normalize);
+  if (searchTerms.length==1) {
+    const searchTerm = searchTerms[0]
+    const isAMatch = getSearchFunc(searchTerm, searchType);
+    let folderList = []
+    let accounts = []
+    for (let folder of folders) {
+      if (isAMatch(folder.matchAccount) && !accounts.includes(folder.matchAccount)) {
+        folderList.push(folder);
+        accounts.push(folder.matchAccount);
+      } else if (isAMatch(folder.matchName)) {
+        folderList.push(folder);
+      }
+    }
+    return folderList
+  }
   return folders.filter((folder) =>
     // All search terms have to match
     searchTerms.every(searchTerm => {
-      if (searchType === "start") {
-        return folder.matchPath.some((token) => normalize(token).startsWith(searchTerm));
-      }
-      return folder.matchPath.some((token) => normalize(token).includes(searchTerm));
+      return folder.matchPath.some(getSearchFunc(searchTerm, searchType));
     })
   );
 }
@@ -90,6 +109,8 @@ function getFolders(subFolders, id, path) {
       const matchPath = [...path, caseInsensitiveMatch ? subFolder.name.toLocaleLowerCase() : subFolder.name];
       folders.push({
         mailFolder: subFolder,
+        matchAccount: caseInsensitiveMatch ? path[0].toLocaleLowerCase() : path[0].name,
+        matchName: caseInsensitiveMatch ? subFolder.name.toLocaleLowerCase() : subFolder.name,
         matchPath,
         id: subFolderID
       });
