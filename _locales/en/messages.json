@@ -57,7 +57,7 @@
     "message": "What's New in Quick Folder Key Navigation"
   },
   "whatsnew_text": {
-   "message": "Folders can now be excluded from the search by hiding them. The \"Hide\" button (or pressing CTRL+Delete) adds the currently selected folder to the hidden folders list. To make a hidden folder searchable once again, select it in the Hidden folders combo box and either click the \"Show folder\" button or press the Delete key. Clicking the \"Show all folders\" button or pressing CTRL+Delete clears the hidden folder list, making all folders searchable once again. The hidden folder list is saved locally and restored each time Thunderbird is started."
+   "message": "This update brings the ability to searchf for accounts, matching the first folder in the account. Also, multiple search terms may be included separated by spaces. In this case, each search term must match part of the path to a folder in order for it to be included in the set of search results."
   },
   "btnCloseLabel": {
     "message": "Close"

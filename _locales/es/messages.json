@@ -57,7 +57,7 @@
     "message": "Qué es nuevo en Acceso Rápido a Carpetas"
   },
   "whatsnew_text": {
-   "message": "Ahora es posible excluir carpetas de la búsqueda ocultándolas. El botón \"Ocultar\" (o pulsar Ctrl+Supr) añade la carpeta seleccionada a la lista de carpetas ocultas. Para que una carpeta oculta vuelva a ser buscable, selecciónela en el cuadro combinado \"Carpetas ocultas\" y haga clic en el botón \"Mostrar carpeta\" o pulse la tecla Supr. Al hacer clic en el botón \"Mostrar todas las carpetas\" o pulsar Ctrl+Supr, se borra la lista de carpetas ocultas, lo que permite buscar en todas las carpetas. La lista de carpetas ocultas se guarda localmente y se restaura cada vez que se inicia Thunderbird."
+   "message": "Esta actualización permite buscar cuentas, coincidiendo con la primera carpeta de la cuenta. Además, se pueden incluir varios términos de búsqueda separados por espacios. En este caso, cada término de búsqueda debe coincidir con parte de la ruta de una carpeta para que se incluya en los resultados."
   },
   "btnCloseLabel": {
     "message": "Cerrar"
