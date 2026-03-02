@@ -57,7 +57,7 @@
     "message": "What's New in Quick Folder Key Navigation"
   },
   "whatsnew_text": {
-   "message": "This update brings the ability to searchf for accounts, matching the first folder in the account. Also, multiple search terms may be included separated by spaces. In this case, each search term must match part of the path to a folder in order for it to be included in the set of search results."
+   "message": "This update brings the ability to search for accounts, matching the first folder in the account. Also, multiple search terms may be included separated by spaces. In this case, each search term must match part of the path to a folder in order for it to be included in the set of search results."
   },
   "btnCloseLabel": {
     "message": "Close"
